@@ -30,6 +30,47 @@ const App = () => {
 		>
 			<ClockWidget showSeconds={settings["showSeconds"]}/>
 			<SearchWidget engine={settings["search"]} setEngine={e=>updateSetting("search", e)}/>
+
+			<div className="flex gap-4 mx-auto">
+				<CategoryWidget
+					icon={<i className="fa-solid fa-camera"></i>}
+					title={"Search by Image"}
+					elements={[
+						{
+							icon: <i className="fa-brands fa-google"></i>,
+							label: "Google",
+							url: "https://images.google.com/?olud"
+						},
+						{
+							icon: <i className="fa-brands fa-yandex"></i>,
+							label: "Yandex",
+							url: "https://yandex.ru/images/search?rpt=imageview"
+						},
+					]}
+				/>
+				<CategoryWidget
+					icon={<i className="fa-solid fa-sparkles"></i>}
+					title={"Ask AI"}
+					elements={[
+						{
+							icon: <i className="fa-brands fa-openai"></i>,
+							label: "Chat GPT",
+							url: "https://chatgpt.com/"
+						},
+						{
+							icon: <i className="fa-solid fa-sparkle"></i>,
+							label: "Gemini",
+							url: "https://gemini.google.com/"
+						},
+						{
+							icon: <i className="fa-brands fa-claude"></i>,
+							label: "Claude",
+							url: "https://claude.ai/"
+						},
+					]}
+				/>
+			</div>
+			
 		</div>
 	)
 }
