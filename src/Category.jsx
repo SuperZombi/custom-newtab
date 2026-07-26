@@ -3,7 +3,7 @@ const CategoryButton = ({className="", accent, children, href}) => {
 	return (
 		<a href={href}>
 			<Container className={`
-				p-3 aspect-square flex items-center justify-center
+				p-2 aspect-square flex items-center justify-center
 				cursor-pointer transition-colors hover:bg-white/15
 				${className}
 			`}
@@ -23,6 +23,10 @@ const CategoryButton = ({className="", accent, children, href}) => {
 const CategoryWidget = ({
 	icon, title, elements, accent
 }) => {
+	const getIcon = (url) => {
+		const domain = new URL(url).hostname;
+		return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
+	}
 	return (
 		<Container className="p-4 flex flex-col gap-3"
 			style={accent ? {
@@ -35,19 +39,19 @@ const CategoryWidget = ({
 					color: accent
 				} : undefined}
 			>
-				{icon}
-				<span>{title}</span>
+				{icon && (<i className={icon}></i>)}
+				{title && (<span>{title}</span>)}
 			</div>
 			<div className="grid grid-cols-4 gap-2">
 				{elements.map(e=>(
 					<div key={e.url} className="relative group">
 						<CategoryButton href={e.url} accent={accent}>
-							{e.icon}
+							<img src={e.icon || getIcon(e.url)} draggable={false} className="h-6 w-6 select-none"/>
 						</CategoryButton>
 						{e.label && (<Tooltip accent={accent}>{e.label}</Tooltip>)}
 					</div>
 				))}
-				<CategoryButton className="text-white/50 hover:text-white"
+				<CategoryButton className="text-white/50 hover:text-white p-3"
 					accent={accent}
 				>
 					<i className="fa-solid fa-plus"></i>

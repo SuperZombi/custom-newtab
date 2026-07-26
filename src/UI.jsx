@@ -42,6 +42,7 @@ const Tooltip = ({children, accent}) => {
 			opacity-0 invisible
 			group-hover:opacity-100 group-hover:visible
 			transition-opacity whitespace-nowrap
+			select-none
 		" style={accent ? {
 			color: accent,
 			background: `color-mix(in srgb, ${accent} 10%, transparent)`,
