@@ -40,6 +40,7 @@ const SearchWidget = ({engine, setEngine}) => {
 		<Container className={`
 			flex items-center relative
 			transition-shadow duration-300
+			max-w-200 mx-auto w-full
 			${focused ? "!shadow-[0_0_20px] shadow-blue-500/50" : ""}
 		`}>
 			<div className="
