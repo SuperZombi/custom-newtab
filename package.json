@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build:js": "node build.js",
-    "build:css": "npx @tailwindcss/cli -i ./src/tailwind.css -o ./dist/main.css --minify",
+    "build:css": "npx @tailwindcss/cli -i ./tailwind.css -o ./dist/main.css --minify",
     "build": "npm run build:js && npm run build:css"
   },
   "devDependencies": {
