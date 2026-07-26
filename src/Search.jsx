@@ -38,12 +38,13 @@ const SearchWidget = ({engine, setEngine}) => {
 
 	return (
 		<Container className={`
-			flex items-center relative
+			flex relative
 			transition-shadow duration-300
 			max-w-200 mx-auto w-full
 			${focused ? "!shadow-[0_0_20px] shadow-blue-500/50" : ""}
 		`}>
 			<div className="
+				flex items-center
 				px-3.5 py-3 border-r border-white/20
 				hover:bg-white/10 transition-colors
 				rounded-l-xl cursor-pointer
@@ -65,6 +66,7 @@ const SearchWidget = ({engine, setEngine}) => {
 			/>
 
 			<div className="
+				flex items-center
 				px-3.5 py-3 border-l border-white/20
 				bg-blue-500/50 hover:bg-blue-500 transition-colors duration-250
 				rounded-r-xl cursor-pointer
