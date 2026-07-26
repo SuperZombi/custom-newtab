@@ -33,12 +33,16 @@ const Select = ({
 	)
 }
 
-const CategoryButton = ({className="", children, href, ...props}) => {
+const CategoryButton = ({className="", accent, children, href, ...props}) => {
 	return (
 		<a href={href}>
 			<Container className={`
 				p-3 aspect-square flex items-center justify-center
-				cursor-pointer hover:bg-white/15 transition-colors
+				cursor-pointer transition-colors
+				${accent ? `!bg-[${accent}]/5 !ring-[${accent}]/20
+					hover:!bg-[${accent}]/15 text-[${accent}]` :
+					"hover:bg-white/15"
+				}
 				${className}
 			`} {...props}>
 				{children}
@@ -46,48 +50,57 @@ const CategoryButton = ({className="", children, href, ...props}) => {
 		</a>
 	)
 }
-const Tooltip = ({children}) => {
+const Tooltip = ({children, accent}) => {
 	return (
-		<Container className="
+		<Container className={`
 			absolute left-1/2 -translate-x-1/2
 			bottom-0 translate-y-[calc(100%+theme(spacing.2))]
 			px-2 py-1 z-10 backdrop-blur-md
 			opacity-0 invisible
 			group-hover:opacity-100 group-hover:visible
 			transition-opacity whitespace-nowrap
-		">
+			${accent ? `!bg-[${accent}]/10 !ring-[${accent}]/20 text-[${accent}]` : ""}
+		`}>
 			{children}
 		</Container>
 	)
 }
 
 const CategoryWidget = ({
-	icon, title, elements
+	icon, title, elements, accent
 }) => {
 	const clickHandler = (url) => {
 		window.open(url, "_self")
 	}
 	return (
-		<Container className="p-4 flex flex-col gap-3">
-			<div className="flex gap-2 items-center">
+		<Container className={`p-4 flex flex-col gap-3
+			${accent ? `!bg-[${accent}]/10 !ring-[${accent}]/20` : ""}
+		`}>
+			<div className={`flex gap-2 items-center ${accent ? `text-[${accent}]` : ""}`}>
 				{icon}
 				<span>{title}</span>
 			</div>
 			<div className="grid grid-cols-4 gap-2">
 				{elements.map(e=>(
 					<div key={e.url} className="relative group">
-						<CategoryButton href={e.url}>
+						<CategoryButton href={e.url} accent={accent}>
 							{e.icon}
 						</CategoryButton>
-						{e.label && (<Tooltip>{e.label}</Tooltip>)}
+						{e.label && (<Tooltip accent={accent}>{e.label}</Tooltip>)}
 					</div>
 				))}
-				<CategoryButton className="
-					text-white/50 hover:text-white
+				<CategoryButton className={`
+					
 					ring-0 outline outline-dashed
-					outline-white/20 hover:outline-white/30
-					hover:!bg-white/10
-				">
+					${accent ? `
+						text-[${accent}]/50 hover:text-[${accent}]
+						hover:outline-[${accent}]/50
+						` : `
+						text-white/50 hover:text-white
+						hover:!bg-white/10 outline-white/20
+						hover:outline-white/30
+					`}
+				`} accent={accent}>
 					<i className="fa-solid fa-plus"></i>
 				</CategoryButton>
 			</div>

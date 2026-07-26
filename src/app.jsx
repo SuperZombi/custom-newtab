@@ -35,6 +35,7 @@ const App = () => {
 				<CategoryWidget
 					icon={<i className="fa-solid fa-camera"></i>}
 					title={"Search by Image"}
+					accent={"#c27aff"}
 					elements={[
 						{
 							icon: <i className="fa-brands fa-google"></i>,
@@ -51,6 +52,7 @@ const App = () => {
 				<CategoryWidget
 					icon={<i className="fa-solid fa-sparkles"></i>}
 					title={"Ask AI"}
+					accent={"#53eafd"}
 					elements={[
 						{
 							icon: <i className="fa-brands fa-openai"></i>,
