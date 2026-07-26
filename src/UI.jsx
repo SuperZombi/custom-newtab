@@ -33,13 +33,14 @@ const Select = ({
 	)
 }
 
-const CategoryButton = ({children, href, ...props}) => {
+const CategoryButton = ({className="", children, href, ...props}) => {
 	return (
 		<a href={href}>
-			<Container className="
+			<Container className={`
 				p-3 aspect-square flex items-center justify-center
 				cursor-pointer hover:bg-white/15 transition-colors
-			" {...props}>
+				${className}
+			`} {...props}>
 				{children}
 			</Container>
 		</a>
@@ -72,7 +73,7 @@ const CategoryWidget = ({
 				{icon}
 				<span>{title}</span>
 			</div>
-			<div className="flex gap-2">
+			<div className="grid grid-cols-4 gap-2">
 				{elements.map(e=>(
 					<div key={e.url} className="relative group">
 						<CategoryButton href={e.url}>
@@ -81,6 +82,14 @@ const CategoryWidget = ({
 						{e.label && (<Tooltip>{e.label}</Tooltip>)}
 					</div>
 				))}
+				<CategoryButton className="
+					text-white/50 hover:text-white
+					ring-0 outline outline-dashed
+					outline-white/20 hover:outline-white/30
+					hover:!bg-white/10
+				">
+					<i className="fa-solid fa-plus"></i>
+				</CategoryButton>
 			</div>
 		</Container>
 	)
