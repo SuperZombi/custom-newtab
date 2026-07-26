@@ -1,14 +1,15 @@
-const CategoryButton = ({className="", accent, children, href}) => {
+const CategoryButton = ({className="", accent, children, href, onClick}) => {
 	const [hover, setHover] = React.useState(false)
 	return (
 		<a href={href}>
 			<Container className={`
-				p-2 aspect-square flex items-center justify-center
+				p-2 flex items-center justify-center
 				cursor-pointer transition-colors hover:bg-white/15
 				${className}
 			`}
 			onMouseEnter={() => setHover(true)}
 			onMouseLeave={() => setHover(false)}
+			onClick={onClick}
 			style={accent ? {
 				color: accent,
 				background: `color-mix(in srgb, ${accent} ${hover ? 25 : 10}%, transparent)`,
@@ -45,13 +46,13 @@ const CategoryWidget = ({
 			<div className="grid grid-cols-4 gap-2">
 				{elements.map(e=>(
 					<div key={e.url} className="relative group">
-						<CategoryButton href={e.url} accent={accent}>
+						<CategoryButton className="aspect-square" href={e.url} accent={accent}>
 							<img src={e.icon || getIcon(e.url)} draggable={false} className="h-6 w-6 select-none"/>
 						</CategoryButton>
 						{e.label && (<Tooltip accent={accent}>{e.label}</Tooltip>)}
 					</div>
 				))}
-				<CategoryButton className="text-white/50 hover:text-white p-3"
+				<CategoryButton className="aspect-square text-white/50 hover:text-white p-3"
 					accent={accent}
 				>
 					<i className="fa-solid fa-plus"></i>

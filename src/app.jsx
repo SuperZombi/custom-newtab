@@ -17,7 +17,6 @@ const defaults = {
 					url: "https://images.google.com/?olud"
 				},
 				{
-					icon: "https://yandex.com/favicon.ico",
 					label: "Yandex",
 					url: "https://yandex.ru/images/search?rpt=imageview"
 				},
@@ -29,7 +28,6 @@ const defaults = {
 			accent: "#53eafd",
 			items: [
 				{
-					icon: "https://chatgpt.com/favicon.ico",
 					label: "Chat GPT",
 					url: "https://chatgpt.com/"
 				},
@@ -86,16 +84,26 @@ const App = () => {
 					}
 					if (widget == "categories"){
 						return (
-							<div className="flex gap-4 mx-auto" key={index}>
-								{settings["categories"].map((item, i)=>(
-									<CategoryWidget
-										key={i}
-										icon={item?.icon}
-										title={item?.title}
-										accent={item?.accent}
-										elements={item?.items}
-									/>
-								))}
+							<div className="flex flex-col items-center gap-4" key={index}>
+								<div className="flex gap-4 flex-wrap justify-center mx-auto max-w-3xl">
+									{settings["categories"].map((item, i)=>(
+										<CategoryWidget
+											key={i}
+											icon={item?.icon}
+											title={item?.title}
+											accent={item?.accent}
+											elements={item?.items}
+										/>
+									))}
+								</div>
+								<div className="text-sm">
+									<CategoryButton className="
+										whitespace-nowrap flex items-center gap-1 select-none
+									" onClick={console.log}>
+										<i className="fa-solid fa-plus"></i>
+										<span>Add Category</span>
+									</CategoryButton>
+								</div>
 							</div>
 						)
 					}
