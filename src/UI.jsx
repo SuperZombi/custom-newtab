@@ -21,7 +21,7 @@ const Select = ({
 					grid grid-cols-subgrid col-span-2
 					py-2 px-3 cursor-pointer
 					first:rounded-t-xl last:rounded-b-xl
-					items-center gap-2
+					items-center gap-3 select-none
 					${selected.name == e.name ? "bg-white/10" : ""}
 					hover:bg-white/20 transition-colors
 				`} onClick={_=>setSelected(e)}>

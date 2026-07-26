@@ -26,9 +26,9 @@ esbuild.build({
 	process.exit(1);
 });
 
-// fs.cpSync('./images', './dist/images', {
-// 	recursive: true
-// });
+fs.cpSync('./images', './dist/images', {
+	recursive: true
+});
 fs.cpSync('./fontawesome', './dist/fontawesome', {
 	recursive: true
 });

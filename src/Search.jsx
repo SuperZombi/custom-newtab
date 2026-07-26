@@ -1,24 +1,27 @@
 const SearchWidget = ({engine, setEngine}) => {
+	const Icon = ({src}) => {
+		return <img src={src} className="h-6 w-6 select-none" draggable={false}/>
+	}
 	const engines = [
 		{
 			name: "google", label: "Google",
 			url: (q) => `https://www.google.com/search?q=${q}`,
-			icon: <i className="fa-brands fa-google"></i>
+			icon: <Icon src="images/google.svg"/>
 		},
 		{
 			name: "bing", label: "Bing",
 			url: (q) => `https://www.bing.com/search?q=${q}`,
-			icon: <i className="fa-brands fa-edge"></i>
+			icon: <Icon src="images/bing.svg"/>
 		},
 		{
 			name: "duckduckgo", label: "DuckDuckGo",
 			url: (q) => `https://duckduckgo.com/?q=${q}`,
-			icon: <i className="fa-solid fa-duck"></i>
+			icon: <Icon src="images/duckduckgo.svg"/>
 		},
 		{
-			name: "yandex", label: "Яндекс",
+			name: "yandex", label: "Yandex",
 			url: (q) => `https://yandex.ru/search/?text=${q}`,
-			icon: <i className="fa-brands fa-yandex"></i>
+			icon: <Icon src="images/yandex.svg"/>
 		}
 	]
 	React.useEffect(_=>{
