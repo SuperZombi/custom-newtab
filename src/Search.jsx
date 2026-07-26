@@ -1,4 +1,4 @@
-const SearchWidget = () => {
+const SearchWidget = ({engine, setEngine}) => {
 	const engines = [
 		{
 			name: "google", label: "Google",
@@ -21,6 +21,10 @@ const SearchWidget = () => {
 			icon: <i className="fa-brands fa-yandex"></i>
 		}
 	]
+	React.useEffect(_=>{
+		const target = engines.find(e=>e.name == engine)
+		if (target){setSelectedEngine(target)}
+	}, [engine])
 	const [selectedEngine, setSelectedEngine] = React.useState(engines[0])
 	const [showSelect, setShowSelect] = React.useState(false)
 	const [focused, setFocused] = React.useState(false)
@@ -75,7 +79,11 @@ const SearchWidget = () => {
 				"
 				options={engines}
 				selected={selectedEngine}
-				setSelected={e=>{setSelectedEngine(e);setShowSelect(false);}}
+				setSelected={e=>{
+					setSelectedEngine(e);
+					setEngine(e.name)
+					setShowSelect(false);
+				}}
 			/>
 		</Container>
 	)
