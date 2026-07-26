@@ -78,7 +78,7 @@ const CategoryWidget = ({
 						<CategoryButton href={e.url}>
 							{e.icon}
 						</CategoryButton>
-						<Tooltip>{e.label}</Tooltip>
+						{e.label && (<Tooltip>{e.label}</Tooltip>)}
 					</div>
 				))}
 			</div>
