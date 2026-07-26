@@ -11,4 +11,6 @@ jobs:
       - uses: actions/setup-node@v6
       - run: npm install
       - run: npm run build
-
+      - uses: actions/upload-artifact@v6
+        with:
+          path: ./dist
