@@ -47,7 +47,7 @@ const SearchWidget = () => {
 			</div>
 
 			<input type="text" placeholder="Search..."
-				className="outline-none px-4 py-3 w-full"
+				className="outline-none px-4 py-3 w-full text-base"
 				onClick={_=>setShowSelect(false)}
 				value={query} onInput={e=>setQuery(e.target.value)}
 				onKeyDown={e=>{

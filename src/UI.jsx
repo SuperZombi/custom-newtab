@@ -1,6 +1,6 @@
 const Container = ({children, className=""}) => {
 	return (
-		<div className={`border border-white/20 rounded-xl bg-white/5 shadow-lg ${className}`}>
+		<div className={`ring ring-white/20 rounded-xl bg-white/5 shadow-lg ${className}`}>
 			{children}
 		</div>
 	)
