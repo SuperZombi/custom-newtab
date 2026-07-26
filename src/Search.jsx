@@ -38,59 +38,74 @@ const SearchWidget = ({engine, setEngine}) => {
 		const link = selectedEngine.url(encodeURIComponent(q))
 		window.open(link, "_self")
 	}
+	
+	React.useEffect(() => {
+		if (!showSelect) return
+		const handleClickOutside = (e) => {
+			if (containerRef.current && !containerRef.current.contains(e.target)) {
+				setShowSelect(false)
+			}
+		}
+		document.addEventListener("click", handleClickOutside)
+		return () => document.removeEventListener("click", handleClickOutside)
+	}, [showSelect])
+
+	const containerRef = React.useRef(null)
 
 	return (
-		<Container className={`
-			flex relative
-			transition-shadow duration-300
-			max-w-200 mx-auto w-full
-			${focused ? "!shadow-[0_0_20px] shadow-blue-500/50" : ""}
-		`}>
-			<div className="
-				flex items-center
-				px-3.5 py-3 border-r border-white/20
-				hover:bg-white/10 transition-colors
-				rounded-l-xl cursor-pointer
-			" onClick={_=>setShowSelect(prev=>!prev)}>
-				{selectedEngine.icon}
-			</div>
+		<div ref={containerRef}>
+			<Container className={`
+				flex relative
+				transition-shadow duration-300
+				max-w-200 mx-auto w-full
+				${focused ? "!shadow-[0_0_20px] shadow-blue-500/50" : ""}
+			`}>
+				<div className="
+					flex items-center
+					px-3.5 py-3 border-r border-white/20
+					hover:bg-white/10 transition-colors
+					rounded-l-xl cursor-pointer
+				" onClick={_=>setShowSelect(prev=>!prev)}>
+					{selectedEngine.icon}
+				</div>
 
-			<input type="text" placeholder="Search..."
-				className="outline-none px-4 py-3 w-full text-base"
-				onClick={_=>setShowSelect(false)}
-				value={query} onInput={e=>setQuery(e.target.value)}
-				onKeyDown={e=>{
-					if (e.keyCode == 13){
-						onSearch()
-					}
-				}}
-				onFocus={() => setFocused(true)}
-				onBlur={() => setFocused(false)}
-			/>
+				<input type="text" placeholder="Search..."
+					className="outline-none px-4 py-3 w-full text-base"
+					onClick={_=>setShowSelect(false)}
+					value={query} onInput={e=>setQuery(e.target.value)}
+					onKeyDown={e=>{
+						if (e.keyCode == 13){
+							onSearch()
+						}
+					}}
+					onFocus={() => setFocused(true)}
+					onBlur={() => setFocused(false)}
+				/>
 
-			<div className="
-				flex items-center
-				px-3.5 py-3 border-l border-white/20
-				bg-blue-500/50 hover:bg-blue-500 transition-colors duration-250
-				rounded-r-xl cursor-pointer
-			" onClick={onSearch}>
-				<i className="fa-solid fa-magnifying-glass"></i>
-			</div>
+				<div className="
+					flex items-center
+					px-3.5 py-3 border-l border-white/20
+					bg-blue-500/50 hover:bg-blue-500 transition-colors duration-250
+					rounded-r-xl cursor-pointer
+				" onClick={onSearch}>
+					<i className="fa-solid fa-magnifying-glass"></i>
+				</div>
 
-			<Select
-				show={showSelect}
-				className="absolute bottom-0
-					translate-y-[calc(100%+theme(spacing.2))]
-					origin-top-left
-				"
-				options={engines}
-				selected={selectedEngine}
-				setSelected={e=>{
-					setSelectedEngine(e);
-					setEngine(e.name)
-					setShowSelect(false);
-				}}
-			/>
-		</Container>
+				<Select
+					show={showSelect}
+					className="absolute bottom-0
+						translate-y-[calc(100%+theme(spacing.2))]
+						origin-top-left
+					"
+					options={engines}
+					selected={selectedEngine}
+					setSelected={e=>{
+						setSelectedEngine(e);
+						setEngine(e.name)
+						setShowSelect(false);
+					}}
+				/>
+			</Container>
+		</div>
 	)
 }
