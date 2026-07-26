@@ -1,15 +1,19 @@
-const CategoryButton = ({className="", accent, children, href, ...props}) => {
+const CategoryButton = ({className="", accent, children, href}) => {
+	const [hover, setHover] = React.useState(false)
 	return (
 		<a href={href}>
 			<Container className={`
 				p-3 aspect-square flex items-center justify-center
-				cursor-pointer transition-colors
-				${accent ? `!bg-[${accent}]/5 !ring-[${accent}]/20
-					hover:!bg-[${accent}]/15 text-[${accent}]` :
-					"hover:bg-white/15"
-				}
+				cursor-pointer transition-colors hover:bg-white/15
 				${className}
-			`} {...props}>
+			`}
+			onMouseEnter={() => setHover(true)}
+			onMouseLeave={() => setHover(false)}
+			style={accent ? {
+				color: accent,
+				background: `color-mix(in srgb, ${accent} ${hover ? 25 : 10}%, transparent)`,
+				"--tw-ring-color": `color-mix(in srgb, ${accent} 40%, transparent)`
+			} : undefined}>
 				{children}
 			</Container>
 		</a>
@@ -19,14 +23,18 @@ const CategoryButton = ({className="", accent, children, href, ...props}) => {
 const CategoryWidget = ({
 	icon, title, elements, accent
 }) => {
-	const clickHandler = (url) => {
-		window.open(url, "_self")
-	}
 	return (
-		<Container className={`p-4 flex flex-col gap-3
-			${accent ? `!bg-[${accent}]/10 !ring-[${accent}]/20` : ""}
-		`}>
-			<div className={`flex gap-2 items-center ${accent ? `text-[${accent}]` : ""}`}>
+		<Container className="p-4 flex flex-col gap-3"
+			style={accent ? {
+				background: `color-mix(in srgb, ${accent} 20%, transparent)`,
+				"--tw-ring-color": `color-mix(in srgb, ${accent} 50%, transparent)`
+			} : undefined}
+		>
+			<div className="flex gap-2 items-center"
+				style={accent ? {
+					color: accent
+				} : undefined}
+			>
 				{icon}
 				<span>{title}</span>
 			</div>
@@ -39,18 +47,9 @@ const CategoryWidget = ({
 						{e.label && (<Tooltip accent={accent}>{e.label}</Tooltip>)}
 					</div>
 				))}
-				<CategoryButton className={`
-					
-					ring-0 outline outline-dashed
-					${accent ? `
-						text-[${accent}]/50 hover:text-[${accent}]
-						hover:outline-[${accent}]/50
-						` : `
-						text-white/50 hover:text-white
-						hover:!bg-white/10 outline-white/20
-						hover:outline-white/30
-					`}
-				`} accent={accent}>
+				<CategoryButton className="text-white/50 hover:text-white"
+					accent={accent}
+				>
 					<i className="fa-solid fa-plus"></i>
 				</CategoryButton>
 			</div>

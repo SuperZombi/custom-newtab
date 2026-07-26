@@ -35,15 +35,19 @@ const Select = ({
 
 const Tooltip = ({children, accent}) => {
 	return (
-		<Container className={`
+		<Container className="
 			absolute left-1/2 -translate-x-1/2
 			bottom-0 translate-y-[calc(100%+theme(spacing.2))]
 			px-2 py-1 z-10 backdrop-blur-md
 			opacity-0 invisible
 			group-hover:opacity-100 group-hover:visible
 			transition-opacity whitespace-nowrap
-			${accent ? `!bg-[${accent}]/10 !ring-[${accent}]/20 text-[${accent}]` : ""}
-		`}>
+		" style={accent ? {
+			color: accent,
+			background: `color-mix(in srgb, ${accent} 10%, transparent)`,
+			"--tw-ring-color": `color-mix(in srgb, ${accent} 30%, transparent)`
+		} : undefined}
+		>
 			{children}
 		</Container>
 	)
