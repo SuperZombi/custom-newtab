@@ -85,6 +85,9 @@ const App = () => {
 			(_, index) => index !== ind
 		))
 	}
+	const reorderCategories = (newitem) => {
+		updateSetting("categories", newitem)
+	}
 
 	return (
 		<div className="w-full min-h-dvh p-10 relative overflow-hidden text-white flex flex-col gap-10 text-base"
@@ -157,6 +160,7 @@ const App = () => {
 						setCurrentCategoryIndex(index)
 					}}
 					deleteCategory={deleteCategory}
+					reorderCategories={reorderCategories}
 				/>
 				<CategoryEditor
 					showPopup={showCategoryModal}
