@@ -1,28 +1,13 @@
-const CategoryButton = ({className="", accent, children, href, onClick}) => {
-	const [hover, setHover] = React.useState(false)
+const CategoryButton = ({accent, children, href}) => {
 	return (
 		<a href={href}>
-			<Container className={`
-				p-2 flex items-center justify-center
-				cursor-pointer transition-colors hover:bg-white/15
-				${className}
-			`}
-			onMouseEnter={() => setHover(true)}
-			onMouseLeave={() => setHover(false)}
-			onClick={onClick}
-			style={accent ? {
-				color: accent,
-				background: `color-mix(in srgb, ${accent} ${hover ? 25 : 10}%, transparent)`,
-				"--tw-ring-color": `color-mix(in srgb, ${accent} 40%, transparent)`
-			} : undefined}>
-				{children}
-			</Container>
+			<Button className="aspect-square" accent={accent}>{children}</Button>
 		</a>
 	)
 }
 
 const CategoryWidget = ({
-	icon, title, elements, accent
+	icon, title, elements, accent, editCategory
 }) => {
 	const getIcon = (url) => {
 		const domain = new URL(url).hostname;
@@ -35,29 +20,94 @@ const CategoryWidget = ({
 				"--tw-ring-color": `color-mix(in srgb, ${accent} 50%, transparent)`
 			} : undefined}
 		>
-			<div className="flex gap-2 items-center"
-				style={accent ? {
-					color: accent
-				} : undefined}
-			>
-				{icon && (<i className={icon}></i>)}
-				{title && (<span>{title}</span>)}
-			</div>
+			{(title || icon) && (
+				<div className="flex gap-2 items-center"
+					style={accent ? {
+						color: accent
+					} : undefined}
+				>
+					{icon && (<i className={icon}></i>)}
+					{title && (<span>{title}</span>)}
+				</div>
+			)}
 			<div className="grid grid-cols-4 gap-2">
 				{elements.map(e=>(
 					<div key={e.url} className="relative group">
-						<CategoryButton className="aspect-square" href={e.url} accent={accent}>
+						<CategoryButton href={e.url} accent={accent}>
 							<img src={e.icon || getIcon(e.url)} draggable={false} className="h-6 w-6 select-none"/>
 						</CategoryButton>
 						{e.label && (<Tooltip accent={accent}>{e.label}</Tooltip>)}
 					</div>
 				))}
-				<CategoryButton className="aspect-square text-white/50 hover:text-white p-3"
-					accent={accent}
+				<Button accent={accent} className="aspect-square text-white/50 hover:text-white p-3"
+					onClick={editCategory}
 				>
 					<i className="fa-solid fa-plus"></i>
-				</CategoryButton>
+				</Button>
 			</div>
 		</Container>
+	)
+}
+
+const CategoryEditor = ({
+	action, data, showPopup, setShowPopup, addCategory, editCategory, deleteCategory
+}) => {
+	const [currentName, setCurrentName] = React.useState("")
+	const [currentIcon, setCurrentIcon] = React.useState("")
+	const [currentAccent, setCurrentAccent] = React.useState("")
+	React.useEffect(_=>{
+		setCurrentName(data?.title || "")
+		setCurrentIcon(data?.icon || "")
+		setCurrentAccent(data?.accent || "")
+	}, [data])
+	const applyForm = () => {
+		const actionFunction = action == "edit" ? editCategory : addCategory;
+		actionFunction({
+			title: currentName.trim(),
+			icon: currentIcon.trim(),
+			accent: currentAccent.trim(),
+		})
+		setShowPopup(false)
+	}
+	const onKeyDownInputs = (e) => {
+		if (e.keyCode == 13) {
+			applyForm()
+		}
+	}
+	return (
+		<Modal
+			title={action == "edit" ? "Edit Category" : "Add Category"}
+			open={showPopup}
+			onClose={_=>{setShowPopup(false)}}
+		>
+			<TextInput
+				label={"Category name"}
+				placeholder={"Optional"}
+				value={currentName}
+				onChange={setCurrentName}
+				onKeyDown={onKeyDownInputs}
+			/>
+			<TextInput
+				label={"Category icon"}
+				placeholder={"Optional"}
+				value={currentIcon}
+				onChange={setCurrentIcon}
+				onKeyDown={onKeyDownInputs}
+			/>
+			<TextInput
+				label={"Accent color"}
+				placeholder={"Optional"}
+				value={currentAccent}
+				onChange={setCurrentAccent}
+				onKeyDown={onKeyDownInputs}
+			/>
+			<Button onClick={applyForm}>OK</Button>
+			{action == "edit" && (
+				<Button onClick={_=>{
+					deleteCategory()
+					setShowPopup(false)
+				}}>Delete</Button>
+			)}
+		</Modal>
 	)
 }

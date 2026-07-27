@@ -6,13 +6,35 @@ const Container = ({children, className="", ...props}) => {
 	)
 }
 
+const Button = ({className="", accent, children, onClick}) => {
+	const [hover, setHover] = React.useState(false)
+	return (
+		<Container className={`
+			p-2 flex items-center justify-center
+			cursor-pointer transition-colors hover:bg-white/15
+			${className}
+		`}
+			onClick={onClick}
+			onMouseEnter={() => setHover(true)}
+			onMouseLeave={() => setHover(false)}
+			style={accent ? {
+				color: accent,
+				background: `color-mix(in srgb, ${accent} ${hover ? 25 : 10}%, transparent)`,
+				"--tw-ring-color": `color-mix(in srgb, ${accent} 40%, transparent)`
+			} : undefined}
+		>
+			{children}
+		</Container>
+	)
+}
+
 const Select = ({
 	options, selected, setSelected,
 	show, className=""
 }) => {
 	return (
 		<Container className={`grid grid-cols-[auto_1fr]
-			transition-all backdrop-blur-md z-10 shadow-md
+			transition-all backdrop-blur-md z-10
 			${show ? "visible scale-100 opacity-100" : "invisible scale-0 opacity-0"}
 			${className}
 		`}>
@@ -51,5 +73,81 @@ const Tooltip = ({children, accent}) => {
 		>
 			{children}
 		</Container>
+	)
+}
+
+const Modal = ({ open, title, onClose, children, className="" }) => {
+	const [rendered, setRendered] = React.useState(open)
+	const [visible, setVisible] = React.useState(false)
+
+	React.useEffect(() => {
+		let raf1, raf2
+		if (open) {
+			setRendered(true)
+			raf1 = requestAnimationFrame(() => {
+				raf2 = requestAnimationFrame(() => setVisible(true))
+			})
+		} else {
+			setVisible(false)
+			const t = setTimeout(() => setRendered(false), 200)
+			return () => clearTimeout(t)
+		}
+		return () => {
+			cancelAnimationFrame(raf1)
+			cancelAnimationFrame(raf2)
+		}
+	}, [open])
+
+	React.useEffect(() => {
+		if (!rendered) return
+		const onKey = (e) => { if (e.keyCode == 27) onClose?.() }
+		document.addEventListener("keydown", onKey)
+		return () => document.removeEventListener("keydown", onKey)
+	}, [rendered, onClose])
+
+	if (!rendered) return null
+
+	return (
+		<div className={`
+				fixed inset-0 z-50 flex items-center justify-center p-4
+				transition-colors duration-200
+				${visible ? "bg-black/50" : "bg-black/0"}
+			`}
+			onMouseDown={onClose}
+		>
+			<Container className={`
+					w-full max-w-md max-h-[85vh] overflow-y-auto
+					p-5 flex flex-col gap-4 backdrop-blur-md
+					transition-all duration-200 origin-center
+					${visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-2"}
+					${className}
+				`}
+				onMouseDown={e => e.stopPropagation()}
+			>
+				<div className="flex items-center justify-center relative">
+					<h2 className="text-lg font-medium">{title}</h2>
+					<div onClick={onClose} className="
+						text-white/50 hover:text-white transition-colors cursor-pointer absolute right-0
+					">
+						<i className="fa-solid fa-xmark"></i>
+					</div>
+				</div>
+				{children}
+			</Container>
+		</div>
+	)
+}
+
+const TextInput = ({ value, onChange, label, onKeyDown, placeholder }) => {
+	return (
+		<label className="flex flex-col gap-2 text-sm">
+			{label && (<span className="text-white/60">{label}</span>)}
+			<input type="text" value={value} placeholder={placeholder}
+				onInput={e => onChange(e.target.value)}
+				onKeyDown={onKeyDown}
+				className="bg-white/5 ring ring-white/10 rounded-lg px-3 py-2 outline-none
+					focus:ring-white/30 transition-colors placeholder:text-white/30"
+			/>
+		</label>
 	)
 }

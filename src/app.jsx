@@ -47,6 +47,10 @@ const defaults = {
 const App = () => {
 	const [settings, setSettings] = React.useState(defaults)
 	const [isLoaded, setIsLoaded] = React.useState(false)
+	const [showCategoryModal, setShowCategoryModal] = React.useState(false)
+	const [currentCategoryIndex, setCurrentCategoryIndex] = React.useState(null)
+	const [currentCategoryData, setCurrentCategoryData] = React.useState({})
+	const [categoryModalAction, setCategoryModalAction] = React.useState("new")
 
 	React.useEffect(() => {
 		storageApi.get().then((data) => {
@@ -62,6 +66,24 @@ const App = () => {
 		if (!isLoaded) return;
 		storageApi.set(settings)
 	}, [settings, isLoaded])
+
+	const addCategory = ({title, icon, accent}) => {
+		updateSetting("categories", [...settings.categories, {
+			title, icon, accent, items: []
+		}])
+	}
+	const editCategory = ({title, icon, accent}) => {
+		updateSetting("categories", settings.categories.map((category, index) =>
+			index === currentCategoryIndex ? {
+				...category, title, icon, accent
+			} : category)
+		)
+	}
+	const deleteCategory = () => {
+		updateSetting("categories", settings.categories.filter(
+			(_, index) => index !== currentCategoryIndex
+		))
+	}
 
 	return (
 		<div className="w-full min-h-dvh p-10 relative overflow-hidden text-white flex flex-col gap-10 text-base"
@@ -93,21 +115,41 @@ const App = () => {
 											title={item?.title}
 											accent={item?.accent}
 											elements={item?.items}
+											editCategory={_=>{
+												setCurrentCategoryData(item)
+												setShowCategoryModal(true)
+												setCategoryModalAction("edit")
+												setCurrentCategoryIndex(i)
+											}}
 										/>
 									))}
 								</div>
 								<div className="text-sm">
-									<CategoryButton className="
+									<Button className="
 										whitespace-nowrap flex items-center gap-1 select-none
-									" onClick={console.log}>
+									" onClick={_=>{
+										setCategoryModalAction("new")
+										setCurrentCategoryData({})
+										setShowCategoryModal(true)
+										setCurrentCategoryIndex(null)
+									}}>
 										<i className="fa-solid fa-plus"></i>
 										<span>Add Category</span>
-									</CategoryButton>
+									</Button>
 								</div>
 							</div>
 						)
 					}
 				})}
+				<CategoryEditor
+					showPopup={showCategoryModal}
+					setShowPopup={setShowCategoryModal}
+					addCategory={addCategory}
+					action={categoryModalAction}
+					data={currentCategoryData}
+					editCategory={editCategory}
+					deleteCategory={deleteCategory}
+				/>
 				</>
 			) : null}
 		</div>
