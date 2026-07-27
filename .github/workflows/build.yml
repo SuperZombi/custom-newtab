@@ -3,6 +3,8 @@ name: Build
 on:
   push:
     branches: ["main"]
+  release:
+    types: [published]
   workflow_dispatch:
 
 jobs:
@@ -16,11 +18,26 @@ jobs:
       - uses: actions/upload-artifact@v6
         with:
           path: ./dist
+
+      - name: Create ZIP
+        if: github.event_name == 'release'
+        run: |
+          cd dist
+          zip -r ../dist.zip .
+      - name: Upload Release Asset
+        if: github.event_name == 'release'
+        uses: xresloader/upload-to-github-release@v1
+        with:
+          file: dist.zip
+          overwrite: true
+          update_latest_release: true
+
       - name: Remove manifest
         run: rm -f dist/manifest.json
       - uses: actions/upload-pages-artifact@v5
         with:
           path: ./dist
+
   deploy:
     permissions:
       contents: read
