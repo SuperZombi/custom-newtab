@@ -7,7 +7,7 @@ const CategoryButton = ({accent, children, href}) => {
 }
 
 const CategoryWidget = ({
-	icon, title, elements, accent, editCategory
+	icon, title, elements, accent
 }) => {
 	const getIcon = (url) => {
 		const domain = new URL(url).hostname;
@@ -39,9 +39,7 @@ const CategoryWidget = ({
 						{e.label && (<Tooltip accent={accent}>{e.label}</Tooltip>)}
 					</div>
 				))}
-				<Button accent={accent} className="aspect-square text-white/50 hover:text-white p-3"
-					onClick={editCategory}
-				>
+				<Button accent={accent} className="aspect-square text-white/50 hover:text-white p-3">
 					<i className="fa-solid fa-plus"></i>
 				</Button>
 			</div>
@@ -50,7 +48,7 @@ const CategoryWidget = ({
 }
 
 const CategoryEditor = ({
-	action, data, showPopup, setShowPopup, addCategory, editCategory, deleteCategory
+	action, data, showPopup, setShowPopup, addCategory, editCategory
 }) => {
 	const [currentName, setCurrentName] = React.useState("")
 	const [currentIcon, setCurrentIcon] = React.useState("")
@@ -102,12 +100,45 @@ const CategoryEditor = ({
 				onKeyDown={onKeyDownInputs}
 			/>
 			<Button onClick={applyForm}>OK</Button>
-			{action == "edit" && (
+			{/* {action == "edit" && (
 				<Button onClick={_=>{
 					deleteCategory()
 					setShowPopup(false)
 				}}>Delete</Button>
-			)}
+			)} */}
+		</Modal>
+	)
+}
+
+const CategoryManager = ({
+	showPopup, setShowPopup, categories, editCategory, deleteCategory
+}) => {
+	return (
+		<Modal
+			title="Manager"
+			open={showPopup}
+			onClose={_=>{setShowPopup(false)}}
+		>
+			<div className="grid grid-cols-[auto_1fr_auto_auto] gap-x-2 gap-y-2.5">
+				{categories.map((item, i)=>(
+					<Container key={i} className="grid grid-cols-subgrid col-span-4 items-center px-2 py-2">
+						{item.icon ? (<i className={item.icon}></i>) : <span></span>}
+						<span>{item.title || `Category ${i}`}</span>
+						<Button className="text-xs aspect-square" onClick={_=>editCategory(i)}>
+							<i className="fa-solid fa-pen"></i>
+						</Button>
+						<Button className="text-xs aspect-square" accent="red"
+							onClick={_=>{
+								if (confirm(`Delete category?`)){
+									deleteCategory(i)
+								}
+							}}
+						>
+							<i className="fa-solid fa-trash"></i>
+						</Button>
+					</Container>
+				))}
+			</div>
 		</Modal>
 	)
 }

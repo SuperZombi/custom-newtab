@@ -48,6 +48,7 @@ const App = () => {
 	const [settings, setSettings] = React.useState(defaults)
 	const [isLoaded, setIsLoaded] = React.useState(false)
 	const [showCategoryModal, setShowCategoryModal] = React.useState(false)
+	const [showCategoryManager, setShowCategoryManager] = React.useState(false)
 	const [currentCategoryIndex, setCurrentCategoryIndex] = React.useState(null)
 	const [currentCategoryData, setCurrentCategoryData] = React.useState({})
 	const [categoryModalAction, setCategoryModalAction] = React.useState("new")
@@ -79,9 +80,9 @@ const App = () => {
 			} : category)
 		)
 	}
-	const deleteCategory = () => {
+	const deleteCategory = (ind) => {
 		updateSetting("categories", settings.categories.filter(
-			(_, index) => index !== currentCategoryIndex
+			(_, index) => index !== ind
 		))
 	}
 
@@ -124,10 +125,14 @@ const App = () => {
 										/>
 									))}
 								</div>
-								<div className="text-sm">
-									<Button className="
-										whitespace-nowrap flex items-center gap-1 select-none
-									" onClick={_=>{
+								<div className="text-sm flex gap-3">
+									<Button onClick={_=>{
+										setShowCategoryManager(true)
+									}}>
+										<i className="fa-solid fa-pen"></i>
+										<span>Manage</span>
+									</Button>
+									<Button onClick={_=>{
 										setCategoryModalAction("new")
 										setCurrentCategoryData({})
 										setShowCategoryModal(true)
@@ -141,6 +146,18 @@ const App = () => {
 						)
 					}
 				})}
+				<CategoryManager
+					showPopup={showCategoryManager}
+					setShowPopup={setShowCategoryManager}
+					categories={settings["categories"]}
+					editCategory={index=>{
+						setCurrentCategoryData(settings["categories"][index])
+						setShowCategoryModal(true)
+						setCategoryModalAction("edit")
+						setCurrentCategoryIndex(index)
+					}}
+					deleteCategory={deleteCategory}
+				/>
 				<CategoryEditor
 					showPopup={showCategoryModal}
 					setShowPopup={setShowCategoryModal}
@@ -148,7 +165,6 @@ const App = () => {
 					action={categoryModalAction}
 					data={currentCategoryData}
 					editCategory={editCategory}
-					deleteCategory={deleteCategory}
 				/>
 				</>
 			) : null}

@@ -10,7 +10,7 @@ const Button = ({className="", accent, children, onClick}) => {
 	const [hover, setHover] = React.useState(false)
 	return (
 		<Container className={`
-			p-2 flex items-center justify-center
+			p-2 flex items-center justify-center gap-2 select-none whitespace-nowrap
 			cursor-pointer transition-colors hover:bg-white/15
 			${className}
 		`}
