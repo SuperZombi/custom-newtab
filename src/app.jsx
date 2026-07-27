@@ -1,6 +1,10 @@
 const defaults = {
 	search: "google",
 	showSeconds: true,
+	background: {
+		type: "gradient",
+		gradient: gradientPresets[0],
+	},
 	widgets: [
 		"clock",
 		"search",
@@ -56,11 +60,8 @@ const App = () => {
 	}
 
 	return (
-		<div className="w-full min-h-dvh p-10 relative overflow-hidden text-white flex flex-col gap-10 text-base"
-			style={{
-				background: "radial-gradient(circle at 20% 20%, rgba(99,102,241,0.18), transparent 45%), radial-gradient(circle at 80% 70%, rgba(236,72,153,0.14), transparent 45%), #0a0a12",
-			}}
-		>
+		<div className="w-full min-h-dvh p-10 relative overflow-hidden text-white flex flex-col gap-10 text-base">
+			<Background background={settings.background}/>
 			{isLoaded ? (
 				<>
 				{settings["widgets"].map((widget, index)=>{
@@ -147,11 +148,13 @@ const App = () => {
 				<Settings
 					show={showSettings}
 					onClose={_=>setShowSettings(false)}
+					settings={settings}
+					updateSetting={updateSetting}
 				/>
 				<div className="
 					fixed right-4 bottom-4 p-4 aspect-square rounded-full cursor-pointer
-					text-gray-400/50 hover:bg-white/10 hover:text-gray-300
-					flex items-center justify-center
+					text-white/50 hover:bg-black/20 hover:text-white
+					hover:shadow-lg flex items-center justify-center
 					transition-colors
 				" onClick={_=>setShowSettings(true)}>
 					<i className="fa-solid fa-gear"></i>

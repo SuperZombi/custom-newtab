@@ -141,7 +141,7 @@ const Modal = ({ open, title, onClose, afterClose, children, className="" }) => 
 		</div>
 	)
 }
-const Sidebar = ({ open, onClose, children, className="" }) => {
+const Sidebar = ({ open, title, onClose, children, className="" }) => {
 	const [rendered, setRendered] = React.useState(open)
 	const [visible, setVisible] = React.useState(false)
 
@@ -184,10 +184,13 @@ const Sidebar = ({ open, onClose, children, className="" }) => {
 				`}
 				onMouseDown={e => e.stopPropagation()}
 			>
-				<div onClick={onClose} className="
-					text-white/50 hover:text-white transition-colors cursor-pointer absolute right-4 top-4
-				">
-					<i className="fa-solid fa-xmark"></i>
+				<div className="flex items-center justify-center relative">
+					<h2 className="text-xl font-medium">{title}</h2>
+					<div onClick={onClose} className="
+						text-white/50 hover:text-white transition-colors cursor-pointer absolute right-0
+					">
+						<i className="fa-solid fa-xmark"></i>
+					</div>
 				</div>
 				{children}
 			</div>
@@ -198,7 +201,7 @@ const Sidebar = ({ open, onClose, children, className="" }) => {
 const TextInput = ({ value, onChange, label, onKeyDown, placeholder, colorPicker=false, iconPicker=false }) => {
 	return (
 		<label className="flex flex-col gap-2 text-sm min-w-0">
-			{label && (<span className="text-white/60">{label}</span>)}
+			{label && (<span className="text-white/60 select-none">{label}</span>)}
 			<div className="flex items-center gap-2">
 				{colorPicker && (
 					<input
@@ -220,6 +223,48 @@ const TextInput = ({ value, onChange, label, onKeyDown, placeholder, colorPicker
 						focus:ring-white/30 transition-colors placeholder:text-white/30"
 				/>
 			</div>
+		</label>
+	)
+}
+
+const Switch = ({ checked, onChange, label, accent, disabled=false, className="" }) => {
+	const toggle = () => {
+		if (disabled) return
+		onChange?.(!checked)
+	}
+	return (
+		<label className={`flex items-center justify-between gap-3 select-none ${disabled ? "opacity-40" : "cursor-pointer"} ${className}`}>
+			{label && <span className="text-sm">{label}</span>}
+			<div
+				onClick={toggle}
+				className={`
+					relative w-10 h-5 shrink-0 rounded-full
+					transition-colors duration-200 ease-out
+					${checked ? "bg-blue-500" : "bg-white/10"}
+				`}
+			>
+				<span className={`
+					absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow-md
+					transition-transform duration-200 ease-out
+					${checked ? "translate-x-5" : "translate-x-0"}
+				`}/>
+			</div>
+		</label>
+	)
+}
+
+const Slider = ({ label, value, min, max, step=1, onChange, unit="" }) => {
+	return (
+		<label className="flex flex-col gap-1.5 text-sm">
+			<div className="flex items-center justify-between text-white/60 select-none">
+				<span>{label}</span>
+				<span className="text-white/40">{value}{unit}</span>
+			</div>
+			<input
+				type="range" min={min} max={max} step={step} value={value}
+				onInput={e => onChange(Number(e.target.value))}
+				className="w-full accent-white/80 h-1.5 cursor-pointer"
+			/>
 		</label>
 	)
 }
