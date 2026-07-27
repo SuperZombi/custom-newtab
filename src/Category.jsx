@@ -134,6 +134,7 @@ const CategoryEditor = ({
 				value={currentIcon}
 				onChange={setCurrentIcon}
 				onKeyDown={onKeyDownInputs}
+				iconPicker={true}
 			/>
 			<TextInput
 				label={"Accent color"}
@@ -141,6 +142,7 @@ const CategoryEditor = ({
 				value={currentAccent}
 				onChange={setCurrentAccent}
 				onKeyDown={onKeyDownInputs}
+				colorPicker={true}
 			/>
 			{currentLinks.length > 0 && (
 				<ReactBeautifulDnd.DragDropContext

@@ -141,16 +141,31 @@ const Modal = ({ open, title, onClose, afterClose, children, className="" }) => 
 	)
 }
 
-const TextInput = ({ value, onChange, label, onKeyDown, placeholder }) => {
+const TextInput = ({ value, onChange, label, onKeyDown, placeholder, colorPicker=false, iconPicker=false }) => {
 	return (
 		<label className="flex flex-col gap-2 text-sm min-w-0">
 			{label && (<span className="text-white/60">{label}</span>)}
-			<input type="text" value={value} placeholder={placeholder}
-				onInput={e => onChange(e.target.value)}
-				onKeyDown={onKeyDown}
-				className="bg-white/5 ring ring-white/10 rounded-lg px-3 py-2 outline-none
-					focus:ring-white/30 transition-colors placeholder:text-white/30"
-			/>
+			<div className="flex items-center gap-2">
+				{colorPicker && (
+					<input
+						type="color"
+						value={value || "#000000"}
+						onInput={e => onChange(e.target.value)}
+						className="w-10 h-10 p-1 rounded-lg bg-white/5 ring ring-white/10 cursor-pointer"
+					/>
+				)}
+				{iconPicker && (
+					<div className="w-10 h-10 text-lg flex items-center justify-center">
+						<i className={value || "fa-regular fa-notdef"}></i>
+					</div>
+				)}
+				<input type="text" value={value} placeholder={placeholder}
+					onInput={e => onChange(e.target.value)}
+					onKeyDown={onKeyDown}
+					className="flex-1 bg-white/5 ring ring-white/10 rounded-lg px-3 py-2 outline-none
+						focus:ring-white/30 transition-colors placeholder:text-white/30"
+				/>
+			</div>
 		</label>
 	)
 }
