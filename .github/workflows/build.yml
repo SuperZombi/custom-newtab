@@ -3,6 +3,9 @@ name: Build
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-react:
     runs-on: ubuntu-latest
@@ -14,3 +17,7 @@ jobs:
       - uses: actions/upload-artifact@v6
         with:
           path: ./dist
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
