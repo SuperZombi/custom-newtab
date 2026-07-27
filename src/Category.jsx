@@ -1,7 +1,11 @@
 const CategoryButton = ({accent, children, href}) => {
+	const [focus, setFocus] = React.useState(false)
 	return (
-		<a href={href}>
-			<Button className="aspect-square" accent={accent}>{children}</Button>
+		<a href={href} className="outline-none"
+			onFocus={() => setFocus(true)}
+			onBlur={() => setFocus(false)}
+		>
+			<Button className="aspect-square" accent={accent} forceActive={focus}>{children}</Button>
 		</a>
 	)
 }

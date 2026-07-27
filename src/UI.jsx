@@ -6,20 +6,21 @@ const Container = ({children, className="", ...props}) => {
 	)
 }
 
-const Button = ({className="", accent, children, onClick}) => {
+const Button = ({className="", accent, children, forceActive, onClick}) => {
 	const [hover, setHover] = React.useState(false)
+	const active = hover || forceActive
 	return (
 		<Container className={`
 			p-2 flex items-center justify-center gap-2 select-none whitespace-nowrap
 			cursor-pointer transition-colors hover:bg-white/15
-			${className}
+			${forceActive ? "bg-white/15" : ""} ${className}
 		`}
 			onClick={onClick}
 			onMouseEnter={() => setHover(true)}
 			onMouseLeave={() => setHover(false)}
 			style={accent ? {
 				color: accent,
-				background: `color-mix(in srgb, ${accent} ${hover ? 25 : 10}%, transparent)`,
+				background: `color-mix(in srgb, ${accent} ${active ? 25 : 10}%, transparent)`,
 				"--tw-ring-color": `color-mix(in srgb, ${accent} 40%, transparent)`
 			} : undefined}
 		>
