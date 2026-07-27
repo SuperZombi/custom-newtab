@@ -249,7 +249,22 @@ const CategoryManager = ({
 					url: "https://claude.ai/"
 				}
 			]
-		}
+		},
+		{
+			icon: "fa-solid fa-envelope",
+			title: "Email",
+			accent: "#7bf1a8",
+			items: [
+				{
+					label: "Gmail",
+					url: "https://mail.google.com/"
+				},
+				{
+					label: "Outlook",
+					url: "https://outlook.office.com"
+				}
+			]
+		},
 	]
 	const onDragEnd = (result)=>{
 		if(!result.destination) { return }

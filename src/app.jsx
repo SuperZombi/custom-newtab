@@ -111,23 +111,25 @@ const App = () => {
 					if (widget == "categories"){
 						return (
 							<div className="flex flex-col items-center gap-4" key={index}>
-								<div className="flex gap-4 flex-wrap justify-center mx-auto max-w-3xl">
-									{settings["categories"].map((item, i)=>(
-										<CategoryWidget
-											key={i}
-											icon={item?.icon}
-											title={item?.title}
-											accent={item?.accent}
-											elements={item?.items}
-											editCategory={_=>{
-												setCurrentCategoryData(item)
-												setShowCategoryModal(true)
-												setCategoryModalAction("edit")
-												setCurrentCategoryIndex(i)
-											}}
-										/>
-									))}
-								</div>
+								{settings["categories"].length > 0 && (
+									<div className="flex gap-4 flex-wrap justify-center mx-auto max-w-3xl">
+										{settings["categories"].map((item, i)=>(
+											<CategoryWidget
+												key={i}
+												icon={item?.icon}
+												title={item?.title}
+												accent={item?.accent}
+												elements={item?.items}
+												editCategory={_=>{
+													setCurrentCategoryData(item)
+													setShowCategoryModal(true)
+													setCategoryModalAction("edit")
+													setCurrentCategoryIndex(i)
+												}}
+											/>
+										))}
+									</div>
+								)}
 								<div className="text-sm flex gap-3">
 									<Button onClick={_=>{
 										setShowCategoryManager(true)
