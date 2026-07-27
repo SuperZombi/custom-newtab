@@ -10,5 +10,11 @@
 		"newtab": "index.html"
 	},
 	"homepage_url": "https://github.com/SuperZombi/custom-newtab",
-	"permissions": ["storage"]
+	"permissions": ["storage"],
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "super.zombi@new.tab",
+			"data_collection_permissions": { "required": ["none"] }
+		}
+	}
 }
