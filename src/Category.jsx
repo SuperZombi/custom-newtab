@@ -75,7 +75,9 @@ const CategoryEditor = ({
 			title: currentName.trim(),
 			icon: currentIcon.trim(),
 			accent: currentAccent.trim(),
-			items: currentLinks
+			items: currentLinks.filter(
+				item => item.label.trim() !== "" && item.url.trim() !== ""
+			)
 		})
 		setShowPopup(false)
 	}
@@ -91,6 +93,16 @@ const CategoryEditor = ({
 					? { ...item, [key]: value }
 					: item
 			)
+		)
+	}
+	const addLink = () => {
+		setCurrentLinks(prev =>
+			[...prev, {label: "", url: ""}]
+		)
+	}
+	const deleteLink = (ind) => {
+		setCurrentLinks(prev =>
+			prev.filter((_, index) => index !== ind)
 		)
 	}
 	const onDragEnd = (result)=>{
@@ -176,7 +188,9 @@ const CategoryEditor = ({
 										onChange={v => updateLink(index, "url", v)}
 										onKeyDown={onKeyDownInputs}
 									/>
-									<Button className="text-xs aspect-square" accent="red">
+									<Button className="text-xs aspect-square" accent="red"
+										onClick={_=>deleteLink(index)}
+									>
 										<i className="fa-solid fa-trash"></i>
 									</Button>
 								</div>
@@ -189,6 +203,7 @@ const CategoryEditor = ({
 					</ReactBeautifulDnd.Droppable>
 				</ReactBeautifulDnd.DragDropContext>
 			)}
+			<Button onClick={addLink}>Add link</Button>
 			<Button onClick={applyForm}>OK</Button>
 		</Modal>
 	)
