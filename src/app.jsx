@@ -6,42 +6,7 @@ const defaults = {
 		"search",
 		"categories",
 	],
-	categories: [
-		{
-			title: "Search by Image",
-			icon: "fa-solid fa-camera",
-			accent: "#c27aff",
-			items: [
-				{
-					label: "Google",
-					url: "https://images.google.com/?olud"
-				},
-				{
-					label: "Yandex",
-					url: "https://yandex.ru/images/search?rpt=imageview"
-				},
-			]
-		},
-		{
-			title: "Ask AI",
-			icon: "fa-solid fa-sparkles",
-			accent: "#53eafd",
-			items: [
-				{
-					label: "Chat GPT",
-					url: "https://chatgpt.com/"
-				},
-				{
-					label: "Gemini",
-					url: "https://gemini.google.com/"
-				},
-				{
-					label: "Claude",
-					url: "https://claude.ai/"
-				},
-			]
-		}
-	]
+	categories: categoryTemplates
 }
 
 const App = () => {
