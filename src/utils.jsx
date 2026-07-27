@@ -11,15 +11,15 @@ const storageApi = {
 			if (typeof chrome !== "undefined" && chrome.storage?.sync) {
 				return new Promise((resolve) => {
 					chrome.storage.sync.get(["newtab-settings"], (result) => {
-						resolve({ ...defaults, ...(result["newtab-settings"] || {}) })
+						resolve({ ...defaults, ...(result?.["newtab-settings"] || {}) })
 					})
 				})
 			}
 			if (typeof browser !== "undefined" && browser.storage?.sync) {
 				const result = await browser.storage.sync.get("newtab-settings")
-				return { ...defaults, ...(result["newtab-settings"] || {}) };
+				return { ...defaults, ...(result?.["newtab-settings"] || {}) }
 			}
-			const saved = window.localStorage.getItem("newtab-settings");
+			const saved = window.localStorage.getItem("newtab-settings")
 			const parsed = saved ? JSON.parse(saved) : {};
 			return { ...defaults, ...parsed };
 		} catch (e) {
