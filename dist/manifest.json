@@ -6,5 +6,6 @@
 	"chrome_url_overrides": {
 		"newtab": "index.html"
 	},
+	"homepage_url": "https://github.com/SuperZombi/custom-newtab",
 	"permissions": ["storage"]
 }
