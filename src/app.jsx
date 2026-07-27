@@ -169,6 +169,11 @@ const App = () => {
 					action={categoryModalAction}
 					data={currentCategoryData}
 					editCategory={editCategory}
+					afterClose={_=>{
+						setCategoryModalAction("new")
+						setCurrentCategoryData({})
+						setCurrentCategoryIndex(null)
+					}}
 				/>
 				</>
 			) : null}

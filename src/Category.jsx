@@ -57,7 +57,7 @@ const reorder = (list, startIndex, endIndex) => {
 }
 
 const CategoryEditor = ({
-	action, data, showPopup, setShowPopup, addCategory, editCategory
+	action, data, showPopup, setShowPopup, addCategory, editCategory, afterClose
 }) => {
 	const [currentName, setCurrentName] = React.useState("")
 	const [currentIcon, setCurrentIcon] = React.useState("")
@@ -119,6 +119,7 @@ const CategoryEditor = ({
 			title={action == "edit" ? "Edit Category" : "Add Category"}
 			open={showPopup}
 			onClose={_=>{setShowPopup(false)}}
+			afterClose={afterClose}
 		>
 			<TextInput
 				label={"Category name"}

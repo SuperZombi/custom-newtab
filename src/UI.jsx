@@ -76,7 +76,7 @@ const Tooltip = ({children, accent}) => {
 	)
 }
 
-const Modal = ({ open, title, onClose, children, className="" }) => {
+const Modal = ({ open, title, onClose, afterClose, children, className="" }) => {
 	const [rendered, setRendered] = React.useState(open)
 	const [visible, setVisible] = React.useState(false)
 
@@ -89,14 +89,17 @@ const Modal = ({ open, title, onClose, children, className="" }) => {
 			})
 		} else {
 			setVisible(false)
-			const t = setTimeout(() => setRendered(false), 200)
+			const t = setTimeout(() => {
+				setRendered(false)
+				afterClose?.()
+			}, 200)
 			return () => clearTimeout(t)
 		}
 		return () => {
 			cancelAnimationFrame(raf1)
 			cancelAnimationFrame(raf2)
 		}
-	}, [open])
+	}, [open, afterClose])
 
 	React.useEffect(() => {
 		if (!rendered) return
