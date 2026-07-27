@@ -113,7 +113,7 @@ const Modal = ({ open, title, onClose, afterClose, children, className="" }) => 
 
 	return (
 		<div className={`
-				fixed inset-0 z-50 flex items-center justify-center p-4
+				fixed inset-0 z-50 flex items-center justify-center
 				transition-colors duration-200
 				${visible ? "bg-black/50" : "bg-black/0"}
 			`}
@@ -138,6 +138,59 @@ const Modal = ({ open, title, onClose, afterClose, children, className="" }) => 
 				</div>
 				{children}
 			</Container>
+		</div>
+	)
+}
+const Sidebar = ({ open, onClose, children, className="" }) => {
+	const [rendered, setRendered] = React.useState(open)
+	const [visible, setVisible] = React.useState(false)
+
+	React.useEffect(() => {
+		let raf1, raf2
+		if (open) {
+			setRendered(true)
+			raf1 = requestAnimationFrame(() => {
+				raf2 = requestAnimationFrame(() => setVisible(true))
+			})
+		} else {
+			setVisible(false)
+			const t = setTimeout(() => {setRendered(false)}, 500)
+			return () => clearTimeout(t)
+		}
+		return () => {
+			cancelAnimationFrame(raf1)
+			cancelAnimationFrame(raf2)
+		}
+	}, [open])
+
+	if (!rendered) return null
+
+	return (
+		<div className={`
+				fixed inset-0 z-50
+				transition-colors duration-500
+				${visible ? "bg-black/25" : "bg-black/0"}
+			`}
+			onMouseDown={onClose}
+		>
+			<div className={`
+					ring ring-white/20 bg-white/5 shadow-lg
+					absolute top-0 right-0 rounded-l-xl z-20
+					w-full max-w-lg h-dvh overflow-y-auto
+					p-5 flex flex-col gap-4 backdrop-blur-md
+					transition-all duration-500
+					${visible ? "translate-x-0" : "translate-x-full"}
+					${className}
+				`}
+				onMouseDown={e => e.stopPropagation()}
+			>
+				<div onClick={onClose} className="
+					text-white/50 hover:text-white transition-colors cursor-pointer absolute right-4 top-4
+				">
+					<i className="fa-solid fa-xmark"></i>
+				</div>
+				{children}
+			</div>
 		</div>
 	)
 }

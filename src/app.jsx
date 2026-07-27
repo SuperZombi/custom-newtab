@@ -12,6 +12,7 @@ const defaults = {
 const App = () => {
 	const [settings, setSettings] = React.useState(defaults)
 	const [isLoaded, setIsLoaded] = React.useState(false)
+	const [showSettings, setShowSettings] = React.useState(false)
 	const [showCategoryModal, setShowCategoryModal] = React.useState(false)
 	const [showCategoryManager, setShowCategoryManager] = React.useState(false)
 	const [currentCategoryIndex, setCurrentCategoryIndex] = React.useState(null)
@@ -143,6 +144,18 @@ const App = () => {
 						setCurrentCategoryIndex(null)
 					}}
 				/>
+				<Settings
+					show={showSettings}
+					onClose={_=>setShowSettings(false)}
+				/>
+				<div className="
+					fixed right-4 bottom-4 p-4 aspect-square rounded-full cursor-pointer
+					text-gray-400/50 hover:bg-white/10 hover:text-gray-300
+					flex items-center justify-center
+					transition-colors
+				" onClick={_=>setShowSettings(true)}>
+					<i className="fa-solid fa-gear"></i>
+				</div>
 				</>
 			) : null}
 		</div>
