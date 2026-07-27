@@ -5,7 +5,6 @@ on:
     branches: ["main"]
   release:
     types: [published]
-  workflow_dispatch:
 
 jobs:
   build-react:
@@ -15,30 +14,30 @@ jobs:
       - uses: actions/setup-node@v6
       - run: npm install
       - run: npm run build
-      - uses: actions/upload-artifact@v6
-        with:
-          path: ./dist
 
       - name: Create ZIP
         if: github.event_name == 'release'
         run: |
           cd dist
-          zip -r ../dist.zip .
+          zip -r ../extension.zip .
       - name: Upload Release Asset
         if: github.event_name == 'release'
         uses: xresloader/upload-to-github-release@v1
         with:
-          file: dist.zip
+          file: extension.zip
           overwrite: true
           update_latest_release: true
 
       - name: Remove manifest
         run: rm -f dist/manifest.json
-      - uses: actions/upload-pages-artifact@v5
+      - name: Upload Pages Artifact
+        if: github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./dist
 
   deploy:
+    if: github.event_name == 'push'
     permissions:
       contents: read
       pages: write
