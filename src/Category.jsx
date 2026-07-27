@@ -76,7 +76,7 @@ const CategoryEditor = ({
 			icon: currentIcon.trim(),
 			accent: currentAccent.trim(),
 			items: currentLinks.filter(
-				item => item.label.trim() !== "" && item.url.trim() !== ""
+				item => item.url.trim() !== ""
 			)
 		})
 		setShowPopup(false)
