@@ -68,9 +68,9 @@ const App = () => {
 		storageApi.set(settings)
 	}, [settings, isLoaded])
 
-	const addCategory = ({title, icon, accent}) => {
+	const addCategory = ({title, icon, accent, items}) => {
 		updateSetting("categories", [...settings.categories, {
-			title, icon, accent, items: []
+			title, icon, accent, items: items || []
 		}])
 	}
 	const editCategory = ({title, icon, accent, items}) => {
@@ -159,6 +159,7 @@ const App = () => {
 						setCategoryModalAction("edit")
 						setCurrentCategoryIndex(index)
 					}}
+					addCategory={addCategory}
 					deleteCategory={deleteCategory}
 					reorderCategories={reorderCategories}
 				/>

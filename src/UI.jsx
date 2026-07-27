@@ -128,7 +128,7 @@ const Modal = ({ open, title, onClose, afterClose, children, className="" }) => 
 				onMouseDown={e => e.stopPropagation()}
 			>
 				<div className="flex items-center justify-center relative">
-					<h2 className="text-lg font-medium">{title}</h2>
+					<h2 className="text-xl font-medium">{title}</h2>
 					<div onClick={onClose} className="
 						text-white/50 hover:text-white transition-colors cursor-pointer absolute right-0
 					">

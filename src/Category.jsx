@@ -213,8 +213,44 @@ const CategoryEditor = ({
 }
 
 const CategoryManager = ({
-	showPopup, setShowPopup, categories, editCategory, deleteCategory, reorderCategories
+	showPopup, setShowPopup, categories, editCategory, deleteCategory, addCategory, reorderCategories
 }) => {
+	const templates = [
+		{
+			icon: "fa-solid fa-camera",
+			title: "Search by Image",
+			accent: "#c27aff",
+			items: [
+				{
+					label: "Google",
+					url: "https://images.google.com/?olud"
+				},
+				{
+					label: "Yandex",
+					url: "https://yandex.ru/images/search?rpt=imageview"
+				}
+			]
+		},
+		{
+			icon: "fa-solid fa-sparkles",
+			title: "Ask AI",
+			accent: "#53eafd",
+			items: [
+				{
+					label: "Chat GPT",
+					url: "https://chatgpt.com/"
+				},
+				{
+					label: "Gemini",
+					url: "https://gemini.google.com/"
+				},
+				{
+					label: "Claude",
+					url: "https://claude.ai/"
+				}
+			]
+		}
+	]
 	const onDragEnd = (result)=>{
 		if(!result.destination) { return }
 		const itemsnew = reorder(
@@ -230,72 +266,88 @@ const CategoryManager = ({
 			open={showPopup}
 			onClose={_=>{setShowPopup(false)}}
 		>
-			<ReactBeautifulDnd.DragDropContext
-				onDragEnd={onDragEnd}
-			>
-				<ReactBeautifulDnd.Droppable droppableId="droppable"
-					renderClone={(provided, snapshot, rubric) => (
-						<div
-							ref={provided.innerRef}
-							{...provided.draggableProps}
-							{...provided.dragHandleProps}
-						>
-						<Container className="text-white grid grid-cols-[auto_1fr_auto_auto] items-center gap-2 p-2 select-none">
-							<div><i className="fa-solid fa-grip-vertical"></i></div>
-							<span>{categories[rubric.source.index].title || `Category ${rubric.source.index}`}</span>
-							<Button className="text-xs aspect-square">
-								<i className="fa-solid fa-pen"></i>
-							</Button>
-							<Button className="text-xs aspect-square" accent="red">
-								<i className="fa-solid fa-trash"></i>
-							</Button>
-						</Container>
-						</div>
-					)}
+			{categories.length > 0 && (
+				<ReactBeautifulDnd.DragDropContext
+					onDragEnd={onDragEnd}
 				>
-				{(provided, snapshot) => (
-					<div className="flex flex-col gap-2"
-						ref={provided.innerRef}
-						{...provided.droppableProps}
-					>
-					{categories.map((item, index)=>(
-						<ReactBeautifulDnd.Draggable
-							key={index}
-							draggableId={String(index)}
-							index={index}
-						>
-						{(provided, snapshot) => (
+					<ReactBeautifulDnd.Droppable droppableId="droppable"
+						renderClone={(provided, snapshot, rubric) => (
 							<div
 								ref={provided.innerRef}
 								{...provided.draggableProps}
+								{...provided.dragHandleProps}
 							>
-							<Container className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-2 p-2 select-none">
-								<div {...provided.dragHandleProps}>
-									<i className="fa-solid fa-grip-vertical"></i>
-								</div>
-								<span>{item.title || `Category ${index}`}</span>
-								<Button className="text-xs aspect-square" onClick={_=>editCategory(index)}>
+							<Container className="text-white grid grid-cols-[auto_1fr_auto_auto] items-center gap-2 p-2 select-none">
+								<div><i className="fa-solid fa-grip-vertical"></i></div>
+								<span>{categories[rubric.source.index].title || `Category ${rubric.source.index}`}</span>
+								<Button className="text-xs aspect-square">
 									<i className="fa-solid fa-pen"></i>
 								</Button>
-								<Button className="text-xs aspect-square" accent="red"
-									onClick={_=>{
-										if (confirm(`Delete category?`)){
-											deleteCategory(index)
-										}
-									}}
-								>
+								<Button className="text-xs aspect-square" accent="red">
 									<i className="fa-solid fa-trash"></i>
 								</Button>
 							</Container>
 							</div>
 						)}
-						</ReactBeautifulDnd.Draggable>
-					))}
-					{provided.placeholder}
-					</div>
-				)}
-				</ReactBeautifulDnd.Droppable>
-			</ReactBeautifulDnd.DragDropContext>
+					>
+					{(provided, snapshot) => (
+						<div className="flex flex-col gap-2"
+							ref={provided.innerRef}
+							{...provided.droppableProps}
+						>
+						{categories.map((item, index)=>(
+							<ReactBeautifulDnd.Draggable
+								key={index}
+								draggableId={String(index)}
+								index={index}
+							>
+							{(provided, snapshot) => (
+								<div
+									ref={provided.innerRef}
+									{...provided.draggableProps}
+								>
+								<Container className="grid grid-cols-[auto_1fr_auto_auto] items-center gap-2 p-2 select-none">
+									<div {...provided.dragHandleProps}>
+										<i className="fa-solid fa-grip-vertical"></i>
+									</div>
+									<span>{item.title || `Category ${index}`}</span>
+									<Button className="text-xs aspect-square" onClick={_=>editCategory(index)}>
+										<i className="fa-solid fa-pen"></i>
+									</Button>
+									<Button className="text-xs aspect-square" accent="red"
+										onClick={_=>{
+											if (confirm(`Delete category?`)){
+												deleteCategory(index)
+											}
+										}}
+									>
+										<i className="fa-solid fa-trash"></i>
+									</Button>
+								</Container>
+								</div>
+							)}
+							</ReactBeautifulDnd.Draggable>
+						))}
+						{provided.placeholder}
+						</div>
+					)}
+					</ReactBeautifulDnd.Droppable>
+				</ReactBeautifulDnd.DragDropContext>
+			)}
+			<h2 className="flex gap-2 items-center justify-center text-lg">
+				<i className="fa-solid fa-database"></i>
+				<span>Templates</span>
+			</h2>
+			<div className="flex gap-2 flex-wrap">
+				{templates.map((item, i)=>(
+					<Button key={i} className="py-1 text-sm" accent={item.accent} onClick={_=>{
+						addCategory(item)
+					}}>
+						<i className={`text-xs ${item.icon}`}></i>
+						<span>{item.title}</span>
+					</Button>
+				))}
+			</div>
 		</Modal>
 	)
 }
