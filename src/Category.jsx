@@ -7,7 +7,7 @@ const CategoryButton = ({accent, children, href}) => {
 }
 
 const CategoryWidget = ({
-	icon, title, elements, accent
+	icon, title, elements, accent, editCategory
 }) => {
 	const getIcon = (url) => {
 		const domain = new URL(url).hostname;
@@ -39,12 +39,21 @@ const CategoryWidget = ({
 						{e.label && (<Tooltip accent={accent}>{e.label}</Tooltip>)}
 					</div>
 				))}
-				<Button accent={accent} className="aspect-square text-white/50 hover:text-white p-3">
+				<Button accent={accent} className="aspect-square text-white/50 hover:text-white p-3"
+					onClick={editCategory}
+				>
 					<i className="fa-solid fa-plus"></i>
 				</Button>
 			</div>
 		</Container>
 	)
+}
+
+const reorder = (list, startIndex, endIndex) => {
+	const result = Array.from(list)
+	const [removed] = result.splice(startIndex, 1)
+	result.splice(endIndex, 0, removed)
+	return result
 }
 
 const CategoryEditor = ({
@@ -53,10 +62,12 @@ const CategoryEditor = ({
 	const [currentName, setCurrentName] = React.useState("")
 	const [currentIcon, setCurrentIcon] = React.useState("")
 	const [currentAccent, setCurrentAccent] = React.useState("")
+	const [currentLinks, setCurrentLinks] = React.useState([])
 	React.useEffect(_=>{
 		setCurrentName(data?.title || "")
 		setCurrentIcon(data?.icon || "")
 		setCurrentAccent(data?.accent || "")
+		setCurrentLinks(data?.items || [])
 	}, [data])
 	const applyForm = () => {
 		const actionFunction = action == "edit" ? editCategory : addCategory;
@@ -64,6 +75,7 @@ const CategoryEditor = ({
 			title: currentName.trim(),
 			icon: currentIcon.trim(),
 			accent: currentAccent.trim(),
+			items: currentLinks
 		})
 		setShowPopup(false)
 	}
@@ -71,6 +83,24 @@ const CategoryEditor = ({
 		if (e.keyCode == 13) {
 			applyForm()
 		}
+	}
+	const updateLink = (index, key, value) => {
+		setCurrentLinks(prev =>
+			prev.map((item, i) =>
+				i === index
+					? { ...item, [key]: value }
+					: item
+			)
+		)
+	}
+	const onDragEnd = (result)=>{
+		if(!result.destination) { return }
+		const itemsnew = reorder(
+			currentLinks, 
+			result.source.index, 
+			result.destination.index
+		)
+		setCurrentLinks(itemsnew)
 	}
 	return (
 		<Modal
@@ -99,13 +129,67 @@ const CategoryEditor = ({
 				onChange={setCurrentAccent}
 				onKeyDown={onKeyDownInputs}
 			/>
+			{currentLinks.length > 0 && (
+				<ReactBeautifulDnd.DragDropContext
+					onDragEnd={onDragEnd}
+				>
+					<ReactBeautifulDnd.Droppable droppableId="droppable"
+						renderClone={(provided, snapshot, rubric) => (
+							<div className="text-white grid grid-cols-[auto_1fr_1fr_auto] gap-2 items-center"
+								ref={provided.innerRef}
+								{...provided.draggableProps}
+								{...provided.dragHandleProps}
+							>
+								<div><i className="fa-solid fa-grip-vertical"></i></div>
+								<TextInput placeholder={"Label"} value={currentLinks[rubric.source.index].label}/>
+								<TextInput placeholder={"Link"} value={currentLinks[rubric.source.index].url}/>
+								<Button className="text-xs aspect-square" accent="red">
+									<i className="fa-solid fa-trash"></i>
+								</Button>
+							</div>
+						)}
+					>
+					{(provided, snapshot) => (
+						<div className="flex flex-col gap-2"
+							ref={provided.innerRef}
+							{...provided.droppableProps}
+						>
+						{currentLinks.map((item, index)=>(
+							<ReactBeautifulDnd.Draggable
+								key={index}
+								draggableId={String(index)}
+								index={index}
+							>
+							{(provided, snapshot) => (
+								<div className="grid grid-cols-[auto_1fr_1fr_auto] gap-2 items-center"
+									ref={provided.innerRef}
+									{...provided.draggableProps}
+								>
+									<div {...provided.dragHandleProps}>
+										<i className="fa-solid fa-grip-vertical"></i>
+									</div>
+									<TextInput placeholder={"Label"} value={item.label}
+										onChange={v => updateLink(index, "label", v)}
+										onKeyDown={onKeyDownInputs}
+									/>
+									<TextInput placeholder={"Link"} value={item.url}
+										onChange={v => updateLink(index, "url", v)}
+										onKeyDown={onKeyDownInputs}
+									/>
+									<Button className="text-xs aspect-square" accent="red">
+										<i className="fa-solid fa-trash"></i>
+									</Button>
+								</div>
+							)}
+							</ReactBeautifulDnd.Draggable>
+						))}
+						{provided.placeholder}
+						</div>
+					)}
+					</ReactBeautifulDnd.Droppable>
+				</ReactBeautifulDnd.DragDropContext>
+			)}
 			<Button onClick={applyForm}>OK</Button>
-			{/* {action == "edit" && (
-				<Button onClick={_=>{
-					deleteCategory()
-					setShowPopup(false)
-				}}>Delete</Button>
-			)} */}
 		</Modal>
 	)
 }
@@ -113,12 +197,6 @@ const CategoryEditor = ({
 const CategoryManager = ({
 	showPopup, setShowPopup, categories, editCategory, deleteCategory, reorderCategories
 }) => {
-	const reorder = (list, startIndex, endIndex) => {
-		const result = Array.from(list)
-		const [removed] = result.splice(startIndex, 1)
-		result.splice(endIndex, 0, removed)
-		return result
-	}
 	const onDragEnd = (result)=>{
 		if(!result.destination) { return }
 		const itemsnew = reorder(

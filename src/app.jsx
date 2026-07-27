@@ -73,10 +73,10 @@ const App = () => {
 			title, icon, accent, items: []
 		}])
 	}
-	const editCategory = ({title, icon, accent}) => {
+	const editCategory = ({title, icon, accent, items}) => {
 		updateSetting("categories", settings.categories.map((category, index) =>
 			index === currentCategoryIndex ? {
-				...category, title, icon, accent
+				...category, title, icon, accent, items
 			} : category)
 		)
 	}

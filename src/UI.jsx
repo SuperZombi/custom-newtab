@@ -116,7 +116,7 @@ const Modal = ({ open, title, onClose, children, className="" }) => {
 			onMouseDown={onClose}
 		>
 			<Container className={`
-					w-full max-w-md max-h-[85vh] overflow-y-auto
+					w-full max-w-lg max-h-[85vh] overflow-y-auto
 					p-5 flex flex-col gap-4 backdrop-blur-md
 					transition-all duration-200 origin-center
 					${visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-2"}
@@ -140,7 +140,7 @@ const Modal = ({ open, title, onClose, children, className="" }) => {
 
 const TextInput = ({ value, onChange, label, onKeyDown, placeholder }) => {
 	return (
-		<label className="flex flex-col gap-2 text-sm">
+		<label className="flex flex-col gap-2 text-sm min-w-0">
 			{label && (<span className="text-white/60">{label}</span>)}
 			<input type="text" value={value} placeholder={placeholder}
 				onInput={e => onChange(e.target.value)}
