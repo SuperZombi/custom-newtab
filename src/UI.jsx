@@ -12,7 +12,7 @@ const Select = ({
 }) => {
 	return (
 		<Container className={`grid grid-cols-[auto_1fr]
-			transition-all
+			transition-all backdrop-blur-md z-10 shadow-md
 			${show ? "visible scale-100 opacity-100" : "invisible scale-0 opacity-0"}
 			${className}
 		`}>
