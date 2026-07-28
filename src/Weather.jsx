@@ -1,6 +1,4 @@
-const WeatherWidget = ({
-
-}) => {
+const WeatherWidget = ({}) => {
     const [coordinates, setCoordinates] = React.useState({})
     const [weatherData, setWeatherData] = React.useState({})
     React.useEffect(_=>{
@@ -46,7 +44,7 @@ const WeatherWidget = ({
 
     const { rendered, visible } = usePresence(
         (coordinates?.latitude && coordinates?.longitude) && Object.keys(weatherData).length > 0
-    , 500)
+    , { duration = 500 })
 	if (!rendered) return null
     return (
         <Container className={`fixed left-4 bottom-4 z-10 backdrop-blur-md
