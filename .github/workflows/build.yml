@@ -30,6 +30,10 @@ jobs:
 
       - name: Remove manifest
         run: rm -f dist/manifest.json
+      - name: Copy GitHub images
+        run: |
+          mkdir -p dist/github/images
+          cp -R github/images/. dist/github/images/
       - name: Upload Pages Artifact
         if: github.event_name == 'push'
         uses: actions/upload-pages-artifact@v5
