@@ -23,7 +23,6 @@ const App = () => {
 	const [showCategoryModal, setShowCategoryModal] = React.useState(false)
 	const [showCategoryManager, setShowCategoryManager] = React.useState(false)
 	const [currentCategoryIndex, setCurrentCategoryIndex] = React.useState(null)
-	const [currentCategoryData, setCurrentCategoryData] = React.useState({})
 	const [categoryModalAction, setCategoryModalAction] = React.useState("new")
 
 	React.useEffect(() => {
@@ -64,14 +63,12 @@ const App = () => {
 	}, [])
 
 	const openCategoryEditor = React.useCallback((index) => {
-		setCurrentCategoryData(settings.categories[index])
 		setShowCategoryModal(true)
 		setCategoryModalAction("edit")
 		setCurrentCategoryIndex(index)
 	}, [settings?.categories])
 	const clearCategoryEditor = React.useCallback(() => {
 		setCategoryModalAction("new")
-		setCurrentCategoryData({})
 		setCurrentCategoryIndex(null)
 	}, [])
 
@@ -138,7 +135,7 @@ const App = () => {
 					setShowPopup={setShowCategoryModal}
 					addCategory={addCategory}
 					action={categoryModalAction}
-					data={currentCategoryData}
+					data={categoryModalAction === "edit" ? settings.categories[currentCategoryIndex] : {}}
 					editCategory={editCategory}
 					afterClose={clearCategoryEditor}
 				/>
