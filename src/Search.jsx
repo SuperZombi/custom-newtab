@@ -68,7 +68,7 @@ const SearchWidget = ({engine, setEngine}) => {
 					onClick={_=>setShowSelect(false)}
 					value={query} onInput={e=>setQuery(e.target.value)}
 					onKeyDown={e=>{
-						if (e.keyCode == 13){
+						if (e.key == "Enter"){
 							onSearch()
 						}
 					}}
