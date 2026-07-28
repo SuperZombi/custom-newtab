@@ -33,9 +33,9 @@ const App = () => {
 		})
 	}, [])
 
-	const updateSetting = (key, val) => {
-		setSettings((prev) => ({...prev, [key]: val}))
-	}
+	const updateSetting = React.useCallback((key, val) => {
+		setSettings(prev => ({...prev, [key]: val}))
+	}, [])
 	React.useEffect(() => {
 		if (!isLoaded) return;
 		if (isFirstLoad.current) {
@@ -89,7 +89,7 @@ const App = () => {
 				{settings?.weather?.enabled && (
 					<WeatherWidget/>
 				)}
-				<SearchWidget engine={settings["search"]} setEngine={e=>updateSetting("search", e)}/>
+				<SearchWidget engine={settings["search"]} updateSetting={updateSetting}/>
 				<div className="flex flex-col items-center gap-4">
 					{settings["categories"].length > 0 && (
 						<div className="flex gap-4 flex-wrap justify-center mx-auto max-w-3xl">

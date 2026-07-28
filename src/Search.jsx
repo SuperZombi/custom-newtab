@@ -21,7 +21,7 @@ const searchEngines = [
 	}
 ]
 
-const SearchWidget = React.memo(({engine, setEngine}) => {
+const SearchWidget = React.memo(({engine, updateSetting}) => {
 	const selectedEngine = searchEngines.find(e => e.name === engine) || searchEngines[0]
 	const [showSelect, setShowSelect] = React.useState(false)
 	const [focused, setFocused] = React.useState(false)
@@ -91,8 +91,8 @@ const SearchWidget = React.memo(({engine, setEngine}) => {
 					options={searchEngines}
 					selected={selectedEngine}
 					setSelected={e=>{
-						setEngine(e.name)
-						setShowSelect(false);
+						updateSetting("search", e.name)
+						setShowSelect(false)
 					}}
 				/>
 			</Container>
