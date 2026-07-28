@@ -1,31 +1,32 @@
+const searchEngines = [
+	{
+		name: "google", label: "Google",
+		url: (q) => `https://www.google.com/search?q=${q}`,
+		icon: "images/google.svg"
+	},
+	{
+		name: "bing", label: "Bing",
+		url: (q) => `https://www.bing.com/search?q=${q}`,
+		icon: "images/bing.svg"
+	},
+	{
+		name: "duckduckgo", label: "DuckDuckGo",
+		url: (q) => `https://duckduckgo.com/?q=${q}`,
+		icon: "images/duckduckgo.svg"
+	},
+	{
+		name: "yandex", label: "Yandex",
+		url: (q) => `https://yandex.ru/search/?text=${q}`,
+		icon: "images/yandex.svg"
+	}
+]
+
 const SearchWidget = ({engine, setEngine}) => {
-	const engines = [
-		{
-			name: "google", label: "Google",
-			url: (q) => `https://www.google.com/search?q=${q}`,
-			icon: "images/google.svg"
-		},
-		{
-			name: "bing", label: "Bing",
-			url: (q) => `https://www.bing.com/search?q=${q}`,
-			icon: "images/bing.svg"
-		},
-		{
-			name: "duckduckgo", label: "DuckDuckGo",
-			url: (q) => `https://duckduckgo.com/?q=${q}`,
-			icon: "images/duckduckgo.svg"
-		},
-		{
-			name: "yandex", label: "Yandex",
-			url: (q) => `https://yandex.ru/search/?text=${q}`,
-			icon: "images/yandex.svg"
-		}
-	]
 	React.useEffect(_=>{
-		const target = engines.find(e=>e.name == engine)
+		const target = searchEngines.find(e=>e.name == engine)
 		if (target){setSelectedEngine(target)}
 	}, [engine])
-	const [selectedEngine, setSelectedEngine] = React.useState(engines[0])
+	const [selectedEngine, setSelectedEngine] = React.useState(searchEngines[0])
 	const [showSelect, setShowSelect] = React.useState(false)
 	const [focused, setFocused] = React.useState(false)
 	const [query, setQuery] = React.useState("")
@@ -94,7 +95,7 @@ const SearchWidget = ({engine, setEngine}) => {
 						translate-y-[calc(100%+theme(spacing.2))]
 						origin-top-left
 					"
-					options={engines}
+					options={searchEngines}
 					selected={selectedEngine}
 					setSelected={e=>{
 						setSelectedEngine(e);

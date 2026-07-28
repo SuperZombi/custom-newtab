@@ -5,11 +5,6 @@ const defaults = {
 		type: "gradient",
 		gradient: gradientPresets[0],
 	},
-	widgets: [
-		"clock",
-		"search",
-		"categories",
-	],
 	categories: categoryTemplates
 }
 
@@ -64,60 +59,46 @@ const App = () => {
 			<Background background={settings.background}/>
 			{isLoaded ? (
 				<>
-				{settings["widgets"].map((widget, index)=>{
-					if (widget == "clock"){
-						return (
-							<ClockWidget key={index} showSeconds={settings["showSeconds"]}/>
-						)
-					}
-					if (widget == "search"){
-						return (
-							<SearchWidget key={index} engine={settings["search"]} setEngine={e=>updateSetting("search", e)}/>
-						)
-					}
-					if (widget == "categories"){
-						return (
-							<div className="flex flex-col items-center gap-4" key={index}>
-								{settings["categories"].length > 0 && (
-									<div className="flex gap-4 flex-wrap justify-center mx-auto max-w-3xl">
-										{settings["categories"].map((item, i)=>(
-											<CategoryWidget
-												key={i}
-												icon={item?.icon}
-												title={item?.title}
-												accent={item?.accent}
-												elements={item?.items}
-												editCategory={_=>{
-													setCurrentCategoryData(item)
-													setShowCategoryModal(true)
-													setCategoryModalAction("edit")
-													setCurrentCategoryIndex(i)
-												}}
-											/>
-										))}
-									</div>
-								)}
-								<div className="text-sm flex gap-3">
-									<Button onClick={_=>{
-										setShowCategoryManager(true)
-									}}>
-										<i className="fa-solid fa-pen"></i>
-										<span>Manage</span>
-									</Button>
-									<Button onClick={_=>{
-										setCategoryModalAction("new")
-										setCurrentCategoryData({})
+				<ClockWidget showSeconds={settings["showSeconds"]}/>
+				<SearchWidget engine={settings["search"]} setEngine={e=>updateSetting("search", e)}/>
+				<div className="flex flex-col items-center gap-4">
+					{settings["categories"].length > 0 && (
+						<div className="flex gap-4 flex-wrap justify-center mx-auto max-w-3xl">
+							{settings["categories"].map((item, i)=>(
+								<CategoryWidget
+									key={i}
+									icon={item?.icon}
+									title={item?.title}
+									accent={item?.accent}
+									elements={item?.items}
+									editCategory={_=>{
+										setCurrentCategoryData(item)
 										setShowCategoryModal(true)
-										setCurrentCategoryIndex(null)
-									}}>
-										<i className="fa-solid fa-plus"></i>
-										<span>Add Category</span>
-									</Button>
-								</div>
-							</div>
-						)
-					}
-				})}
+										setCategoryModalAction("edit")
+										setCurrentCategoryIndex(i)
+									}}
+								/>
+							))}
+						</div>
+					)}
+					<div className="text-sm flex gap-3">
+						<Button onClick={_=>{
+							setShowCategoryManager(true)
+						}}>
+							<i className="fa-solid fa-pen"></i>
+							<span>Manage</span>
+						</Button>
+						<Button onClick={_=>{
+							setCategoryModalAction("new")
+							setCurrentCategoryData({})
+							setShowCategoryModal(true)
+							setCurrentCategoryIndex(null)
+						}}>
+							<i className="fa-solid fa-plus"></i>
+							<span>Add Category</span>
+						</Button>
+					</div>
+				</div>
 				<CategoryManager
 					showPopup={showCategoryManager}
 					setShowPopup={setShowCategoryManager}
