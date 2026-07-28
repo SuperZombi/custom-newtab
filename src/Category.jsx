@@ -3,17 +3,10 @@ const CategoryWidget = ({
 }) => {
 	return (
 		<Container className="p-4 flex flex-col gap-3"
-			style={accent ? {
-				background: `color-mix(in srgb, ${accent} 20%, transparent)`,
-				"--tw-ring-color": `color-mix(in srgb, ${accent} 50%, transparent)`
-			} : undefined}
+			style={accentStyle(accent, { bg: 20, ring: 50 })}
 		>
 			{(title || icon) && (
-				<div className="flex gap-2 items-center"
-					style={accent ? {
-						color: accent
-					} : undefined}
-				>
+				<div className="flex gap-2 items-center">
 					{icon && (<i className={icon}></i>)}
 					{title && (<span>{title}</span>)}
 				</div>

@@ -22,12 +22,7 @@ const Button = ({className="", accent, children, forceActive, onClick}) => {
 			${forceActive ? "bg-white/15" : ""} ${className}
 		`}
 			onClick={onClick}
-			style={accent ? {
-				color: accent,
-				background: `color-mix(in srgb, ${accent} ${forceActive ? 25 : 10}%, transparent)`,
-				"--tw-ring-color": `color-mix(in srgb, ${accent} 40%, transparent)`,
-				"--btn-accent-hover": `color-mix(in srgb, ${accent} 25%, transparent)`
-			} : undefined}
+			style={accentStyle(accent, { bg: forceActive ? 25 : 10, ring: 40, hoverBg: 25 })}
 		>
 			{children}
 		</Container>
@@ -71,11 +66,8 @@ const Tooltip = ({children, accent}) => {
 			group-hover:opacity-100 group-hover:visible
 			transition-opacity whitespace-nowrap
 			select-none
-		" style={accent ? {
-			color: accent,
-			background: `color-mix(in srgb, ${accent} 10%, transparent)`,
-			"--tw-ring-color": `color-mix(in srgb, ${accent} 30%, transparent)`
-		} : undefined}
+		"
+			style={accentStyle(accent, { bg: 10, ring: 30 })}
 		>
 			{children}
 		</Container>

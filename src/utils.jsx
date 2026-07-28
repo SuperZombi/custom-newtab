@@ -12,6 +12,14 @@ const getIcon = (url) => {
 		return ""
 	}
 }
+const accentStyle = (accent, { bg, ring, hoverBg } = {}) => {
+	if (!accent) return undefined
+	const style = {color: accent}
+	if (bg != null) style.background = `color-mix(in srgb, ${accent} ${bg}%, transparent)`
+	if (ring != null) style["--tw-ring-color"] = `color-mix(in srgb, ${accent} ${ring}%, transparent)`
+	if (hoverBg != null) style["--btn-accent-hover"] = `color-mix(in srgb, ${accent} ${hoverBg}%, transparent)`
+	return style
+}
 
 const storageApi = {
 	get: async () => {
