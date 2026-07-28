@@ -24,7 +24,7 @@ const CategoryEditor = ({
 		setShowPopup(false)
 	}
 	const onKeyDownInputs = (e) => {
-		if (e.keyCode == 13) {
+		if (e.key == "Enter") {
 			applyForm()
 		}
 	}

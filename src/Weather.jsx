@@ -46,14 +46,16 @@ const WeatherWidget = ({
         }
     }, [coordinates])
 
-    if (!(coordinates?.latitude && coordinates?.longitude)){ return null }
-    if (Object.keys(weatherData).length == 0){ return null }
-    
+    const { rendered, visible } = usePresence(
+        (coordinates?.latitude && coordinates?.longitude) && Object.keys(weatherData).length > 0
+    , 500)
+	if (!rendered) return null
     return (
-        <Container className="fixed left-4 bottom-4 z-10 backdrop-blur-md
+        <Container className={`fixed left-4 bottom-4 z-10 backdrop-blur-md
             bg-gradient-to-br from-sky-500/20 via-white/10 to-indigo-600/20
-            group !ring-sky-500/30
-        ">
+            group !ring-sky-500/25 transition-opacity duration-500
+            ${visible ? "opacity-100" : "opacity-0"}
+        `}>
             <div className="flex">
                 <div className="flex items-center gap-4 p-4">
                     {weatherDescriptions[weatherData.weatherCode] && (

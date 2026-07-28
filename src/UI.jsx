@@ -83,39 +83,9 @@ const Tooltip = ({children, accent}) => {
 }
 
 const Modal = ({ open, title, onClose, afterClose, children, className="" }) => {
-	const [rendered, setRendered] = React.useState(open)
-	const [visible, setVisible] = React.useState(false)
-
-	React.useEffect(() => {
-		let raf1, raf2
-		if (open) {
-			setRendered(true)
-			raf1 = requestAnimationFrame(() => {
-				raf2 = requestAnimationFrame(() => setVisible(true))
-			})
-		} else {
-			setVisible(false)
-			const t = setTimeout(() => {
-				setRendered(false)
-				afterClose?.()
-			}, 200)
-			return () => clearTimeout(t)
-		}
-		return () => {
-			cancelAnimationFrame(raf1)
-			cancelAnimationFrame(raf2)
-		}
-	}, [open])
-
-	React.useEffect(() => {
-		if (!rendered) return
-		const onKey = (e) => { if (e.keyCode == 27) onClose?.() }
-		document.addEventListener("keydown", onKey)
-		return () => document.removeEventListener("keydown", onKey)
-	}, [rendered, onClose])
-
+	const { rendered, visible } = usePresence(open, {duration: 200, afterClose: afterClose})
+	useEscape(onClose, rendered)
 	if (!rendered) return null
-
 	return (
 		<div className={`
 				fixed inset-0 z-50 flex items-center justify-center
@@ -147,29 +117,9 @@ const Modal = ({ open, title, onClose, afterClose, children, className="" }) => 
 	)
 }
 const Sidebar = ({ open, title, onClose, children, className="" }) => {
-	const [rendered, setRendered] = React.useState(open)
-	const [visible, setVisible] = React.useState(false)
-
-	React.useEffect(() => {
-		let raf1, raf2
-		if (open) {
-			setRendered(true)
-			raf1 = requestAnimationFrame(() => {
-				raf2 = requestAnimationFrame(() => setVisible(true))
-			})
-		} else {
-			setVisible(false)
-			const t = setTimeout(() => {setRendered(false)}, 500)
-			return () => clearTimeout(t)
-		}
-		return () => {
-			cancelAnimationFrame(raf1)
-			cancelAnimationFrame(raf2)
-		}
-	}, [open])
-
+	const { rendered, visible } = usePresence(open, {duration: 500})
+	useEscape(onClose, rendered)
 	if (!rendered) return null
-
 	return (
 		<div className={`
 				fixed inset-0 z-50
@@ -183,7 +133,7 @@ const Sidebar = ({ open, title, onClose, children, className="" }) => {
 					absolute top-0 right-0 rounded-l-xl z-20
 					w-full max-w-lg h-dvh overflow-y-auto
 					p-5 flex flex-col gap-4 backdrop-blur-md
-					transition-all duration-500
+					transition-all duration-500 scheme-dark
 					${visible ? "translate-x-0" : "translate-x-full"}
 					${className}
 				`}
@@ -201,6 +151,47 @@ const Sidebar = ({ open, title, onClose, children, className="" }) => {
 			</div>
 		</div>
 	)
+}
+const usePresence = (open, { duration = 200, afterClose } = {}) => {
+	const [rendered, setRendered] = React.useState(open)
+	const [visible, setVisible] = React.useState(false)
+	React.useEffect(() => {
+		let raf1, raf2, timeout
+		if (open) {
+			setRendered(true)
+			raf1 = requestAnimationFrame(() => {
+				raf2 = requestAnimationFrame(() => {
+					setVisible(true)
+				})
+			})
+		} else {
+			setVisible(false)
+			timeout = setTimeout(() => {
+				setRendered(false)
+				afterClose?.()
+			}, duration)
+		}
+		return () => {
+			cancelAnimationFrame(raf1)
+			cancelAnimationFrame(raf2)
+			clearTimeout(timeout)
+		}
+	}, [open, duration, afterClose])
+	return { rendered, visible }
+}
+const useEscape = (callback, enabled = true) => {
+	React.useEffect(() => {
+		if (!enabled) return
+		const onKeyDown = (e) => {
+			if (e.key === "Escape") {
+				callback?.()
+			}
+		}
+		document.addEventListener("keydown", onKeyDown)
+		return () => {
+			document.removeEventListener("keydown", onKeyDown)
+		}
+	}, [callback, enabled])
 }
 
 const TextInput = ({ value, onChange, label, onKeyDown, placeholder, colorPicker=false, iconPicker=false }) => {
