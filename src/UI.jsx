@@ -5,23 +5,28 @@ const Container = ({children, className="", ...props}) => {
 		</div>
 	)
 }
-
+const CategoryButton = ({accent, children, href}) => {
+	return (
+		<a href={href} className="outline-none group">
+			<Button className="aspect-square" accent={accent}>{children}</Button>
+		</a>
+	)
+}
 const Button = ({className="", accent, children, forceActive, onClick}) => {
-	const [hover, setHover] = React.useState(false)
-	const active = hover || forceActive
 	return (
 		<Container className={`
-			p-2 flex items-center justify-center gap-2 select-none whitespace-nowrap
-			cursor-pointer transition-colors hover:bg-white/15
+			p-2 flex items-center justify-center gap-2 select-none whitespace-nowrap cursor-pointer transition-colors
+			${accent
+				? "hover:![background:var(--btn-accent-hover)] group-focus:![background:var(--btn-accent-hover)]"
+				: "hover:bg-white/15 group-focus:bg-white/15"}
 			${forceActive ? "bg-white/15" : ""} ${className}
 		`}
 			onClick={onClick}
-			onMouseEnter={() => setHover(true)}
-			onMouseLeave={() => setHover(false)}
 			style={accent ? {
 				color: accent,
-				background: `color-mix(in srgb, ${accent} ${active ? 25 : 10}%, transparent)`,
-				"--tw-ring-color": `color-mix(in srgb, ${accent} 40%, transparent)`
+				background: `color-mix(in srgb, ${accent} ${forceActive ? 25 : 10}%, transparent)`,
+				"--tw-ring-color": `color-mix(in srgb, ${accent} 40%, transparent)`,
+				"--btn-accent-hover": `color-mix(in srgb, ${accent} 25%, transparent)`
 			} : undefined}
 		>
 			{children}

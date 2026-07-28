@@ -1,26 +1,6 @@
-const CategoryButton = ({accent, children, href}) => {
-	const [focus, setFocus] = React.useState(false)
-	return (
-		<a href={href} className="outline-none"
-			onFocus={() => setFocus(true)}
-			onBlur={() => setFocus(false)}
-		>
-			<Button className="aspect-square" accent={accent} forceActive={focus}>{children}</Button>
-		</a>
-	)
-}
-
 const CategoryWidget = ({
 	icon, title, elements, accent, editCategory
 }) => {
-	const getIcon = (url) => {
-		try {
-			const domain = new URL(url).hostname;
-			return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
-		} catch (e) {
-			return ""
-		}
-	}
 	return (
 		<Container className="p-4 flex flex-col gap-3"
 			style={accent ? {
