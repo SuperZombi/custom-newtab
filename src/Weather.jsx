@@ -9,9 +9,7 @@ const WeatherWidget = ({
                 const { latitude, longitude } = position.coords;
                 setCoordinates({latitude, longitude})
             },
-            (error) => {
-                console.error(error)
-            }
+            (error) => { console.error(error) }
         )
     }, [])
     React.useEffect(_=>{
