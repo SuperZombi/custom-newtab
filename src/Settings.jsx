@@ -109,41 +109,33 @@ const buildBackgroundCss = (bg) => {
     }
 	return { background: "#0a0a12" }
 }
-const Background = React.memo(({background}) => {
-    return <>
-        <div className="fixed inset-0 -z-10" style={buildBackgroundCss(background)}/>
-        {background?.overlay > 0 && (
-            <div className="fixed inset-0 -z-10 bg-black" style={{opacity: background.overlay}}/>
-        )}
-        {background?.blur > 0 && (
-            <div className="fixed inset-0 -z-10"
-                style={{backdropFilter: `blur(${background.blur}px)`}}
-            />
-        )}
-        {background?.vignette > 0 && (
-            <div className="fixed inset-0 -z-10"
-                style={{boxShadow: `inset 0 0 ${background.vignette}px rgba(0, 0, 0)`}}
-            />
-        )}
-    </>
-})
-const BackgroundPreview = React.memo(({background}) => {
-	return (
-		<Container className="relative overflow-hidden aspect-video">
-			<div className="absolute inset-0" style={buildBackgroundCss(background)}/>
-			{background?.overlay > 0 && (
-				<div className="absolute inset-0 bg-black" style={{opacity: background.overlay}}/>
-			)}
-			{background?.blur > 0 && (
-				<div className="absolute inset-0" style={{backdropFilter: `blur(${background.blur}px)`}}/>
-			)}
+const BackgroundLayers = ({ background, layerClassName }) => {
+    return (
+        <>
+            <div className={layerClassName} style={buildBackgroundCss(background)}/>
+            {background?.overlay > 0 && (
+                <div className={`${layerClassName} bg-black`} style={{opacity: background.overlay}}/>
+            )}
+            {background?.blur > 0 && (
+                <div className={layerClassName} style={{backdropFilter: `blur(${background.blur}px)`}}/>
+            )}
             {background?.vignette > 0 && (
-                <div className="absolute inset-0"
+                <div className={layerClassName}
                     style={{boxShadow: `inset 0 0 ${background.vignette}px rgba(0, 0, 0, 0.6)`}}
                 />
             )}
-		</Container>
-	)
+        </>
+    )
+}
+const Background = React.memo(({background}) => {
+    return <BackgroundLayers background={background} layerClassName="fixed inset-0 -z-10"/>
+})
+const BackgroundPreview = React.memo(({background}) => {
+    return (
+        <Container className="relative overflow-hidden aspect-video">
+            <BackgroundLayers background={background} layerClassName="absolute inset-0 rounded-xl"/>
+        </Container>
+    )
 })
 
 const GradientPicker = ({ background, updateBackground }) => {

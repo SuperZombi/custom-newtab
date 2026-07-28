@@ -12,8 +12,8 @@ const CategoryWidget = React.memo(({
 				</div>
 			)}
 			<div className="grid grid-cols-4 gap-2">
-				{elements.map(e=>(
-					<div key={e.url} className="relative group">
+				{elements.map((e,i)=>(
+					<div key={i} className="relative group">
 						<CategoryButton href={e.url} accent={accent}>
 							<img src={e.icon || getIcon(e.url)} draggable={false} className="h-6 w-6 select-none"/>
 						</CategoryButton>
