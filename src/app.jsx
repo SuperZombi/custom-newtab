@@ -48,26 +48,20 @@ const App = () => {
 		return () => clearTimeout(id)
 	}, [settings, isLoaded])
 
-	const addCategory = ({title, icon, accent, items}) => {
-		updateSetting("categories", [...settings.categories, {
-			title, icon, accent, items: items || []
-		}])
-	}
-	const editCategory = ({title, icon, accent, items}) => {
-		updateSetting("categories", settings.categories.map((category, index) =>
-			index === currentCategoryIndex ? {
-				...category, title, icon, accent, items
-			} : category)
-		)
-	}
-	const deleteCategory = (ind) => {
-		updateSetting("categories", settings.categories.filter(
-			(_, index) => index !== ind
-		))
-	}
-	const reorderCategories = (newitem) => {
-		updateSetting("categories", newitem)
-	}
+	const addCategory = React.useCallback(({title, icon, accent, items}) => {
+		setSettings(prev => ({...prev, categories: [...prev.categories, {title, icon, accent, items: items || []}]}))
+	}, [])
+	const editCategory = React.useCallback((patch) => {
+		setSettings(prev => ({...prev, categories: prev.categories.map((category, index) =>
+			index === currentCategoryIndex ? {...category, ...patch} : category)
+		}))
+	}, [currentCategoryIndex])
+	const deleteCategory = React.useCallback((ind) => {
+		setSettings(prev => ({...prev, categories: prev.categories.filter((_, index) => index !== ind)}))
+	}, [])
+	const reorderCategories = React.useCallback((newitem) => {
+		setSettings(prev => ({...prev, categories: newitem}))
+	}, [])
 
 	const openCategoryEditor = React.useCallback((index) => {
 		setCurrentCategoryData(settings.categories[index])
@@ -134,12 +128,7 @@ const App = () => {
 					showPopup={showCategoryManager}
 					setShowPopup={setShowCategoryManager}
 					categories={settings["categories"]}
-					editCategory={index=>{
-						setCurrentCategoryData(settings["categories"][index])
-						setShowCategoryModal(true)
-						setCategoryModalAction("edit")
-						setCurrentCategoryIndex(index)
-					}}
+					onEdit={openCategoryEditor}
 					addCategory={addCategory}
 					deleteCategory={deleteCategory}
 					reorderCategories={reorderCategories}

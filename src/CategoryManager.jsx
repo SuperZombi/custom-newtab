@@ -154,8 +154,8 @@ const CategoryEditor = ({
 	)
 }
 
-const CategoryManager = ({
-	showPopup, setShowPopup, categories, editCategory, deleteCategory, addCategory, reorderCategories
+const CategoryManager = React.memo(({
+	showPopup, setShowPopup, categories, onEdit, deleteCategory, addCategory, reorderCategories
 }) => {
 	const onDragEnd = (result)=>{
 		if(!result.destination) { return }
@@ -217,7 +217,7 @@ const CategoryManager = ({
 										<i className="fa-solid fa-grip-vertical"></i>
 									</div>
 									<span>{item.title || `Category ${index}`}</span>
-									<Button className="text-xs aspect-square" onClick={_=>editCategory(index)}>
+									<Button className="text-xs aspect-square" onClick={_=>onEdit(index)}>
 										<i className="fa-solid fa-pen"></i>
 									</Button>
 									<Button className="text-xs aspect-square" accent="red"
@@ -256,4 +256,4 @@ const CategoryManager = ({
 			</div>
 		</Modal>
 	)
-}
+})
