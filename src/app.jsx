@@ -19,7 +19,7 @@ const App = () => {
 	const [settings, setSettings] = React.useState(defaults)
 	const [isLoaded, setIsLoaded] = React.useState(false)
 	const isFirstLoad = React.useRef(true)
-	const [showSettings, setShowSettings] = React.useState(false)
+	
 	const [showCategoryModal, setShowCategoryModal] = React.useState(false)
 	const [showCategoryManager, setShowCategoryManager] = React.useState(false)
 	const [currentCategoryIndex, setCurrentCategoryIndex] = React.useState(null)
@@ -90,6 +90,8 @@ const App = () => {
 					<WeatherWidget/>
 				)}
 				<SearchWidget engine={settings["search"]} updateSetting={updateSetting}/>
+				<Settings settings={settings} updateSetting={updateSetting}/>
+
 				<div className="flex flex-col items-center gap-4">
 					{settings["categories"].length > 0 && (
 						<div className="flex gap-4 flex-wrap justify-center mx-auto max-w-3xl">
@@ -149,20 +151,6 @@ const App = () => {
 					editCategory={editCategory}
 					afterClose={clearCategoryEditor}
 				/>
-				<Settings
-					show={showSettings}
-					onClose={_=>setShowSettings(false)}
-					settings={settings}
-					updateSetting={updateSetting}
-				/>
-				<div className="
-					fixed right-4 bottom-4 p-4 aspect-square rounded-full cursor-pointer
-					text-white/50 hover:bg-black/20 hover:text-white
-					hover:shadow-lg flex items-center justify-center
-					transition-colors
-				" onClick={_=>setShowSettings(true)}>
-					<i className="fa-solid fa-gear"></i>
-				</div>
 				</>
 			) : null}
 		</div>

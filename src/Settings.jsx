@@ -1,6 +1,17 @@
-const Settings = ({show, onClose, settings, updateSetting}) => {
+const Settings = ({settings, updateSetting}) => {
+    const [showSettings, setShowSettings] = React.useState(false)
     return (
-        <Sidebar className="" title="Settings" open={show} onClose={onClose}>
+        <>
+        <div className="
+            fixed right-4 bottom-4 p-4 aspect-square rounded-full cursor-pointer
+            text-white/50 hover:bg-black/20 hover:text-white
+            hover:shadow-lg flex items-center justify-center
+            transition-colors
+        " onClick={_=>setShowSettings(true)}>
+            <i className="fa-solid fa-gear"></i>
+        </div>
+        
+        <Sidebar className="" title="Settings" open={showSettings} onClose={_=>setShowSettings(false)}>
             <Container className="flex flex-col gap-4 p-4">
                 <Switch
                     label="Clocks"
@@ -41,6 +52,7 @@ const Settings = ({show, onClose, settings, updateSetting}) => {
                 updateBackground={bg => updateSetting("background", bg)}
             />
         </Sidebar>
+        </>
     )
 }
 
