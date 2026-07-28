@@ -1,4 +1,4 @@
-const CategoryEditor = ({
+const CategoryEditor = React.memo(({
 	action, data, showPopup, setShowPopup, addCategory, editCategory, afterClose
 }) => {
 	const [currentName, setCurrentName] = React.useState("")
@@ -152,7 +152,7 @@ const CategoryEditor = ({
 			<Button onClick={applyForm}>OK</Button>
 		</Modal>
 	)
-}
+})
 
 const CategoryManager = React.memo(({
 	showPopup, setShowPopup, categories, onEdit, deleteCategory, addCategory, reorderCategories
