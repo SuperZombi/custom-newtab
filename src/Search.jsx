@@ -1,27 +1,24 @@
 const SearchWidget = ({engine, setEngine}) => {
-	const Icon = ({src}) => {
-		return <img src={src} className="h-6 w-6 select-none" draggable={false}/>
-	}
 	const engines = [
 		{
 			name: "google", label: "Google",
 			url: (q) => `https://www.google.com/search?q=${q}`,
-			icon: <Icon src="images/google.svg"/>
+			icon: "images/google.svg"
 		},
 		{
 			name: "bing", label: "Bing",
 			url: (q) => `https://www.bing.com/search?q=${q}`,
-			icon: <Icon src="images/bing.svg"/>
+			icon: "images/bing.svg"
 		},
 		{
 			name: "duckduckgo", label: "DuckDuckGo",
 			url: (q) => `https://duckduckgo.com/?q=${q}`,
-			icon: <Icon src="images/duckduckgo.svg"/>
+			icon: "images/duckduckgo.svg"
 		},
 		{
 			name: "yandex", label: "Yandex",
 			url: (q) => `https://yandex.ru/search/?text=${q}`,
-			icon: <Icon src="images/yandex.svg"/>
+			icon: "images/yandex.svg"
 		}
 	]
 	React.useEffect(_=>{
@@ -62,11 +59,11 @@ const SearchWidget = ({engine, setEngine}) => {
 			`}>
 				<div className="
 					flex items-center
-					px-3.5 py-3 border-r border-white/20
+					px-3 py-2 border-r border-white/20
 					hover:bg-white/10 transition-colors
 					rounded-l-xl cursor-pointer
 				" onClick={_=>setShowSelect(prev=>!prev)}>
-					{selectedEngine.icon}
+					<img src={selectedEngine.icon} className="h-8 w-8 select-none" draggable={false}/>
 				</div>
 
 				<input type="text" placeholder="Search..."

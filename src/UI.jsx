@@ -48,7 +48,7 @@ const Select = ({
 					${selected.name == e.name ? "bg-white/10" : ""}
 					hover:bg-white/20 transition-colors
 				`} onClick={_=>setSelected(e)}>
-					{e.icon}
+					<img className="w-6 h-6 select-none" src={e.icon} draggable={false}/>
 					<span>{e.label}</span>
 				</div>
 			))}
