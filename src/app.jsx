@@ -69,6 +69,12 @@ const App = () => {
 		updateSetting("categories", newitem)
 	}
 
+	const openCategoryEditor = React.useCallback((index) => {
+		setCurrentCategoryData(settings.categories[index])
+		setShowCategoryModal(true)
+		setCategoryModalAction("edit")
+		setCurrentCategoryIndex(index)
+	}, [settings?.categories])
 	const clearCategoryEditor = React.useCallback(() => {
 		setCategoryModalAction("new")
 		setCurrentCategoryData({})
@@ -95,19 +101,15 @@ const App = () => {
 				<div className="flex flex-col items-center gap-4">
 					{settings["categories"].length > 0 && (
 						<div className="flex gap-4 flex-wrap justify-center mx-auto max-w-3xl">
-							{settings["categories"].map((item, i)=>(
+							{settings?.categories?.map((item, i)=>(
 								<CategoryWidget
 									key={i}
 									icon={item?.icon}
 									title={item?.title}
 									accent={item?.accent}
 									elements={item?.items}
-									editCategory={_=>{
-										setCurrentCategoryData(item)
-										setShowCategoryModal(true)
-										setCategoryModalAction("edit")
-										setCurrentCategoryIndex(i)
-									}}
+									index={i}
+									onEdit={openCategoryEditor}
 								/>
 							))}
 						</div>

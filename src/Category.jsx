@@ -1,5 +1,5 @@
-const CategoryWidget = ({
-	icon, title, elements, accent, editCategory
+const CategoryWidget = React.memo(({
+	icon, title, elements, accent, index, onEdit
 }) => {
 	return (
 		<Container className="p-4 flex flex-col gap-3"
@@ -21,11 +21,11 @@ const CategoryWidget = ({
 					</div>
 				))}
 				<Button accent={accent} className="aspect-square text-white/50 hover:text-white p-3"
-					onClick={editCategory}
+					onClick={_=>onEdit(index)}
 				>
 					<i className="fa-solid fa-plus"></i>
 				</Button>
 			</div>
 		</Container>
 	)
-}
+})
