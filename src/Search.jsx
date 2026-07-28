@@ -22,11 +22,7 @@ const searchEngines = [
 ]
 
 const SearchWidget = ({engine, setEngine}) => {
-	React.useEffect(_=>{
-		const target = searchEngines.find(e=>e.name == engine)
-		if (target){setSelectedEngine(target)}
-	}, [engine])
-	const [selectedEngine, setSelectedEngine] = React.useState(searchEngines[0])
+	const selectedEngine = searchEngines.find(e => e.name === engine) || searchEngines[0]
 	const [showSelect, setShowSelect] = React.useState(false)
 	const [focused, setFocused] = React.useState(false)
 	const [query, setQuery] = React.useState("")
@@ -98,7 +94,6 @@ const SearchWidget = ({engine, setEngine}) => {
 					options={searchEngines}
 					selected={selectedEngine}
 					setSelected={e=>{
-						setSelectedEngine(e);
 						setEngine(e.name)
 						setShowSelect(false);
 					}}
