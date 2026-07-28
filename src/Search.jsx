@@ -26,13 +26,13 @@ const SearchWidget = ({engine, setEngine}) => {
 	const [showSelect, setShowSelect] = React.useState(false)
 	const [focused, setFocused] = React.useState(false)
 	const [query, setQuery] = React.useState("")
+	const containerRef = React.useRef(null)
 	const onSearch = () => {
 		const q = query.trim()
 		if (q == ""){ return }
 		const link = selectedEngine.url(encodeURIComponent(q))
 		window.open(link, "_self")
 	}
-	
 	React.useEffect(() => {
 		if (!showSelect) return
 		const handleClickOutside = (e) => {
@@ -43,9 +43,6 @@ const SearchWidget = ({engine, setEngine}) => {
 		document.addEventListener("click", handleClickOutside)
 		return () => document.removeEventListener("click", handleClickOutside)
 	}, [showSelect])
-
-	const containerRef = React.useRef(null)
-
 	return (
 		<div ref={containerRef}>
 			<Container className={`
