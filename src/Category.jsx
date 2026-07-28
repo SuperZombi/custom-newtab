@@ -14,8 +14,12 @@ const CategoryWidget = ({
 	icon, title, elements, accent, editCategory
 }) => {
 	const getIcon = (url) => {
-		const domain = new URL(url).hostname;
-		return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
+		try {
+			const domain = new URL(url).hostname;
+			return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
+		} catch (e) {
+			return ""
+		}
 	}
 	return (
 		<Container className="p-4 flex flex-col gap-3"
