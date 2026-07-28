@@ -100,7 +100,7 @@ const Modal = ({ open, title, onClose, afterClose, children, className="" }) => 
 			cancelAnimationFrame(raf1)
 			cancelAnimationFrame(raf2)
 		}
-	}, [open, afterClose])
+	}, [open])
 
 	React.useEffect(() => {
 		if (!rendered) return

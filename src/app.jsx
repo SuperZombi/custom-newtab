@@ -57,6 +57,12 @@ const App = () => {
 		updateSetting("categories", newitem)
 	}
 
+	const clearCategoryEditor = () => {
+		setCategoryModalAction("new")
+		setCurrentCategoryData({})
+		setCurrentCategoryIndex(null)
+	}
+
 	return (
 		<div className="w-full min-h-dvh p-10 relative overflow-hidden text-white flex flex-col gap-10 text-base">
 			<Background background={settings.background}/>
@@ -92,10 +98,8 @@ const App = () => {
 							<span>Manage</span>
 						</Button>
 						<Button onClick={_=>{
-							setCategoryModalAction("new")
-							setCurrentCategoryData({})
+							clearCategoryEditor()
 							setShowCategoryModal(true)
-							setCurrentCategoryIndex(null)
 						}}>
 							<i className="fa-solid fa-plus"></i>
 							<span>Add Category</span>
@@ -123,11 +127,7 @@ const App = () => {
 					action={categoryModalAction}
 					data={currentCategoryData}
 					editCategory={editCategory}
-					afterClose={_=>{
-						setCategoryModalAction("new")
-						setCurrentCategoryData({})
-						setCurrentCategoryIndex(null)
-					}}
+					afterClose={clearCategoryEditor}
 				/>
 				<Settings
 					show={showSettings}
