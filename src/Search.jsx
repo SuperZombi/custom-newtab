@@ -21,7 +21,7 @@ const searchEngines = [
 	}
 ]
 
-const SearchWidget = ({engine, setEngine}) => {
+const SearchWidget = React.memo(({engine, setEngine}) => {
 	const selectedEngine = searchEngines.find(e => e.name === engine) || searchEngines[0]
 	const [showSelect, setShowSelect] = React.useState(false)
 	const [focused, setFocused] = React.useState(false)
@@ -98,4 +98,4 @@ const SearchWidget = ({engine, setEngine}) => {
 			</Container>
 		</div>
 	)
-}
+})
