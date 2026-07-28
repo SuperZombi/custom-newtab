@@ -30,7 +30,10 @@ const App = () => {
 	}
 	React.useEffect(() => {
 		if (!isLoaded) return;
-		storageApi.set(settings)
+		const id = setTimeout(() => {
+			storageApi.set(settings)
+		}, 200)
+		return () => clearTimeout(id)
 	}, [settings, isLoaded])
 
 	const addCategory = ({title, icon, accent, items}) => {
