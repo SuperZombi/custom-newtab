@@ -18,9 +18,7 @@ const Settings = ({show, onClose, settings, updateSetting}) => {
 }
 
 const BackgroundSettings = ({ background, updateBackground }) => {
-	const [tab, setTab] = React.useState(background?.type || "gradient")
-	React.useEffect(() => { setTab(background?.type || "gradient") }, [background?.type])
-
+    const tab = background?.type || "gradient"
 	return (
 		<div className="flex flex-col gap-4">
             <BackgroundPreview background={background}/>
@@ -45,7 +43,6 @@ const BackgroundSettings = ({ background, updateBackground }) => {
 						className="text-sm py-2"
 						forceActive={tab == t.id}
 						onClick={_=>{
-                            setTab(t.id)
                             updateBackground({ ...background, type: t.id })
                         }}
 					>
