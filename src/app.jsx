@@ -1,7 +1,11 @@
 const defaults = {
 	clocks: {
+		enabled: true,
 		showSeconds: true,
 		showDate: true,
+	},
+	weather: {
+		enabled: false,
 	},
 	search: "google",
 	background: {
@@ -65,22 +69,26 @@ const App = () => {
 		updateSetting("categories", newitem)
 	}
 
-	const clearCategoryEditor = () => {
+	const clearCategoryEditor = React.useCallback(() => {
 		setCategoryModalAction("new")
 		setCurrentCategoryData({})
 		setCurrentCategoryIndex(null)
-	}
+	}, [])
 
 	return (
 		<div className="w-full min-h-dvh p-10 relative overflow-hidden text-white flex flex-col gap-10 text-base">
 			<Background background={settings.background}/>
 			{isLoaded ? (
 				<>
-				<ClockWidget
-					showSeconds={settings?.clocks?.showSeconds}
-					showDate={settings?.clocks?.showDate}
-				/>
-				<WeatherWidget/>
+				{settings?.clocks?.enabled && (
+					<ClockWidget
+						showSeconds={settings?.clocks?.showSeconds}
+						showDate={settings?.clocks?.showDate}
+					/>
+				)}
+				{settings?.weather?.enabled && (
+					<WeatherWidget/>
+				)}
 				<SearchWidget engine={settings["search"]} setEngine={e=>updateSetting("search", e)}/>
 				<div className="flex flex-col items-center gap-4">
 					{settings["categories"].length > 0 && (

@@ -97,7 +97,7 @@ const Modal = ({ open, title, onClose, afterClose, children, className="" }) => 
 			<Container className={`
 					w-full max-w-lg max-h-[85vh] overflow-y-auto
 					p-5 flex flex-col gap-4 backdrop-blur-md
-					transition-all duration-200 origin-center
+					transition-all duration-200 origin-center scheme-dark
 					${visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-2"}
 					${className}
 				`}

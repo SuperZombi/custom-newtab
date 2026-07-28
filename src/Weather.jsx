@@ -53,7 +53,7 @@ const WeatherWidget = ({
     return (
         <Container className={`fixed left-4 bottom-4 z-10 backdrop-blur-md
             bg-gradient-to-br from-sky-500/20 via-white/10 to-indigo-600/20
-            group !ring-sky-500/25 transition-opacity duration-500
+            group !ring-sky-400/20 transition-opacity duration-500 select-none
             ${visible ? "opacity-100" : "opacity-0"}
         `}>
             <div className="flex">

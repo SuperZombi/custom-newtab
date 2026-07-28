@@ -2,7 +2,14 @@ const Settings = ({show, onClose, settings, updateSetting}) => {
     return (
         <Sidebar className="" title="Settings" open={show} onClose={onClose}>
             <Container className="flex flex-col gap-3 p-4">
-                <h2 className="text-lg text-white font-semibold text-center">Clocks</h2>
+                <Switch
+                    label="Clocks"
+                    className="font-bold"
+                    checked={settings?.clocks?.enabled}
+                    onChange={v => updateSetting("clocks", {
+                        ...settings?.clocks, enabled: v
+                    })}
+                />
                 <Switch
                     label="Show seconds"
                     checked={settings?.clocks?.showSeconds}
@@ -15,6 +22,16 @@ const Settings = ({show, onClose, settings, updateSetting}) => {
                     checked={settings?.clocks?.showDate}
                     onChange={v => updateSetting("clocks", {
                         ...settings?.clocks, showDate: v
+                    })}
+                />
+            </Container>
+            <Container className="flex flex-col gap-3 p-4">
+                <Switch
+                    label="Weather"
+                    className="font-bold"
+                    checked={settings?.weather?.enabled}
+                    onChange={v => updateSetting("weather", {
+                        ...settings?.weather, enabled: v
                     })}
                 />
             </Container>
