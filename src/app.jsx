@@ -11,6 +11,7 @@ const defaults = {
 const App = () => {
 	const [settings, setSettings] = React.useState(defaults)
 	const [isLoaded, setIsLoaded] = React.useState(false)
+	const isFirstLoad = React.useRef(true)
 	const [showSettings, setShowSettings] = React.useState(false)
 	const [showCategoryModal, setShowCategoryModal] = React.useState(false)
 	const [showCategoryManager, setShowCategoryManager] = React.useState(false)
@@ -30,6 +31,10 @@ const App = () => {
 	}
 	React.useEffect(() => {
 		if (!isLoaded) return;
+		if (isFirstLoad.current) {
+			isFirstLoad.current = false;
+			return;
+		}
 		const id = setTimeout(() => {
 			storageApi.set(settings)
 		}, 200)
