@@ -1,6 +1,9 @@
 const defaults = {
+	clocks: {
+		showSeconds: true,
+		showDate: true,
+	},
 	search: "google",
-	showSeconds: true,
 	background: {
 		type: "gradient",
 		gradient: gradientPresets[0],
@@ -73,7 +76,10 @@ const App = () => {
 			<Background background={settings.background}/>
 			{isLoaded ? (
 				<>
-				<ClockWidget showSeconds={settings["showSeconds"]}/>
+				<ClockWidget
+					showSeconds={settings?.clocks?.showSeconds}
+					showDate={settings?.clocks?.showDate}
+				/>
 				<SearchWidget engine={settings["search"]} setEngine={e=>updateSetting("search", e)}/>
 				<div className="flex flex-col items-center gap-4">
 					{settings["categories"].length > 0 && (

@@ -1,13 +1,23 @@
 const Settings = ({show, onClose, settings, updateSetting}) => {
     return (
         <Sidebar className="" title="Settings" open={show} onClose={onClose}>
-            <div className="flex flex-col gap-4">
+            <Container className="flex flex-col gap-3 p-4">
+                <h2 className="text-lg text-white font-semibold text-center">Clocks</h2>
                 <Switch
-                    label="Show seconds on clock"
-                    checked={settings.showSeconds}
-                    onChange={v => updateSetting("showSeconds", v)}
+                    label="Show seconds"
+                    checked={settings?.clocks?.showSeconds}
+                    onChange={v => updateSetting("clocks", {
+                        ...settings?.clocks, showSeconds: v
+                    })}
                 />
-            </div>
+                <Switch
+                    label="Show date"
+                    checked={settings?.clocks?.showDate}
+                    onChange={v => updateSetting("clocks", {
+                        ...settings?.clocks, showDate: v
+                    })}
+                />
+            </Container>
 
             <BackgroundSettings
                 background={settings.background}
