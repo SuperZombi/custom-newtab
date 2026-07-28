@@ -80,6 +80,7 @@ const App = () => {
 					showSeconds={settings?.clocks?.showSeconds}
 					showDate={settings?.clocks?.showDate}
 				/>
+				<WeatherWidget/>
 				<SearchWidget engine={settings["search"]} setEngine={e=>updateSetting("search", e)}/>
 				<div className="flex flex-col items-center gap-4">
 					{settings["categories"].length > 0 && (
