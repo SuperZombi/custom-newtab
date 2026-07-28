@@ -1,4 +1,4 @@
-const ClockWidget = ({
+const ClockWidget = React.memo(({
 	showSeconds=true,
 	showDate = true,
 }) => {
@@ -39,4 +39,4 @@ const ClockWidget = ({
 			)}
 		</div>
 	)
-}
+})

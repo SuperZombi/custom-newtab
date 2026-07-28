@@ -1,4 +1,4 @@
-const WeatherWidget = ({}) => {
+const WeatherWidget = React.memo(() => {
     const [coordinates, setCoordinates] = React.useState({})
     const [weatherData, setWeatherData] = React.useState({})
     React.useEffect(_=>{
@@ -99,7 +99,7 @@ const WeatherWidget = ({}) => {
             </div>
         </Container>
     )
-}
+})
 
 const WeatherSubCard = ({icon, label, value}) => {
     return (
