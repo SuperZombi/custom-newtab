@@ -73,7 +73,7 @@ const buildBackgroundCss = (bg) => {
     }
 	return { background: "#0a0a12" }
 }
-const Background = React.memo(({background}) => {
+const Background = ({background}) => {
     return <>
         <div className="fixed inset-0 -z-10" style={buildBackgroundCss(background)}/>
         {background?.overlay > 0 && (
@@ -90,8 +90,8 @@ const Background = React.memo(({background}) => {
             />
         )}
     </>
-})
-const BackgroundPreview = React.memo(({background}) => {
+}
+const BackgroundPreview = ({background}) => {
 	return (
 		<Container className="relative overflow-hidden aspect-video">
 			<div className="absolute inset-0" style={buildBackgroundCss(background)}/>
@@ -108,7 +108,7 @@ const BackgroundPreview = React.memo(({background}) => {
             )}
 		</Container>
 	)
-})
+}
 
 const GradientPicker = ({ background, updateBackground }) => {
 	return (
