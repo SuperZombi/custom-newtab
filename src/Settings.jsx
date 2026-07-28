@@ -1,7 +1,7 @@
 const Settings = ({show, onClose, settings, updateSetting}) => {
     return (
         <Sidebar className="" title="Settings" open={show} onClose={onClose}>
-            <Container className="flex flex-col gap-3 p-4">
+            <Container className="flex flex-col gap-4 p-4">
                 <Switch
                     label="Clocks"
                     className="font-bold"
@@ -25,7 +25,7 @@ const Settings = ({show, onClose, settings, updateSetting}) => {
                     })}
                 />
             </Container>
-            <Container className="flex flex-col gap-3 p-4">
+            <Container className="flex flex-col gap-4 p-4">
                 <Switch
                     label="Weather"
                     className="font-bold"
