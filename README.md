@@ -8,18 +8,7 @@
 
 ### Features
 - Customizable background
-  - Custom Gradient
-  - Custom Image
-- Search Bar
-  - Multiple search engine support
-- Categories & Shortcuts
-  - Organize your shortcuts into customizable categories
-- Clocks
-  - Show seconds
-  - Show date
-  - Support for 12-hour and 24-hour formats
+- Search Bar with multiple search engines
+- Organize your Shortcuts into customizable Categories
+- Clock widget
 - Weather widget
-  - Temperature
-  - Humidity
-  - Wind speed
-  - Chance of rain
