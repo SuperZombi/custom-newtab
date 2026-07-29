@@ -74,6 +74,18 @@ const Tooltip = ({children, accent}) => {
 	)
 }
 
+const ModalHeader = ({title, onClose}) => {
+	return (
+		<div className="flex items-center justify-center relative">
+			<h2 className="text-xl font-medium">{title}</h2>
+			<div onClick={onClose} className="
+				text-white/50 hover:text-white transition-colors cursor-pointer absolute right-0
+			">
+				<i className="fa-solid fa-xmark"></i>
+			</div>
+		</div>
+	)
+}
 const Modal = ({ open, title, onClose, afterClose, children, className="" }) => {
 	const { rendered, visible } = usePresence(open, {duration: 200, afterClose: afterClose})
 	useEscape(onClose, rendered)
@@ -96,14 +108,7 @@ const Modal = ({ open, title, onClose, afterClose, children, className="" }) => 
 				`}
 				onMouseDown={e => e.stopPropagation()}
 			>
-				<div className="flex items-center justify-center relative">
-					<h2 className="text-xl font-medium">{title}</h2>
-					<div onClick={onClose} className="
-						text-white/50 hover:text-white transition-colors cursor-pointer absolute right-0
-					">
-						<i className="fa-solid fa-xmark"></i>
-					</div>
-				</div>
+				<ModalHeader title={title} onClose={onClose}/>
 				{children}
 			</Container>
 		</div>
@@ -133,14 +138,7 @@ const Sidebar = ({ open, title, onClose, children, className="" }) => {
 				`}
 				onMouseDown={e => e.stopPropagation()}
 			>
-				<div className="flex items-center justify-center relative">
-					<h2 className="text-xl font-medium">{title}</h2>
-					<div onClick={onClose} className="
-						text-white/50 hover:text-white transition-colors cursor-pointer absolute right-0
-					">
-						<i className="fa-solid fa-xmark"></i>
-					</div>
-				</div>
+				<ModalHeader title={title} onClose={onClose}/>
 				{children}
 			</div>
 		</div>

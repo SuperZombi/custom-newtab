@@ -1,5 +1,11 @@
 const Settings = ({settings, updateSetting}) => {
     const [showSettings, setShowSettings] = React.useState(false)
+    const updateNested = (root, key, value) => {
+        updateSetting(root, {
+            ...settings?.[root], [key]: value
+        })
+    }
+
     return (
         <>
         <div className="
@@ -17,37 +23,27 @@ const Settings = ({settings, updateSetting}) => {
                     label="Clocks"
                     className="font-bold"
                     checked={settings?.clocks?.enabled}
-                    onChange={v => updateSetting("clocks", {
-                        ...settings?.clocks, enabled: v
-                    })}
+                    onChange={v => updateNested("clocks", "enabled", v)}
                 />
                 <Switch
                     label="Show seconds"
                     checked={settings?.clocks?.showSeconds}
-                    onChange={v => updateSetting("clocks", {
-                        ...settings?.clocks, showSeconds: v
-                    })}
+                    onChange={v => updateNested("clocks", "showSeconds", v)}
                 />
                 <Switch
                     label="12 Hour Format"
                     checked={settings?.clocks?.hour12}
-                    onChange={v => updateSetting("clocks", {
-                        ...settings?.clocks, hour12: v
-                    })}
+                    onChange={v => updateNested("clocks", "hour12", v)}
                 />
                 <Switch
                     label="Show AM/PM"
                     checked={settings?.clocks?.showAmPm}
-                    onChange={v => updateSetting("clocks", {
-                        ...settings?.clocks, showAmPm: v
-                    })}
+                    onChange={v => updateNested("clocks", "showAmPm", v)}
                 />
                 <Switch
                     label="Show date"
                     checked={settings?.clocks?.showDate}
-                    onChange={v => updateSetting("clocks", {
-                        ...settings?.clocks, showDate: v
-                    })}
+                    onChange={v => updateNested("clocks", "showDate", v)}
                 />
             </Container>
             <Container className="flex flex-col gap-4 p-4">
@@ -55,9 +51,7 @@ const Settings = ({settings, updateSetting}) => {
                     label="Weather"
                     className="font-bold"
                     checked={settings?.weather?.enabled}
-                    onChange={v => updateSetting("weather", {
-                        ...settings?.weather, enabled: v
-                    })}
+                    onChange={v => updateNested("weather", "enabled", v)}
                 />
             </Container>
 
