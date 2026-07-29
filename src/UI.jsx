@@ -146,6 +146,59 @@ const Sidebar = ({ open, title, onClose, children, className="" }) => {
 		</div>
 	)
 }
+
+const DraggableList = ({
+	items, onReorder, renderItem, keyExtractor,
+	className="flex flex-col gap-2"
+}) => {
+	const getKey = keyExtractor || ((item, index) => index)
+	const onDragEnd = (result) => {
+		if (!result.destination) return
+		onReorder(reorder(items, result.source.index, result.destination.index))
+	}
+	if (items.length === 0) return null
+	return (
+		<ReactBeautifulDnd.DragDropContext onDragEnd={onDragEnd}>
+			<ReactBeautifulDnd.Droppable droppableId="droppable"
+				renderClone={(provided, snapshot, rubric) => (
+					<div
+						ref={provided.innerRef}
+						{...provided.draggableProps}
+						{...provided.dragHandleProps}
+					>
+						{renderItem(items[rubric.source.index], rubric.source.index, { isClone: true })}
+					</div>
+				)}
+			>
+			{(provided, snapshot) => (
+				<div className={className}
+					ref={provided.innerRef}
+					{...provided.droppableProps}
+				>
+				{items.map((item, index) => (
+					<ReactBeautifulDnd.Draggable
+						key={getKey(item, index)}
+						draggableId={String(getKey(item, index))}
+						index={index}
+					>
+					{(provided, snapshot) => (
+						<div
+							ref={provided.innerRef}
+							{...provided.draggableProps}
+						>
+							{renderItem(item, index, { dragHandleProps: provided.dragHandleProps })}
+						</div>
+					)}
+					</ReactBeautifulDnd.Draggable>
+				))}
+				{provided.placeholder}
+				</div>
+			)}
+			</ReactBeautifulDnd.Droppable>
+		</ReactBeautifulDnd.DragDropContext>
+	)
+}
+
 const usePresence = (open, { duration = 200, afterClose } = {}) => {
 	const [rendered, setRendered] = React.useState(open)
 	const [visible, setVisible] = React.useState(false)
