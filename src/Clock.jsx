@@ -1,6 +1,8 @@
 const ClockWidget = React.memo(({
 	showSeconds=true,
 	showDate = true,
+	hour12 = false,
+	showAmPm = true,
 }) => {
 	const [now, setNow] = React.useState(new Date())
 	React.useEffect(() => {
@@ -9,9 +11,6 @@ const ClockWidget = React.memo(({
 		return () => clearInterval(id)
 	}, [])
 	const pad = (n) => String(n).padStart(2, "0")
-	const hours = pad(now.getHours())
-	const minutes = pad(now.getMinutes())
-	const seconds = pad(now.getSeconds())
 
 	const date = now.toLocaleDateString(undefined, {
 		weekday: "long",
@@ -21,15 +20,22 @@ const ClockWidget = React.memo(({
 
 	return (
 		<div className="select-none flex flex-col gap-3 items-center">
-			<div className={`${showSeconds ? "text-6xl" : "text-7xl"} flex gap-1 items-center justify-center`}>
-				<span className="text-shadow-sm">{hours}</span>
+			<div className={`${showSeconds ? "text-6xl" : "text-7xl"} relative flex gap-1 items-center justify-center`}>
+				<span className="text-shadow-sm">{
+					hour12 ? (now.getHours() % 12 || 12) : pad(now.getHours())
+				}</span>
 				<span className="text-white/70 text-5xl text-shadow-xs">:</span>
-				<span className="text-shadow-sm">{minutes}</span>
+				<span className="text-shadow-sm">{pad(now.getMinutes())}</span>
 				{showSeconds && (
 					<>
 						<span className="text-white/70 text-5xl text-shadow-xs">:</span>
-						<span className="text-shadow-sm">{seconds}</span>
+						<span className="text-shadow-sm">{pad(now.getSeconds())}</span>
 					</>
+				)}
+				{(hour12 && showAmPm) && (
+					<span className="text-xl text-white/70 self-end text-shadow-xs absolute -right-1 translate-x-full">
+						{now.getHours() >= 12 ? "PM" : "AM"}
+					</span>
 				)}
 			</div>
 			{showDate && (

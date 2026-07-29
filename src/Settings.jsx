@@ -29,6 +29,20 @@ const Settings = ({settings, updateSetting}) => {
                     })}
                 />
                 <Switch
+                    label="12 Hour Format"
+                    checked={settings?.clocks?.hour12}
+                    onChange={v => updateSetting("clocks", {
+                        ...settings?.clocks, hour12: v
+                    })}
+                />
+                <Switch
+                    label="Show AM/PM"
+                    checked={settings?.clocks?.showAmPm}
+                    onChange={v => updateSetting("clocks", {
+                        ...settings?.clocks, showAmPm: v
+                    })}
+                />
+                <Switch
                     label="Show date"
                     checked={settings?.clocks?.showDate}
                     onChange={v => updateSetting("clocks", {
