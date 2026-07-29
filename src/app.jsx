@@ -109,13 +109,13 @@ const App = () => {
 						</div>
 					)}
 					<div className="text-sm flex gap-3">
-						<Button onClick={_=>{
+						<Button className="backdrop-blur-sm" onClick={_=>{
 							setShowCategoryManager(true)
 						}}>
 							<i className="fa-solid fa-pen"></i>
 							<span>Manage</span>
 						</Button>
-						<Button onClick={_=>{
+						<Button className="backdrop-blur-sm" onClick={_=>{
 							clearCategoryEditor()
 							setShowCategoryModal(true)
 						}}>

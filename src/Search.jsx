@@ -44,11 +44,10 @@ const SearchWidget = React.memo(({engine, updateSetting}) => {
 		return () => document.removeEventListener("click", handleClickOutside)
 	}, [showSelect])
 	return (
-		<div ref={containerRef}>
+		<div ref={containerRef} className="w-full max-w-3xl mx-auto relative">
 			<Container className={`
-				flex relative
-				transition-shadow duration-300
-				max-w-3xl mx-auto w-full
+				flex transition-shadow duration-300
+				w-full backdrop-blur-sm
 				${focused ? "!shadow-[0_0_20px] shadow-blue-500/50" : ""}
 			`}>
 				<div className="
@@ -81,21 +80,20 @@ const SearchWidget = React.memo(({engine, updateSetting}) => {
 				" onClick={onSearch}>
 					<i className="fa-solid fa-magnifying-glass"></i>
 				</div>
-
-				<Select
-					show={showSelect}
-					className="absolute bottom-0
-						translate-y-[calc(100%+theme(spacing.2))]
-						origin-top-left
-					"
-					options={searchEngines}
-					selected={selectedEngine}
-					setSelected={e=>{
-						updateSetting("search", e.name)
-						setShowSelect(false)
-					}}
-				/>
 			</Container>
+			<Select
+				show={showSelect}
+				className="absolute bottom-0
+					translate-y-[calc(100%+theme(spacing.2))]
+					origin-top-left
+				"
+				options={searchEngines}
+				selected={selectedEngine}
+				setSelected={e=>{
+					updateSetting("search", e.name)
+					setShowSelect(false)
+				}}
+			/>
 		</div>
 	)
 })

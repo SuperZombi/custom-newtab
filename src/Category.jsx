@@ -2,7 +2,7 @@ const CategoryWidget = React.memo(({
 	icon, title, elements, accent, index, onEdit
 }) => {
 	return (
-		<Container className="p-4 flex flex-col gap-3"
+		<Container className="p-4 flex flex-col gap-3 backdrop-blur-sm"
 			style={accentStyle(accent, { bg: 20, ring: 50 })}
 		>
 			{(title || icon) && (
