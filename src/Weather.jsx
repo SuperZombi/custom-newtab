@@ -23,7 +23,10 @@ const WeatherWidget = React.memo(() => {
                     "weather_code",
                     "wind_speed_10m",
                 ].join(",");
-            fetch(url).then(r => r.json()).then(weather=>{
+            fetch(url).then(r => {
+                if (!r.ok) { throw new Error(`HTTP ${r.status}: ${r.statusText}`) }
+                return r.json()
+            }).then(weather=>{
                 const current = weather.current;
                 const index = weather.hourly.time.indexOf(current.time);
                 const rainChance =
@@ -38,6 +41,8 @@ const WeatherWidget = React.memo(() => {
                     rainChance: `${rainChance}${weather.hourly_units.precipitation_probability}`,
                     weatherCode: weather.current.weather_code
                 })
+            }).catch(error => {
+                console.error(error)
             })
         }
     }, [coordinates])
