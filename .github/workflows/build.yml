@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches: ["main"]
-    paths: ["src/**", "dist/**"]
+    paths: ["src/**"]
   release:
     types: [published]
   workflow_dispatch:
