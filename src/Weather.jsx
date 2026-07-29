@@ -77,7 +77,7 @@ const WeatherWidget = React.memo(() => {
                     grid grid-cols-[0fr] group-hover:grid-cols-[1fr]
                 ">
                     <div className="overflow-hidden">
-                        <div className="p-4 pl-0.5 grid grid-cols-3 gap-3 min-w-max">
+                        <div className="p-4 pl-0.5 grid grid-cols-3 gap-3 min-w-max h-full">
                             <WeatherSubCard
                                 icon="fa-solid fa-droplet"
                                 label="Humidity"
@@ -103,13 +103,17 @@ const WeatherWidget = React.memo(() => {
 
 const WeatherSubCard = ({icon, label, value}) => {
     return (
-        <div className="rounded-2xl border border-white/10 bg-white/20 p-3">
-            <i className={icon}></i>
-            <div className="mt-2 text-xs text-white/60">
-                {label}
+        <div className="rounded-2xl border border-white/10 bg-white/20 p-3 flex items-center justify-center gap-2">
+            <div className="">
+                <i className={icon}></i>
             </div>
-            <div className="font-semibold text-white">
-                {value}
+            <div className="flex flex-col">
+                <div className="font-semibold text-white">
+                    {value}
+                </div>
+                <div className="text-xs text-white/60">
+                    {label}
+                </div>
             </div>
         </div>
     )
