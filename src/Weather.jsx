@@ -28,17 +28,18 @@ const WeatherWidget = React.memo(() => {
                 return r.json()
             }).then(weather=>{
                 const current = weather.current;
-                const index = weather.hourly.time.indexOf(current.time);
-                const rainChance =
-                index >= 0
-                    ? weather.hourly.precipitation_probability[index]
-                    : 0;
-
+                const currentHour = current.time.slice(0, current.time.lastIndexOf(":")) + ":00";
+                const index = weather.hourly.time.indexOf(currentHour);
+                const remainingProbabilities =
+                    index >= 0
+                        ? weather.hourly.precipitation_probability.slice(index)
+                        : weather.hourly.precipitation_probability;
+                const rainChance = Math.max(...remainingProbabilities, 0);
                 setWeatherData({
                     temperature: `${Math.round(weather.current.temperature_2m)}${weather.current_units.temperature_2m}`,
                     humidity: `${weather.current.relative_humidity_2m}${weather.current_units.relative_humidity_2m}`,
                     wind: `${Math.round(weather.current.wind_speed_10m)}${weather.current_units.wind_speed_10m}`,
-                    rainChance: `${rainChance}${weather.hourly_units.precipitation_probability}`,
+                    rainChance: `${rainChance}%`,
                     weatherCode: weather.current.weather_code
                 })
             }).catch(error => {
