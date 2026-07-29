@@ -22,18 +22,18 @@ const ClockWidget = React.memo(({
 	return (
 		<div className="select-none flex flex-col gap-3 items-center">
 			<div className={`${showSeconds ? "text-6xl" : "text-7xl"} flex gap-1 items-center justify-center`}>
-				<span className="">{hours}</span>
-				<span className="text-white/50 text-5xl">:</span>
-				<span className="">{minutes}</span>
+				<span className="text-shadow-sm">{hours}</span>
+				<span className="text-white/70 text-5xl text-shadow-xs">:</span>
+				<span className="text-shadow-sm">{minutes}</span>
 				{showSeconds && (
 					<>
-						<span className="text-white/50 text-5xl">:</span>
-						<span className="">{seconds}</span>
+						<span className="text-white/70 text-5xl text-shadow-xs">:</span>
+						<span className="text-shadow-sm">{seconds}</span>
 					</>
 				)}
 			</div>
 			{showDate && (
-				<div className="text-lg text-white/70 capitalize">
+				<div className="text-lg text-white/80 capitalize text-shadow-sm">
 					{date}
 				</div>
 			)}
