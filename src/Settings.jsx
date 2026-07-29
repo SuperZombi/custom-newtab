@@ -62,13 +62,19 @@ const BackgroundSettings = ({ background, updateBackground }) => {
 		<div className="flex flex-col gap-4">
             <BackgroundPreview background={background}/>
             <div className="flex flex-col gap-4 py-2">
-                <Slider label="Dim overlay" value={Math.round((background?.overlay ?? 0) * 100)} min={0} max={50} unit="%"
-                    onChange={v => updateBackground({ ...background, overlay: v / 100 })}
+                <Slider label="Brightness"
+                    value={background?.brightness ?? 100}
+                    min={50} max={100} unit="%"
+                    onChange={v => updateBackground({...background, brightness: v })}
                 />
-                <Slider label="Vignette" value={Math.round((background?.vignette ?? 0) / 2)} min={0} max={100} unit="%"
-                    onChange={v => updateBackground({ ...background, vignette: v * 2 })}
+                <Slider label="Vignette"
+                    value={background?.vignette ?? 0}
+                    min={0} max={100} unit="%"
+                    onChange={v => updateBackground({ ...background, vignette: v })}
                 />
-                <Slider label="Blur" value={background?.blur ?? 0} min={0} max={20} unit="px"
+                <Slider label="Blur"
+                    value={background?.blur ?? 0}
+                    min={0} max={20} unit="px"
                     onChange={v => updateBackground({ ...background, blur: v })}
                 />
             </div>
@@ -110,22 +116,30 @@ const buildBackgroundCss = (bg) => {
 	return { background: "#0a0a12" }
 }
 const BackgroundLayers = ({ background, layerClassName }) => {
-    return (
-        <>
-            <div className={layerClassName} style={buildBackgroundCss(background)}/>
-            {background?.overlay > 0 && (
-                <div className={`${layerClassName} bg-black`} style={{opacity: background.overlay}}/>
-            )}
-            {background?.blur > 0 && (
-                <div className={layerClassName} style={{backdropFilter: `blur(${background.blur}px)`}}/>
-            )}
-            {background?.vignette > 0 && (
-                <div className={layerClassName}
-                    style={{boxShadow: `inset 0 0 ${background.vignette}px rgba(0, 0, 0, 0.6)`}}
-                />
-            )}
-        </>
-    )
+    return <>
+        <div className={layerClassName} style={buildBackgroundCss(background)}/>
+        {(background?.brightness ?? 100) < 100 && (
+            <div className={`${layerClassName} bg-black`}
+                style={{
+                    opacity: (100 - (background?.brightness ?? 100)) / 100
+                }}
+            />
+        )}
+        {background?.blur > 0 && (
+            <div className={layerClassName}
+                style={{
+                    backdropFilter: `blur(${background.blur}px)`
+                }}
+            />
+        )}
+        {background?.vignette > 0 && (
+            <div className={layerClassName}
+                style={{
+                    boxShadow: `inset 0 0 ${background.vignette * 2}px rgba(0, 0, 0, 0.6)`
+                }}
+            />
+        )}
+    </>
 }
 const Background = React.memo(({background}) => {
     return <BackgroundLayers background={background} layerClassName="fixed inset-0 -z-10"/>
