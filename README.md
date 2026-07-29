@@ -1,4 +1,4 @@
-# Custom New Tab 2
+# Custom New Tab
 
 <img src="github/images/main.png"/>
 
