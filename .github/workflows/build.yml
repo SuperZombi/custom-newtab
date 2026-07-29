@@ -3,8 +3,10 @@ name: Build
 on:
   push:
     branches: ["main"]
+    paths: ["src/**", "dist/**"]
   release:
     types: [published]
+  workflow_dispatch:
 
 concurrency:
   group: github-pages-${{ github.ref }}
