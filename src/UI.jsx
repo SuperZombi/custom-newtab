@@ -306,20 +306,26 @@ const TextInput = ({ value, onChange, label, onKeyDown, placeholder, colorPicker
 	)
 }
 
-const Switch = ({ checked, onChange, label, accent, disabled=false, className="" }) => {
+const Switch = ({ checked, onChange, label, label_className="text-sm", icon, accent, disabled=false, className="" }) => {
 	const toggle = () => {
 		if (disabled) return
 		onChange?.(!checked)
 	}
 	return (
-		<label className={`flex items-center justify-between gap-3 select-none ${disabled ? "opacity-40" : "cursor-pointer"} ${className}`}>
-			{label && <span className="text-sm">{label}</span>}
+		<div className={`flex items-center justify-between gap-3 select-none ${className}`}>
+			{(icon || label) && (
+				<div className={`flex items-center gap-1.5 ${label_className}`}>
+					{icon && <i className={icon}></i> }
+					{label && <span>{label}</span>}
+				</div>
+			)}
 			<div
 				onClick={toggle}
 				className={`
 					relative w-10 h-5 shrink-0 rounded-full
 					transition-colors duration-200 ease-out
 					${checked ? "bg-blue-500" : "bg-white/10"}
+					${disabled ? "opacity-40" : "cursor-pointer"} 
 				`}
 			>
 				<span className={`
@@ -328,7 +334,7 @@ const Switch = ({ checked, onChange, label, accent, disabled=false, className=""
 					${checked ? "translate-x-5" : "translate-x-0"}
 				`}/>
 			</div>
-		</label>
+		</div>
 	)
 }
 

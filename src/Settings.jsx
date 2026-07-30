@@ -17,8 +17,9 @@ const Settings = React.memo(({
         <Sidebar title="Settings" open={showSettings} onClose={_=>setShowSettings(false)}>
             <Container className="flex flex-col gap-4 p-4">
                 <Switch
+                    icon="fa-solid fa-clock"
                     label="Clocks"
-                    className="font-bold"
+                    label_className="font-bold text-base"
                     checked={clocks?.enabled}
                     onChange={v => updateNested("clocks", "enabled", v)}
                 />
@@ -45,8 +46,9 @@ const Settings = React.memo(({
             </Container>
             <Container className="flex flex-col gap-4 p-4">
                 <Switch
+                    icon="fa-solid fa-cloud"
                     label="Weather"
-                    className="font-bold"
+                    label_className="font-bold text-base"
                     checked={weather?.enabled}
                     onChange={v => updateNested("weather", "enabled", v)}
                 />
