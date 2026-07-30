@@ -20,6 +20,24 @@ const accentStyle = (accent, { bg, ring, hoverBg } = {}) => {
 	if (hoverBg != null) style["--btn-accent-hover"] = `color-mix(in srgb, ${accent} ${hoverBg}%, transparent)`
 	return style
 }
+function isPlainObject(value) {
+	return (
+		value !== null &&
+		typeof value === "object" &&
+		!Array.isArray(value)
+	)
+}
+function deepMerge(target, source) {
+	const result = structuredClone(target);
+	for (const [key, value] of Object.entries(source)) {
+		if (isPlainObject(value) && isPlainObject(result[key])) {
+			result[key] = deepMerge(result[key], value);
+		} else {
+			result[key] = structuredClone(value);
+		}
+	}
+	return result;
+}
 
 const STORAGE_KEY = "newtab-settings";
 const storageApi = {
@@ -28,17 +46,17 @@ const storageApi = {
 			if (typeof chrome !== "undefined" && chrome.storage?.sync) {
 				return new Promise((resolve) => {
 					chrome.storage.sync.get([STORAGE_KEY], (result) => {
-						resolve({ ...defaults, ...(result?.[STORAGE_KEY] || {}) })
+						resolve(deepMerge(defaults, result?.[STORAGE_KEY] || {}))
 					})
 				})
 			}
 			if (typeof browser !== "undefined" && browser.storage?.sync) {
 				const result = await browser.storage.sync.get(STORAGE_KEY)
-				return { ...defaults, ...(result?.[STORAGE_KEY] || {}) }
+				return deepMerge(defaults, result?.[STORAGE_KEY] || {})
 			}
 			const saved = window.localStorage.getItem(STORAGE_KEY)
 			const parsed = saved ? JSON.parse(saved) : {};
-			return { ...defaults, ...parsed };
+			return deepMerge(defaults, parsed);
 		} catch (e) {
 			console.error("Storage read error:", e);
 			return defaults;
