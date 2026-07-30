@@ -147,7 +147,7 @@ const ImagePicker = ({ background, updateNested }) => {
             <TextInput value={background?.image || ""}
                 onChange={v => updateNested("background", "image", v)}
             />
-            <Container className="grid grid-cols-3 gap-3 p-4">
+            <Container className="grid grid-cols-3 gap-3 p-4 select-none">
                 {imagePresets.map((image, i) => (
                     <div className={`
                         aspect-video rounded-lg overflow-hidden ring-2 cursor-pointer transition-all
