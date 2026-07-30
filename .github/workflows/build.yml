@@ -36,9 +36,9 @@ jobs:
 
       - name: Remove manifest
         run: rm -f dist/manifest.json
-      - name: Add website flag
+      - name: Add website script
         run: |
-          sed -i 's|</head>|\t<script>window.IS_WEBSITE = true;</script>\n</head>|' dist/index.html
+          sed -i 's|</head>|\t<script>\n'"$(cat website.js)"'\n</script>\n</head>|' dist/index.html
       - name: Copy GitHub images
         run: |
           mkdir -p dist/github/images
