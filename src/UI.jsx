@@ -235,18 +235,20 @@ const DraggableList = ({
 	)
 }
 
-const usePresence = (open, { duration = 200, afterClose } = {}) => {
+const usePresence = (open, { duration = 200, delay = 0, afterClose } = {}) => {
 	const [rendered, setRendered] = React.useState(open)
 	const [visible, setVisible] = React.useState(false)
 	React.useEffect(() => {
-		let raf1, raf2, timeout
+		let raf1, raf2, timeout, delayTimeout
 		if (open) {
 			setRendered(true)
-			raf1 = requestAnimationFrame(() => {
-				raf2 = requestAnimationFrame(() => {
-					setVisible(true)
+			delayTimeout = setTimeout(() => {
+				raf1 = requestAnimationFrame(() => {
+					raf2 = requestAnimationFrame(() => {
+						setVisible(true)
+					})
 				})
-			})
+			}, delay)
 		} else {
 			setVisible(false)
 			timeout = setTimeout(() => {
@@ -258,8 +260,9 @@ const usePresence = (open, { duration = 200, afterClose } = {}) => {
 			cancelAnimationFrame(raf1)
 			cancelAnimationFrame(raf2)
 			clearTimeout(timeout)
+			clearTimeout(delayTimeout)
 		}
-	}, [open, duration, afterClose])
+	}, [open, duration, delay, afterClose])
 	return { rendered, visible }
 }
 const useEscape = (callback, enabled = true) => {

@@ -18,7 +18,7 @@ const defaults = {
 }
 
 const GetExtention = React.memo(()=>{
-	const { rendered, visible } = usePresence(true, { duration: 500 })
+	const { rendered, visible } = usePresence(true, { duration: 500, delay: 1000 })
 	if (!rendered) return null
 	const browser = getBrowser()
 	const extensionUrl =
@@ -28,10 +28,12 @@ const GetExtention = React.memo(()=>{
 
 	return (
 		<div className={`fixed top-4 left-4 z-10 max-sm:hidden
-			transition-opacity duration-500 delay-1000
-			${visible ? "opacity-100" : "opacity-0"}
+			transition-opacity duration-500
+			${visible ? "opacity-50 hover:opacity-100 visible" : "opacity-0 invisible"}
 		`}>
-			<Button className="px-3 backdrop-blur-sm" href={extensionUrl} tabIndex={-1}>
+			<Button className="px-3 backdrop-blur-sm"
+				href={extensionUrl} tabIndex={-1}
+			>
 				<i className="fa-solid fa-puzzle-piece"></i>
 				<span>Get Extension</span>
 			</Button>
