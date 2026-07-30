@@ -100,7 +100,12 @@ const App = () => {
 					<WeatherWidget/>
 				)}
 				<SearchWidget engine={settings["search"]} updateSetting={updateSetting}/>
-				<Settings settings={settings} updateSetting={updateSetting} updateNested={updateNested}/>
+				<Settings
+					clocks={settings?.clocks}
+					weather={settings?.weather}
+					background={settings?.background}
+					updateNested={updateNested}
+				/>
 
 				<div className="flex flex-col items-center gap-4">
 					{settings["categories"].length > 0 && (

@@ -1,4 +1,7 @@
-const Settings = React.memo(({settings, updateSetting, updateNested}) => {
+const Settings = React.memo(({
+    clocks, weather, background,
+    updateNested
+}) => {
     const [showSettings, setShowSettings] = React.useState(false)
     return (
         <>
@@ -16,27 +19,27 @@ const Settings = React.memo(({settings, updateSetting, updateNested}) => {
                 <Switch
                     label="Clocks"
                     className="font-bold"
-                    checked={settings?.clocks?.enabled}
+                    checked={clocks?.enabled}
                     onChange={v => updateNested("clocks", "enabled", v)}
                 />
                 <Switch
                     label="Show seconds"
-                    checked={settings?.clocks?.showSeconds}
+                    checked={clocks?.showSeconds}
                     onChange={v => updateNested("clocks", "showSeconds", v)}
                 />
                 <Switch
                     label="12 Hour Format"
-                    checked={settings?.clocks?.hour12}
+                    checked={clocks?.hour12}
                     onChange={v => updateNested("clocks", "hour12", v)}
                 />
                 <Switch
                     label="Show AM/PM"
-                    checked={settings?.clocks?.showAmPm}
+                    checked={clocks?.showAmPm}
                     onChange={v => updateNested("clocks", "showAmPm", v)}
                 />
                 <Switch
                     label="Show date"
-                    checked={settings?.clocks?.showDate}
+                    checked={clocks?.showDate}
                     onChange={v => updateNested("clocks", "showDate", v)}
                 />
             </Container>
@@ -44,13 +47,13 @@ const Settings = React.memo(({settings, updateSetting, updateNested}) => {
                 <Switch
                     label="Weather"
                     className="font-bold"
-                    checked={settings?.weather?.enabled}
+                    checked={weather?.enabled}
                     onChange={v => updateNested("weather", "enabled", v)}
                 />
             </Container>
 
             <BackgroundSettings
-                background={settings.background}
+                background={background}
                 updateNested={updateNested}
             />
         </Sidebar>
