@@ -37,30 +37,57 @@ const fetchWeather = (lat, lon) => {
 const WeatherWidget = React.memo(() => {
     const [coordinates, setCoordinates] = React.useState({})
     const [weatherData, setWeatherData] = React.useState({})
-    React.useEffect(_=>{
+    const [error, setError] = React.useState(null)
+    
+    const fetchCoordinates = React.useCallback(() => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const { latitude, longitude } = position.coords;
-                setCoordinates({latitude, longitude})
+                setCoordinates({ latitude, longitude })
             },
-            (error) => { console.error(error) }
+            (err) => {
+                setError("gps")
+                console.error(err)
+            }
         )
+    }, [])
+
+    React.useEffect(() => {
+        fetchCoordinates()
+    }, [fetchCoordinates])
+
+    const loadWeather = React.useCallback((latitude, longitude) => {
+        fetchWeather(latitude, longitude).then(data=>{
+            setWeatherData(data)
+            setError(null)
+        }).catch(err=>{
+            console.error(err)
+            setError("fetch")
+        })
     }, [])
     
     React.useEffect(_=>{
         if (!(coordinates?.latitude && coordinates?.longitude)) return
 
-        fetchWeather(coordinates.latitude, coordinates.longitude).then(setWeatherData).catch(console.error)
+        loadWeather(coordinates.latitude, coordinates.longitude)
         const id = setInterval(() => {
-            fetchWeather(coordinates.latitude, coordinates.longitude).then(setWeatherData).catch(console.error)
+            loadWeather(coordinates.latitude, coordinates.longitude)
         }, WEATHER_REFRESH_MS)
         return () => {
             clearInterval(id)
         }
     }, [coordinates])
 
+    const handleRetry = React.useCallback(() => {
+        if (error == "gps") {
+            fetchCoordinates()
+        } else if (error == "fetch" && coordinates?.latitude && coordinates?.longitude) {
+            loadWeather(coordinates.latitude, coordinates.longitude)
+        }
+    }, [error, coordinates, fetchCoordinates, loadWeather])
+
     const { rendered, visible } = usePresence(
-        (coordinates?.latitude && coordinates?.longitude) && Object.keys(weatherData).length > 0
+        ((coordinates?.latitude && coordinates?.longitude) && Object.keys(weatherData).length > 0) || error
     , { duration: 500 })
 	if (!rendered) return null
     return (
@@ -68,7 +95,17 @@ const WeatherWidget = React.memo(() => {
             bg-gradient-to-br from-sky-500/20 via-white/10 to-indigo-600/20
             group !ring-sky-400/20 transition-opacity duration-500 select-none
             ${visible ? "opacity-100" : "opacity-0"}
-        `}>
+            ${error ? "animate-pulse cursor-pointer hover:!opacity-100" : ""}
+        `} onClick={error ? handleRetry : undefined}>
+            {error ? (
+                <div className="p-4">
+                    {error == "gps" ? (
+                        <i className="fa-solid fa-location-arrow-slash"></i>
+                    ) : (
+                        <i className="fa-solid fa-cloud-slash"></i>
+                    )}
+                </div>
+            ) : (
             <div className="flex">
                 <div className="flex items-center gap-4 p-4">
                     {weatherDescriptions[weatherData.weatherCode] && (
@@ -115,6 +152,7 @@ const WeatherWidget = React.memo(() => {
                     </div>
                 </div>
             </div>
+            )}
         </Container>
     )
 })
