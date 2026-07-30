@@ -44,6 +44,7 @@ const WeatherWidget = React.memo(() => {
             (position) => {
                 const { latitude, longitude } = position.coords;
                 setCoordinates({ latitude, longitude })
+                setError(null)
             },
             (err) => {
                 setError("gps")
