@@ -20,12 +20,18 @@ const defaults = {
 const GetExtention = React.memo(()=>{
 	const { rendered, visible } = usePresence(true, { duration: 500 })
 	if (!rendered) return null
+	const browser = getBrowser()
+	const extensionUrl =
+		browser === "firefox"
+			? "https://addons.mozilla.org/firefox/addon/new-tab-x/"
+			: "https://chromewebstore.google.com/detail/flmndcndpcchdfnhdbghcjdohacafioc"
+
 	return (
 		<div className={`fixed top-4 left-4 z-10 max-sm:hidden
 			transition-opacity duration-500 delay-1000
 			${visible ? "opacity-100" : "opacity-0"}
 		`}>
-			<Button className="px-3 backdrop-blur-sm">
+			<Button className="px-3 backdrop-blur-sm" href={extensionUrl} tabIndex={-1}>
 				<i className="fa-solid fa-puzzle-piece"></i>
 				<span>Get Extension</span>
 			</Button>

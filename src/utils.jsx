@@ -12,6 +12,13 @@ const getIcon = (url) => {
 		return ""
 	}
 }
+const getBrowser = () => {
+	const ua = navigator.userAgent.toLowerCase()
+	if (ua.includes("firefox")) {
+		return "firefox"
+	}
+	return "chrome"
+}
 const accentStyle = (accent, { bg, ring, hoverBg } = {}) => {
 	if (!accent) return undefined
 	const style = {color: accent}

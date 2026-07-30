@@ -9,7 +9,7 @@ const Container = ({children, className="", href, target="_blank", ...props}) =>
 	)
 }
 
-const Button = ({className="", accent, children, forceActive, onClick, href, target="_blank"}) => {
+const Button = ({className="", accent, children, forceActive, onClick, href, target="_blank", ...props}) => {
 	return (
 		<Container className={`
 			p-2 flex items-center justify-center gap-2 select-none whitespace-nowrap cursor-pointer transition-colors
@@ -21,6 +21,7 @@ const Button = ({className="", accent, children, forceActive, onClick, href, tar
 			href={href} target={target}
 			onClick={onClick}
 			style={accentStyle(accent, { bg: forceActive ? 25 : 10, ring: 40, hoverBg: 25 })}
+			{...props}
 		>
 			{children}
 		</Container>
