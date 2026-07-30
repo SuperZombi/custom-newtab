@@ -95,7 +95,7 @@ const Tooltip = ({children, accent, anchorRef}) => {
 			style={{ left: coords.left, top: coords.top }}
 		>
 			<Container className={`px-2 py-1 backdrop-blur-sm
-				transition-opacity duration-200
+				transition-opacity duration-200 text-shadow-xs
 				${visible ? "opacity-100" : "opacity-0"}
 			`}
 				style={accentStyle(accent, { bg: 10, ring: 30 })}

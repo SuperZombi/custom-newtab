@@ -28,7 +28,7 @@ const CategoryWidget = React.memo(({
 			{(title || icon) && (
 				<div className="flex gap-2 items-center">
 					{icon && (<i className={icon}></i>)}
-					{title && (<span>{title}</span>)}
+					{title && (<span className="text-shadow-xs">{title}</span>)}
 				</div>
 			)}
 			<div className="grid grid-cols-4 gap-2">
