@@ -25,7 +25,7 @@ const CategoryWidget = React.memo(({
 				</div>
 			)}
 			<div className="grid grid-cols-4 gap-2">
-				{elements.map((e,i)=>(
+				{elements?.map((e,i)=>(
 					<CategoryItem key={i} e={e} accent={accent}/>
 				))}
 				<Button accent={accent} className="aspect-square text-white/50 hover:text-white p-3"
