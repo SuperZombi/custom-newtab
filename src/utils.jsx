@@ -73,11 +73,11 @@ const storageApi = {
 		try {
 			if (typeof chrome !== "undefined" && chrome.storage?.sync) {
 				return new Promise((resolve) => {
-					chrome.storage.sync.set({ STORAGE_KEY: value }, resolve)
+					chrome.storage.sync.set({ [STORAGE_KEY]: value }, resolve)
 				})
 			}
 			if (typeof browser !== "undefined" && browser.storage?.sync) {
-				await browser.storage.sync.set({ STORAGE_KEY: value })
+				await browser.storage.sync.set({ [STORAGE_KEY]: value })
 				return;
 			}
 			window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value))
