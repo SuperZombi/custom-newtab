@@ -14,11 +14,13 @@ const defaults = {
 		type: "gradient",
 		gradient: gradientPresets[0],
 	},
-	categories: categoryTemplates
+	categories: structuredClone(categoryTemplates)
 }
 
 const App = () => {
 	const [settings, setSettings] = React.useState(defaults)
+	const settingsRef = React.useRef(settings)
+	React.useEffect(() => { settingsRef.current = settings }, [settings])
 	const [isLoaded, setIsLoaded] = React.useState(false)
 	const isFirstLoad = React.useRef(true)
 	
@@ -72,11 +74,12 @@ const App = () => {
 	}, [])
 
 	const openCategoryEditor = React.useCallback((index) => {
-		setCurrentCategoryData(settings.categories[index])
+		setCurrentCategoryData(settingsRef.current.categories[index])
 		setShowCategoryModal(true)
 		setCategoryModalAction("edit")
 		setCurrentCategoryIndex(index)
-	}, [settings?.categories])
+	}, [])
+
 	const clearCategoryEditor = React.useCallback(() => {
 		setCategoryModalAction("new")
 		setCurrentCategoryData({})
