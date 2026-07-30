@@ -21,21 +21,22 @@ const accentStyle = (accent, { bg, ring, hoverBg } = {}) => {
 	return style
 }
 
+const STORAGE_KEY = "newtab-settings";
 const storageApi = {
 	get: async () => {
 		try {
 			if (typeof chrome !== "undefined" && chrome.storage?.sync) {
 				return new Promise((resolve) => {
-					chrome.storage.sync.get(["newtab-settings"], (result) => {
-						resolve({ ...defaults, ...(result?.["newtab-settings"] || {}) })
+					chrome.storage.sync.get([STORAGE_KEY], (result) => {
+						resolve({ ...defaults, ...(result?.[STORAGE_KEY] || {}) })
 					})
 				})
 			}
 			if (typeof browser !== "undefined" && browser.storage?.sync) {
-				const result = await browser.storage.sync.get("newtab-settings")
-				return { ...defaults, ...(result?.["newtab-settings"] || {}) }
+				const result = await browser.storage.sync.get(STORAGE_KEY)
+				return { ...defaults, ...(result?.[STORAGE_KEY] || {}) }
 			}
-			const saved = window.localStorage.getItem("newtab-settings")
+			const saved = window.localStorage.getItem(STORAGE_KEY)
 			const parsed = saved ? JSON.parse(saved) : {};
 			return { ...defaults, ...parsed };
 		} catch (e) {
@@ -47,14 +48,14 @@ const storageApi = {
 		try {
 			if (typeof chrome !== "undefined" && chrome.storage?.sync) {
 				return new Promise((resolve) => {
-					chrome.storage.sync.set({ "newtab-settings": value }, resolve)
+					chrome.storage.sync.set({ STORAGE_KEY: value }, resolve)
 				})
 			}
 			if (typeof browser !== "undefined" && browser.storage?.sync) {
-				await browser.storage.sync.set({ "newtab-settings": value })
+				await browser.storage.sync.set({ STORAGE_KEY: value })
 				return;
 			}
-			window.localStorage.setItem("newtab-settings", JSON.stringify(value))
+			window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value))
 		} catch (e) {
 			console.error("Storage write error:", e)
 		}
