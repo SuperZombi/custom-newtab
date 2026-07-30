@@ -116,14 +116,14 @@ const GradientPicker = ({ background, updateNested }) => {
             .map(item => item.trim())
             .filter(Boolean);
 
-        const backgroundValue = declarations
-            .filter(item => /^background\s*:/i.test(item))
-            .pop();
-
+        const backgroundValue = declarations.find(item =>
+            /background\s*:/i.test(item)
+        )
         if (backgroundValue) {
-            gradient = backgroundValue
-                .replace(/^background\s*:\s*/i, "")
-                .trim();
+            gradient = backgroundValue.replace(
+                /.*?background\s*:\s*/is,
+                ""
+            ).trim()
         }
         updateNested("background", "gradient", gradient);
     }
