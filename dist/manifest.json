@@ -9,7 +9,7 @@
 	"chrome_url_overrides": {
 		"newtab": "index.html"
 	},
-	"homepage_url": "https://github.com/SuperZombi/newtab-x",
+	"homepage_url": "https://github.com/SuperZombi/new-tab-x",
 	"permissions": ["storage", "geolocation"],
 	"browser_specific_settings": {
 		"gecko": {
