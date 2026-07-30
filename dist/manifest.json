@@ -2,7 +2,7 @@
 	"manifest_version": 3,
 	"name": "New Tab X",
 	"description": "Custom New Tab",
-	"version": "3.4.2",
+	"version": "3.4.3",
 	"icons": {
 		"128": "images/icon.png"
 	},
