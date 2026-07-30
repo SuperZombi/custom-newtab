@@ -1,11 +1,5 @@
-const Settings = ({settings, updateSetting}) => {
+const Settings = React.memo(({settings, updateSetting, updateNested}) => {
     const [showSettings, setShowSettings] = React.useState(false)
-    const updateNested = (root, key, value) => {
-        updateSetting(root, {
-            ...settings?.[root], [key]: value
-        })
-    }
-
     return (
         <>
         <div className="
@@ -57,14 +51,14 @@ const Settings = ({settings, updateSetting}) => {
 
             <BackgroundSettings
                 background={settings.background}
-                updateBackground={bg => updateSetting("background", bg)}
+                updateNested={updateNested}
             />
         </Sidebar>
         </>
     )
-}
+})
 
-const BackgroundSettings = ({ background, updateBackground }) => {
+const BackgroundSettings = React.memo(({ background, updateNested }) => {
     const tab = background?.type || "gradient"
 	return (
 		<div className="flex flex-col gap-4">
@@ -73,17 +67,17 @@ const BackgroundSettings = ({ background, updateBackground }) => {
                 <Slider label="Brightness"
                     value={background?.brightness ?? 100}
                     min={50} max={100} unit="%"
-                    onChange={v => updateBackground({...background, brightness: v })}
+                    onChange={v => updateNested("background", "brightness", v)}
                 />
                 <Slider label="Vignette"
                     value={background?.vignette ?? 0}
                     min={0} max={100} unit="%"
-                    onChange={v => updateBackground({ ...background, vignette: v })}
+                    onChange={v => updateNested("background", "vignette", v)}
                 />
                 <Slider label="Blur"
                     value={background?.blur ?? 0}
                     min={0} max={20} unit="px"
-                    onChange={v => updateBackground({ ...background, blur: v })}
+                    onChange={v => updateNested("background", "blur", v)}
                 />
             </div>
 			<div className="grid grid-cols-2 gap-2">
@@ -95,18 +89,55 @@ const BackgroundSettings = ({ background, updateBackground }) => {
 						key={t.id}
 						className="text-sm py-2"
 						forceActive={tab == t.id}
-						onClick={_=>{
-                            updateBackground({ ...background, type: t.id })
-                        }}
+						onClick={_=>updateNested("background", "type", t.id)}
 					>
 						<i className={t.icon}></i>
 						<span>{t.label}</span>
 					</Button>
 				))}
 			</div>
-            {tab == "gradient" && <GradientPicker background={background} updateBackground={updateBackground}/>}
-            {tab == "image" && <ImagePicker background={background} updateBackground={updateBackground}/>}
+            {tab == "gradient" && <GradientPicker background={background} updateNested={updateNested}/>}
+            {tab == "image" && <ImagePicker background={background} updateNested={updateNested}/>}
 		</div>
+	)
+})
+
+const GradientPicker = ({ background, updateNested }) => {
+	return (
+        <>
+            <TextInput value={background?.gradient || ""}
+                onChange={v => updateNested("background", "gradient", v)}
+            />
+            <Container className="grid grid-cols-4 gap-3 p-4">
+                {gradientPresets.map((gradient, i) => (
+                    <div key={i} className={`
+                        w-full aspect-square rounded-lg ring-2 cursor-pointer transition-all
+                        ${background.gradient == gradient ? "ring-white scale-105" : "ring-white/10 group-hover:ring-white/40"}
+                    `} style={{ background: gradient }}
+                        onClick={_=>updateNested("background", "gradient", gradient)}
+                    />
+                ))}
+            </Container>
+        </>
+	)
+}
+const ImagePicker = ({ background, updateNested }) => {
+	return (
+        <>
+            <TextInput value={background?.image || ""}
+                onChange={v => updateNested("background", "image", v)}
+            />
+            <Container className="grid grid-cols-3 gap-3 p-4">
+                {imagePresets.map((image, i) => (
+                    <div className={`
+                        aspect-video rounded-lg overflow-hidden ring-2 cursor-pointer transition-all
+                        ${background.type == "image" && background.image == image.url ? "ring-white scale-105" : "ring-white/10 group-hover:ring-white/40"}
+                    `} key={i} onClick={_=>updateNested("background", "image", image.url)}>
+                        <img src={image.thumb || image.src} className="w-full h-full object-cover" draggable={false}/>
+                    </div>
+                ))}
+            </Container>
+        </>
 	)
 }
 
@@ -159,47 +190,3 @@ const BackgroundPreview = React.memo(({background}) => {
         </Container>
     )
 })
-
-const GradientPicker = ({ background, updateBackground }) => {
-	return (
-        <>
-            <TextInput value={background?.gradient || ""}
-                onChange={v => updateBackground({ ...background, type: "gradient", gradient: v })}
-            />
-            <Container className="grid grid-cols-4 gap-3 p-4">
-                {gradientPresets.map((gradient, i) => (
-                    <div key={i} className={`
-                        w-full aspect-square rounded-lg ring-2 cursor-pointer transition-all
-                        ${background.gradient == gradient ? "ring-white scale-105" : "ring-white/10 group-hover:ring-white/40"}
-                    `} style={{ background: gradient }}
-                        onClick={_=>{
-                            updateBackground({...background, type: "gradient", gradient: gradient})
-                        }}
-                    />
-                ))}
-            </Container>
-        </>
-	)
-}
-
-const ImagePicker = ({ background, updateBackground }) => {
-	return (
-        <>
-            <TextInput value={background?.image || ""}
-                onChange={v => updateBackground({ ...background, type: "image", image: v })}
-            />
-            <Container className="grid grid-cols-3 gap-3 p-4">
-                {imagePresets.map((image, i) => (
-                    <div className={`
-                        aspect-video rounded-lg overflow-hidden ring-2 cursor-pointer transition-all
-                        ${background.type == "image" && background.image == image.url ? "ring-white scale-105" : "ring-white/10 group-hover:ring-white/40"}
-                    `} key={i} onClick={_=>{
-                        updateBackground({ ...background, type: "image", image: image.url })
-                    }}>
-                        <img src={image.thumb || image.src} className="w-full h-full object-cover" draggable={false}/>
-                    </div>
-                ))}
-            </Container>
-        </>
-	)
-}

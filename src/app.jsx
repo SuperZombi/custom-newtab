@@ -36,8 +36,14 @@ const App = () => {
 	}, [])
 
 	const updateSetting = React.useCallback((key, val) => {
-		setSettings(prev => ({...prev, [key]: val}))
-	}, [])
+        setSettings(prev => ({
+            ...prev, [key]: typeof val === "function" ? val(prev[key]) : val
+        }))
+    }, [])
+	const updateNested = React.useCallback((root, key, value) => {
+        updateSetting(root, (prevRoot) => ({ ...prevRoot, [key]: value }))
+    }, [updateSetting])
+
 	React.useEffect(() => {
 		if (!isLoaded) return;
 		if (isFirstLoad.current) {
@@ -94,7 +100,7 @@ const App = () => {
 					<WeatherWidget/>
 				)}
 				<SearchWidget engine={settings["search"]} updateSetting={updateSetting}/>
-				<Settings settings={settings} updateSetting={updateSetting}/>
+				<Settings settings={settings} updateSetting={updateSetting} updateNested={updateNested}/>
 
 				<div className="flex flex-col items-center gap-4">
 					{settings["categories"].length > 0 && (
