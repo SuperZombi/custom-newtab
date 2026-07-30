@@ -108,11 +108,34 @@ const BackgroundSettings = React.memo(({ background, updateNested }) => {
 })
 
 const GradientPicker = ({ background, updateNested }) => {
+    const updateGradient = (value) => {
+        let gradient = value.trim();
+
+        const declarations = gradient
+            .split(";")
+            .map(item => item.trim())
+            .filter(Boolean);
+
+        const backgroundValue = declarations
+            .filter(item => /^background\s*:/i.test(item))
+            .pop();
+
+        if (backgroundValue) {
+            gradient = backgroundValue
+                .replace(/^background\s*:\s*/i, "")
+                .trim();
+        }
+        updateNested("background", "gradient", gradient);
+    }
 	return (
         <>
             <TextInput value={background?.gradient || ""}
-                onChange={v => updateNested("background", "gradient", v)}
-            />
+                onChange={updateGradient}
+            >
+                <Button className="p-2.5 aspect-square" href="https://cssgradient.io/">
+					<i className="fa-solid fa-arrow-up-right-from-square"></i>
+				</Button>
+            </TextInput>
             <Container className="grid grid-cols-4 gap-3 p-4">
                 {gradientPresets.map((gradient, i) => (
                     <div key={i} className={`
