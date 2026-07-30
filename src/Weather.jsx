@@ -40,7 +40,11 @@ const WeatherWidget = React.memo(() => {
     const [error, setError] = React.useState(null)
     
     const fetchCoordinates = React.useCallback(() => {
-        navigator.geolocation?.getCurrentPosition(
+        if (!navigator.geolocation) {
+            setError("gps")
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(
             (position) => {
                 const { latitude, longitude } = position.coords;
                 setCoordinates({ latitude, longitude })
@@ -50,7 +54,7 @@ const WeatherWidget = React.memo(() => {
                 setError("gps")
                 console.error(err)
             }
-        ) ?? setError("gps")
+        )
     }, [])
 
     React.useEffect(() => {
