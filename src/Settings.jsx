@@ -109,22 +109,14 @@ const BackgroundSettings = React.memo(({ background, updateNested }) => {
 
 const GradientPicker = ({ background, updateNested }) => {
     const updateGradient = (value) => {
-        let gradient = value.trim();
-
-        const declarations = gradient
-            .split(";")
-            .map(item => item.trim())
-            .filter(Boolean);
-
-        const backgroundValue = declarations.find(item =>
-            /background\s*:/i.test(item)
-        )
-        if (backgroundValue) {
-            gradient = backgroundValue.replace(
-                /.*?background\s*:\s*/is,
-                ""
-            ).trim()
-        }
+        const matches = [
+            ...value
+                .replace(/\/\*[\s\S]*?\*\//g, "")
+                .matchAll(/background\s*:\s*([^;]+);?/gis)
+        ]
+        const gradient = matches.length
+            ? matches[matches.length - 1][1].trim()
+            : value.trim();
         updateNested("background", "gradient", gradient);
     }
 	return (
