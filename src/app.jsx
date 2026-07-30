@@ -91,6 +91,12 @@ const App = () => {
 			<Background background={settings.background}/>
 			{isLoaded && (
 				<>
+				<div className="fixed top-4 left-4 z-10 max-sm:hidden">
+					<Button className="px-3 backdrop-blur-sm">
+						<i className="fa-solid fa-puzzle-piece"></i>
+						<span>Get Extension</span>
+					</Button>
+				</div>
 				{settings?.clocks?.enabled && (
 					<ClockWidget
 						showSeconds={settings?.clocks?.showSeconds}
