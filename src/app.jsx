@@ -86,7 +86,7 @@ const App = () => {
 	return (
 		<div className="w-full min-h-dvh p-10 relative overflow-hidden text-white flex flex-col gap-10 text-base">
 			<Background background={settings.background}/>
-			{isLoaded ? (
+			{isLoaded && (
 				<>
 				{settings?.clocks?.enabled && (
 					<ClockWidget
@@ -158,7 +158,7 @@ const App = () => {
 					afterClose={clearCategoryEditor}
 				/>
 				</>
-			) : null}
+			)}
 		</div>
 	)
 }
