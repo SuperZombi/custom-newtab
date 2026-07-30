@@ -47,6 +47,17 @@ const CategoryEditor = React.memo(({
 			prev.filter((_, index) => index !== ind)
 		)
 	}
+	const updateIcon = (value) => {
+		const matches = [
+			...value
+				.replace(/\/\*[\s\S]*?\*\//g, "")
+				.matchAll(/<i\b[^>]*class\s*=\s*["']([^"']+)["'][^>]*><\/i>/gis)
+		]
+		const icon = matches.length
+			? matches[matches.length - 1][1].trim()
+			: value;
+		setCurrentIcon(icon)
+	}
 	return (
 		<Modal
 			title={action == "edit" ? "Edit Category" : "Add Category"}
@@ -65,7 +76,7 @@ const CategoryEditor = React.memo(({
 				label={"Category icon"}
 				placeholder={"Optional"}
 				value={currentIcon}
-				onChange={setCurrentIcon}
+				onChange={updateIcon}
 				onKeyDown={onKeyDownInputs}
 				iconPicker={true}
 			>
