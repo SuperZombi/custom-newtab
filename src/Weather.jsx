@@ -10,41 +10,51 @@ const WeatherWidget = React.memo(() => {
             (error) => { console.error(error) }
         )
     }, [])
-    React.useEffect(_=>{
-        if (coordinates?.latitude && coordinates?.longitude){
-            const url = `https://api.open-meteo.com/v1/forecast` + 
-                `?latitude=${coordinates.latitude}` +
-                `&longitude=${coordinates.longitude}` +
-                `&hourly=precipitation_probability` +
-                `&forecast_days=1` +
-                `&current=` + [
-                    "temperature_2m",
-                    "relative_humidity_2m",
-                    "weather_code",
-                    "wind_speed_10m",
-                ].join(",");
-            fetch(url).then(r => {
-                if (!r.ok) { throw new Error(`HTTP ${r.status}: ${r.statusText}`) }
-                return r.json()
-            }).then(weather=>{
-                const current = weather.current;
-                const currentHour = current.time.slice(0, current.time.lastIndexOf(":")) + ":00";
-                const index = weather.hourly.time.indexOf(currentHour);
-                const remainingProbabilities =
-                    index >= 0
-                        ? weather.hourly.precipitation_probability.slice(index)
-                        : weather.hourly.precipitation_probability;
-                const rainChance = Math.max(...remainingProbabilities, 0);
-                setWeatherData({
-                    temperature: `${Math.round(weather.current.temperature_2m)}${weather.current_units.temperature_2m}`,
-                    humidity: `${weather.current.relative_humidity_2m}${weather.current_units.relative_humidity_2m}`,
-                    wind: `${Math.round(weather.current.wind_speed_10m)}${weather.current_units.wind_speed_10m}`,
-                    rainChance: `${rainChance}%`,
-                    weatherCode: weather.current.weather_code
-                })
-            }).catch(error => {
-                console.error(error)
+    const fetchWeather = (lat, lon) => {
+        const url = `https://api.open-meteo.com/v1/forecast` + 
+            `?latitude=${lat}` +
+            `&longitude=${lon}` +
+            `&hourly=precipitation_probability` +
+            `&forecast_days=1` +
+            `&current=` + [
+                "temperature_2m",
+                "relative_humidity_2m",
+                "weather_code",
+                "wind_speed_10m",
+            ].join(",");
+        fetch(url).then(r => {
+            if (!r.ok) { throw new Error(`HTTP ${r.status}: ${r.statusText}`) }
+            return r.json()
+        }).then(weather=>{
+            const current = weather.current;
+            const currentHour = current.time.slice(0, current.time.lastIndexOf(":")) + ":00";
+            const index = weather.hourly.time.indexOf(currentHour);
+            const remainingProbabilities =
+                index >= 0
+                    ? weather.hourly.precipitation_probability.slice(index)
+                    : weather.hourly.precipitation_probability;
+            const rainChance = Math.max(...remainingProbabilities, 0);
+            setWeatherData({
+                temperature: `${Math.round(weather.current.temperature_2m)}${weather.current_units.temperature_2m}`,
+                humidity: `${weather.current.relative_humidity_2m}${weather.current_units.relative_humidity_2m}`,
+                wind: `${Math.round(weather.current.wind_speed_10m)}${weather.current_units.wind_speed_10m}`,
+                rainChance: `${rainChance}%`,
+                weatherCode: weather.current.weather_code
             })
+        }).catch(error => {
+            console.error(error)
+        })
+    }
+    const WEATHER_REFRESH_MS = 15 * 60 * 1000;
+    React.useEffect(_=>{
+        if (!(coordinates?.latitude && coordinates?.longitude)) return
+
+        fetchWeather(coordinates.latitude, coordinates.longitude)
+        const id = setInterval(() => {
+            fetchWeather(coordinates.latitude, coordinates.longitude)
+        }, WEATHER_REFRESH_MS)
+        return () => {
+            clearInterval(id)
         }
     }, [coordinates])
 
