@@ -1,18 +1,11 @@
-const CategoryButton = ({accent, children, href}) => {
-	return (
-		<a href={href} className="outline-none group">
-			<Button className="aspect-square" accent={accent}>{children}</Button>
-		</a>
-	)
-}
 const CategoryItem = ({e, accent}) => {
 	const anchorRef = React.useRef(null)
 	return (
 		<div className="relative">
 			<div ref={anchorRef}>
-				<CategoryButton href={e.url} accent={accent}>
+				<Button href={e.url} target="_self" accent={accent} className="aspect-square">
 					<img src={e.icon || getIcon(e.url)} draggable={false} className="h-6 w-6 select-none"/>
-				</CategoryButton>
+				</Button>
 			</div>
 			{e.label && (<Tooltip accent={accent} anchorRef={anchorRef}>{e.label}</Tooltip>)}
 		</div>

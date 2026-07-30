@@ -68,7 +68,11 @@ const CategoryEditor = React.memo(({
 				onChange={setCurrentIcon}
 				onKeyDown={onKeyDownInputs}
 				iconPicker={true}
-			/>
+			>
+				<Button className="p-2.5 aspect-square" href="https://fontawesome.com/search">
+					<i className="fa-solid fa-arrow-up-right-from-square"></i>
+				</Button>
+			</TextInput>
 			<TextInput
 				label={"Accent color"}
 				placeholder={"Optional"}
