@@ -92,6 +92,7 @@ const WeatherWidget = React.memo(() => {
 
                 <div className="transition-all duration-500
                     grid grid-cols-[0fr] group-hover:grid-cols-[1fr]
+                    group-active:grid-cols-[1fr]
                 ">
                     <div className="overflow-hidden">
                         <div className="p-4 pl-0.5 grid grid-cols-3 gap-3 min-w-max h-full">
