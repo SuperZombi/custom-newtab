@@ -1,3 +1,23 @@
+const CategoryButton = ({accent, children, href}) => {
+	return (
+		<a href={href} className="outline-none group">
+			<Button className="aspect-square" accent={accent}>{children}</Button>
+		</a>
+	)
+}
+const CategoryItem = ({e, accent}) => {
+	const anchorRef = React.useRef(null)
+	return (
+		<div className="relative">
+			<div ref={anchorRef}>
+				<CategoryButton href={e.url} accent={accent}>
+					<img src={e.icon || getIcon(e.url)} draggable={false} className="h-6 w-6 select-none"/>
+				</CategoryButton>
+			</div>
+			{e.label && (<Tooltip accent={accent} anchorRef={anchorRef}>{e.label}</Tooltip>)}
+		</div>
+	)
+}
 const CategoryWidget = React.memo(({
 	icon, title, elements, accent, index, onEdit
 }) => {
@@ -13,12 +33,7 @@ const CategoryWidget = React.memo(({
 			)}
 			<div className="grid grid-cols-4 gap-2">
 				{elements.map((e,i)=>(
-					<div key={i} className="relative group">
-						<CategoryButton href={e.url} accent={accent}>
-							<img src={e.icon || getIcon(e.url)} draggable={false} className="h-6 w-6 select-none"/>
-						</CategoryButton>
-						{e.label && (<Tooltip accent={accent}>{e.label}</Tooltip>)}
-					</div>
+					<CategoryItem key={i} e={e} accent={accent}/>
 				))}
 				<Button accent={accent} className="aspect-square text-white/50 hover:text-white p-3"
 					onClick={_=>onEdit(index)}

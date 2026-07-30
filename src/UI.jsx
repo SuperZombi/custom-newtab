@@ -5,13 +5,7 @@ const Container = ({children, className="", ...props}) => {
 		</div>
 	)
 }
-const CategoryButton = ({accent, children, href}) => {
-	return (
-		<a href={href} className="outline-none group">
-			<Button className="aspect-square" accent={accent}>{children}</Button>
-		</a>
-	)
-}
+
 const Button = ({className="", accent, children, forceActive, onClick}) => {
 	return (
 		<Container className={`
@@ -56,21 +50,60 @@ const Select = ({
 	)
 }
 
-const Tooltip = ({children, accent}) => {
-	return (
-		<Container className="
-			absolute left-1/2 -translate-x-1/2
-			bottom-0 translate-y-[calc(100%+theme(spacing.2))]
-			px-2 py-1 z-10 backdrop-blur-md
-			opacity-0 invisible
-			group-hover:opacity-100 group-hover:visible
-			transition-opacity whitespace-nowrap
-			select-none
-		"
-			style={accentStyle(accent, { bg: 10, ring: 30 })}
+const Tooltip = ({children, accent, anchorRef}) => {
+	const [coords, setCoords] = React.useState(null)
+	const [mounted, setMounted] = React.useState(false)
+	const [visible, setVisible] = React.useState(false)
+
+	React.useEffect(() => {
+		const el = anchorRef.current
+		if (!el) return
+		let raf1, raf2
+		const onEnter = () => {
+			const rect = el.getBoundingClientRect()
+			setCoords({
+				left: rect.left + rect.width / 2,
+				top: rect.bottom + 8,
+			})
+			setMounted(true)
+			raf1 = requestAnimationFrame(() => {
+				raf2 = requestAnimationFrame(() => setVisible(true))
+			})
+		}
+		const onLeave = () => {
+			cancelAnimationFrame(raf1)
+			cancelAnimationFrame(raf2)
+			setVisible(false)
+		}
+		el.addEventListener("mouseenter", onEnter)
+		el.addEventListener("mouseleave", onLeave)
+		return () => {
+			el.removeEventListener("mouseenter", onEnter)
+			el.removeEventListener("mouseleave", onLeave)
+			cancelAnimationFrame(raf1)
+			cancelAnimationFrame(raf2)
+		}
+	}, [anchorRef])
+
+	if (!mounted || !coords) return null
+
+	return ReactDOM.createPortal(
+		<div
+			className="
+				fixed z-50 -translate-x-1/2 whitespace-nowrap select-none pointer-events-none
+			"
+			style={{ left: coords.left, top: coords.top }}
 		>
-			{children}
-		</Container>
+			<Container className={`px-2 py-1 backdrop-blur-sm
+				transition-opacity duration-200
+				${visible ? "opacity-100" : "opacity-0"}
+			`}
+				style={accentStyle(accent, { bg: 10, ring: 30 })}
+			>
+				{children}
+			</Container>
+		</div>,
+		document.body
 	)
 }
 
