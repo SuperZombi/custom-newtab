@@ -116,7 +116,7 @@ const GradientPicker = ({ background, updateNested }) => {
         ]
         const gradient = matches.length
             ? matches[matches.length - 1][1].trim()
-            : value.trim();
+            : value;
         updateNested("background", "gradient", gradient);
     }
 	return (
