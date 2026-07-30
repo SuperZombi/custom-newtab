@@ -11,7 +11,7 @@ const Settings = React.memo(({settings, updateSetting, updateNested}) => {
             <i className="fa-solid fa-gear"></i>
         </div>
         
-        <Sidebar className="" title="Settings" open={showSettings} onClose={_=>setShowSettings(false)}>
+        <Sidebar title="Settings" open={showSettings} onClose={_=>setShowSettings(false)}>
             <Container className="flex flex-col gap-4 p-4">
                 <Switch
                     label="Clocks"
