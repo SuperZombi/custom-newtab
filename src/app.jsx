@@ -17,6 +17,22 @@ const defaults = {
 	categories: structuredClone(categoryTemplates)
 }
 
+const GetExtention = React.memo(()=>{
+	const { rendered, visible } = usePresence(true, { duration: 500 })
+	if (!rendered) return null
+	return (
+		<div className={`fixed top-4 left-4 z-10 max-sm:hidden
+			transition-opacity duration-500 delay-1000
+			${visible ? "opacity-100" : "opacity-0"}
+		`}>
+			<Button className="px-3 backdrop-blur-sm">
+				<i className="fa-solid fa-puzzle-piece"></i>
+				<span>Get Extension</span>
+			</Button>
+		</div>
+	)
+})
+
 const App = () => {
 	const [settings, setSettings] = React.useState(defaults)
 	const settingsRef = React.useRef(settings)
@@ -91,12 +107,7 @@ const App = () => {
 			<Background background={settings.background}/>
 			{isLoaded && (
 				<>
-				<div className="fixed top-4 left-4 z-10 max-sm:hidden">
-					<Button className="px-3 backdrop-blur-sm">
-						<i className="fa-solid fa-puzzle-piece"></i>
-						<span>Get Extension</span>
-					</Button>
-				</div>
+				{window.IS_WEBSITE && <GetExtention/>}
 				{settings?.clocks?.enabled && (
 					<ClockWidget
 						showSeconds={settings?.clocks?.showSeconds}
