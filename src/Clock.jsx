@@ -5,11 +5,29 @@ const ClockWidget = React.memo(({
 	showAmPm = true,
 }) => {
 	const [now, setNow] = React.useState(new Date())
+
 	React.useEffect(() => {
 		const tick = () => setNow(new Date())
-		const id = setInterval(tick, 1000)
-		return () => clearInterval(id)
-	}, [])
+		tick()
+
+		if (showSeconds) {
+			const id = setInterval(tick, 1000)
+			return () => clearInterval(id)
+		}
+
+		let intervalId
+		const msToNextMinute = (60 - new Date().getSeconds()) * 1000
+		const timeoutId = setTimeout(() => {
+			tick()
+			intervalId = setInterval(tick, 60 * 1000)
+		}, msToNextMinute)
+
+		return () => {
+			clearTimeout(timeoutId)
+			clearInterval(intervalId)
+		}
+	}, [showSeconds])
+
 	const pad = (n) => String(n).padStart(2, "0")
 
 	const date = now.toLocaleDateString(undefined, {
