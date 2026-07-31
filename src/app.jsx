@@ -28,7 +28,7 @@ const GetExtension = React.memo(()=>{
 
 	return (
 		<div className={`fixed top-4 left-4 z-10 max-sm:hidden
-			transition-opacity duration-500
+			transition-opacity duration-500 text-sm
 			${visible ? "opacity-50 hover:opacity-100 visible" : "opacity-0 invisible"}
 		`}>
 			<Button className="px-3 backdrop-blur-sm"
@@ -151,14 +151,14 @@ const App = () => {
 							))}
 						</div>
 					)}
-					<div className="text-sm flex gap-3">
-						<Button className="backdrop-blur-sm" onClick={_=>{
+					<div className="text-xs flex gap-3">
+						<Button className="backdrop-blur-sm transition-opacity opacity-60 hover:opacity-100" onClick={_=>{
 							setShowCategoryManager(true)
 						}}>
 							<i className="fa-solid fa-pen"></i>
 							<span>Manage</span>
 						</Button>
-						<Button className="backdrop-blur-sm" onClick={_=>{
+						<Button className="backdrop-blur-sm transition-opacity opacity-60 hover:opacity-100" onClick={_=>{
 							clearCategoryEditor()
 							setShowCategoryModal(true)
 						}}>
