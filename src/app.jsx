@@ -127,7 +127,7 @@ const App = () => {
 				{settings?.weather?.enabled && (
 					<WeatherWidget/>
 				)}
-				<SearchWidget engine={settings["search"]} updateSetting={updateSetting}/>
+				<SearchWidget engine={settings?.search} updateSetting={updateSetting}/>
 				<Settings
 					clocks={settings?.clocks}
 					weather={settings?.weather}
@@ -136,7 +136,7 @@ const App = () => {
 				/>
 
 				<div className="flex flex-col items-center gap-4">
-					{settings["categories"].length > 0 && (
+					{settings?.categories?.length > 0 && (
 						<div className="flex gap-4 flex-wrap justify-center mx-auto max-w-3xl">
 							{settings?.categories?.map((item, i)=>(
 								<CategoryWidget
@@ -170,7 +170,7 @@ const App = () => {
 				<CategoryManager
 					showPopup={showCategoryManager}
 					setShowPopup={setShowCategoryManager}
-					categories={settings["categories"]}
+					categories={settings?.categories}
 					onEdit={openCategoryEditor}
 					addCategory={addCategory}
 					deleteCategory={deleteCategory}
