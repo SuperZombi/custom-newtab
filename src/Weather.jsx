@@ -145,14 +145,14 @@ const WeatherWidget = React.memo(() => {
                                 value={weatherData.rainChance}
                             />
                             <WeatherSubCard
-                                icon="fa-solid fa-droplet"
-                                label="Humidity"
-                                value={weatherData.humidity}
-                            />
-                            <WeatherSubCard
                                 icon="fa-solid fa-wind"
                                 label="Wind"
                                 value={weatherData.wind}
+                            />
+                            <WeatherSubCard
+                                icon="fa-solid fa-droplet"
+                                label="Humidity"
+                                value={weatherData.humidity}
                             />
                         </div>
                     </div>
