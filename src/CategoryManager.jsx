@@ -1,5 +1,5 @@
 const CategoryEditor = React.memo(({
-	action, data, showPopup, setShowPopup, addCategory, editCategory, afterClose
+	categoryIndex, action, data, showPopup, setShowPopup, addCategory, deleteCategory, editCategory, afterClose
 }) => {
 	const [currentName, setCurrentName] = React.useState("")
 	const [currentIcon, setCurrentIcon] = React.useState("")
@@ -22,6 +22,12 @@ const CategoryEditor = React.memo(({
 			)
 		})
 		setShowPopup(false)
+	}
+	const onDeleteCat = () => {
+		if (confirm(`Delete category?`)){
+			deleteCategory(categoryIndex)
+			setShowPopup(false)
+		}
 	}
 	const onKeyDownInputs = (e) => {
 		if (e.key == "Enter") {
@@ -120,8 +126,24 @@ const CategoryEditor = React.memo(({
 					</div>
 				)}
 			/>
-			<Button onClick={addLink}>Add link</Button>
-			<Button onClick={applyForm}>OK</Button>
+			<Button 
+				className="text-sm opacity-70 hover:opacity-100"
+				onClick={addLink}
+			>
+				<i className="fa-solid fa-plus"></i>
+				<span>Add link</span>
+			</Button>
+			<div className="flex items-center justify-between gap-4">
+				{action == "edit" && (
+					<Button accent="red" onClick={onDeleteCat}>
+						<i className="fa-solid fa-trash"></i>
+						<span>Delete category</span>
+					</Button>
+				)}
+				<Button className={
+					`w-full ${action == "edit" ? "max-w-48" : ""}`
+				} onClick={applyForm}>OK</Button>
+			</div>
 		</Modal>
 	)
 })

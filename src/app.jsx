@@ -177,9 +177,11 @@ const App = () => {
 					reorderCategories={reorderCategories}
 				/>
 				<CategoryEditor
+					categoryIndex={currentCategoryIndex}
 					showPopup={showCategoryModal}
 					setShowPopup={setShowCategoryModal}
 					addCategory={addCategory}
+					deleteCategory={deleteCategory}
 					action={categoryModalAction}
 					data={currentCategoryData}
 					editCategory={editCategory}
