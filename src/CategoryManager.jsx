@@ -127,7 +127,7 @@ const CategoryEditor = React.memo(({
 				)}
 			/>
 			<Button 
-				className="text-sm opacity-70 hover:opacity-100"
+				className="text-sm transition-opacity opacity-70 hover:opacity-100"
 				onClick={addLink}
 			>
 				<i className="fa-solid fa-plus"></i>
@@ -135,7 +135,9 @@ const CategoryEditor = React.memo(({
 			</Button>
 			<div className="flex items-center justify-between gap-4">
 				{action == "edit" && (
-					<Button accent="red" onClick={onDeleteCat}>
+					<Button accent="red" onClick={onDeleteCat}
+						className="transition-opacity opacity-70 hover:opacity-100"
+					>
 						<i className="fa-solid fa-trash"></i>
 						<span>Delete category</span>
 					</Button>
