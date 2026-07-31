@@ -78,7 +78,7 @@ const App = () => {
 		}
 		const id = setTimeout(() => {
 			storageApi.set(settings)
-		}, 300)
+		}, 250)
 		return () => clearTimeout(id)
 	}, [settings, isLoaded])
 
