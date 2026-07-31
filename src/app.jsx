@@ -17,7 +17,7 @@ const defaults = {
 	categories: structuredClone(categoryTemplates)
 }
 
-const GetExtention = React.memo(()=>{
+const GetExtension = React.memo(()=>{
 	const { rendered, visible } = usePresence(true, { duration: 500, delay: 1000 })
 	if (!rendered) return null
 	const browser = getBrowser()
@@ -115,7 +115,7 @@ const App = () => {
 			<Background background={settings.background}/>
 			{isLoaded && (
 				<>
-				{window.IS_WEBSITE && <GetExtention/>}
+				{window.IS_WEBSITE && <GetExtension/>}
 				{settings?.clocks?.enabled && (
 					<ClockWidget
 						showSeconds={settings?.clocks?.showSeconds}
