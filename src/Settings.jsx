@@ -166,8 +166,15 @@ const buildBackgroundCss = (bg) => {
         return { background: bg.gradient }
     }
     if (bg?.type == "image" && bg?.image){
+        const width = Math.round(window.screen.width * (window?.devicePixelRatio || 1))
+        const height = Math.round(window.screen.height * (window?.devicePixelRatio || 1))
+        
+        const url = width > height ?
+            bg.image.replace("{w}", width).replace("{h}", "") :
+            bg.image.replace("{h}", height).replace("{w}", "")
+
        	return {
-			backgroundImage: `url("${bg.image}")`,
+			backgroundImage: `url("${url}")`,
 			backgroundSize: "cover",
 			backgroundPosition: "center",
 		}
