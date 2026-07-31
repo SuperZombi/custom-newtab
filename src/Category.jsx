@@ -19,12 +19,14 @@ const CategoryWidget = React.memo(({
 			style={accentStyle(accent, { bg: 20, ring: 50 })}
 		>
 			{(title || icon) && (
-				<div className="flex gap-2 items-center">
+				<div className="flex gap-2 items-center select-none">
 					{icon && (<i className={icon}></i>)}
 					{title && (<span className="text-shadow-xs">{title}</span>)}
 				</div>
 			)}
-			<div className="grid grid-cols-5 gap-2">
+			<div className="grid max-sm:!grid-cols-5 gap-2"
+				style={{gridTemplateColumns: `repeat(${Math.min((elements?.length ?? 0) + 1, 5)}, minmax(0, 1fr))`}}
+			>
 				{elements?.map((e,i)=>(
 					<CategoryItem key={i} e={e} accent={accent}/>
 				))}
