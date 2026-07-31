@@ -4,7 +4,7 @@ const CategoryItem = ({e, accent}) => {
 		<div className="relative">
 			<div ref={anchorRef}>
 				<Button href={e.url} target="_self" accent={accent} className="aspect-square">
-					<img src={e.icon || getIcon(e.url)} draggable={false} className="h-6 w-6 select-none"/>
+					<img src={e.icon || getIcon(e.url)} draggable={false} className="h-7 w-7 select-none"/>
 				</Button>
 			</div>
 			{e.label && (<Tooltip accent={accent} anchorRef={anchorRef}>{e.label}</Tooltip>)}
@@ -24,7 +24,7 @@ const CategoryWidget = React.memo(({
 					{title && (<span className="text-shadow-xs">{title}</span>)}
 				</div>
 			)}
-			<div className="grid grid-cols-4 gap-2">
+			<div className="grid grid-cols-5 gap-2">
 				{elements?.map((e,i)=>(
 					<CategoryItem key={i} e={e} accent={accent}/>
 				))}
