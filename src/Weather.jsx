@@ -19,6 +19,7 @@ const fetchWeather = (lat, lon) => {
         const current = weather.current;
         const currentHour = current.time.slice(0, current.time.lastIndexOf(":")) + ":00";
         const index = weather.hourly.time.indexOf(currentHour);
+        if (index < 0) console.warn("Failed to get rain chance")
         const remainingProbabilities =
             index >= 0
                 ? weather.hourly.precipitation_probability.slice(index)
@@ -139,6 +140,11 @@ const WeatherWidget = React.memo(() => {
                     <div className="overflow-hidden">
                         <div className="p-4 pl-0.5 grid grid-cols-3 gap-3 min-w-max h-full">
                             <WeatherSubCard
+                                icon="fa-solid fa-umbrella"
+                                label="Rain"
+                                value={weatherData.rainChance}
+                            />
+                            <WeatherSubCard
                                 icon="fa-solid fa-droplet"
                                 label="Humidity"
                                 value={weatherData.humidity}
@@ -147,11 +153,6 @@ const WeatherWidget = React.memo(() => {
                                 icon="fa-solid fa-wind"
                                 label="Wind"
                                 value={weatherData.wind}
-                            />
-                            <WeatherSubCard
-                                icon="fa-solid fa-umbrella"
-                                label="Rain"
-                                value={weatherData.rainChance}
                             />
                         </div>
                     </div>
