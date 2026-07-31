@@ -1,11 +1,9 @@
-name: Build
+name: Pages
 
 on:
   push:
     branches: ["main"]
     paths: ["src/**"]
-  release:
-    types: [published]
   workflow_dispatch:
 
 concurrency:
@@ -21,19 +19,6 @@ jobs:
       - run: npm install
       - run: npm run build
 
-      - name: Create ZIP
-        if: github.event_name == 'release'
-        run: |
-          cd dist
-          zip -r ../extension.zip .
-      - name: Upload Release Asset
-        if: github.event_name == 'release'
-        uses: xresloader/upload-to-github-release@v1
-        with:
-          file: extension.zip
-          overwrite: true
-          update_latest_release: true
-
       - name: Remove manifest
         run: rm -f dist/manifest.json
       - name: Add website script
@@ -44,13 +29,11 @@ jobs:
           mkdir -p dist/github/images
           cp -R github/images/. dist/github/images/
       - name: Upload Pages Artifact
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         uses: actions/upload-pages-artifact@v5
         with:
           path: ./dist
 
   deploy:
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
       pages: write
