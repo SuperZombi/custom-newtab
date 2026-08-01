@@ -67,7 +67,7 @@ async function getSuggestions(query) {
 }
 
 const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
-	const selectedEngine = searchEngines.find(e => e.name === engine) || searchEngines[0]
+	const selectedEngine = searchEngines.find(e => e.name == engine) || searchEngines[0]
 	const [showSelect, setShowSelect] = React.useState(false)
 	const [query, setQuery] = React.useState("")
 	const [suggestions, setSuggestions] = React.useState([])
@@ -81,7 +81,7 @@ const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 	}, [query, selectedEngine])
 
 	React.useEffect(() => {
-		if (!showSelect && suggestions.length === 0) return
+		if (!showSelect && suggestions.length == 0) return
 		const handleClickOutside = (e) => {
 			if (containerRef.current && !containerRef.current.contains(e.target)) {
 				setShowSelect(false)
