@@ -21,37 +21,45 @@ const searchEngines = [
 	}
 ]
 
+const SUGGEST_ENDPOINT = 'https://suggestqueries.google.com/complete/search';
+function buildSuggestUrl(query, params) {
+	const url = new URL(SUGGEST_ENDPOINT)
+	url.searchParams.set('q', query)
+	Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value))
+	return url.toString()
+}
 function fetchViaJsonp(query) {
-  return new Promise((resolve, reject) => {
-    const callbackName = `__suggestCb_${Date.now()}`;
-    const script = document.createElement('script');
-
-    window[callbackName] = (data) => {
-      resolve(data[1] || []);
-      cleanup();
-    };
-
-    script.src = `https://suggestqueries.google.com/complete/search?client=firefox&callback=${callbackName}&q=${encodeURIComponent(query)}`;
-    script.onerror = () => { reject(new Error('JSONP failed')); cleanup(); };
-
-    function cleanup() {
-      delete window[callbackName];
-      script.remove();
-    }
-    document.head.appendChild(script);
-  });
+	return new Promise((resolve, reject) => {
+		const callbackName = `__suggestCb_${Date.now()}`;
+		const script = document.createElement('script');
+		window[callbackName] = (data) => {
+			resolve(data[1] || []);
+			cleanup();
+		};
+		script.src = buildSuggestUrl(query, { client: 'firefox', callback: callbackName });
+		script.onerror = () => {
+			reject(new Error('JSONP failed'));
+			cleanup();
+		};
+		function cleanup() {
+			delete window[callbackName];
+			script.remove();
+		}
+		document.head.appendChild(script);
+	})
+}
+async function fetchViaCors(query) {
+	const response = await fetch(buildSuggestUrl(query, { client: 'chrome' }))
+	if (!response.ok) throw new Error('Bad response')
+	const data = await response.json()
+	return data[1] || [];
 }
 async function getSuggestions(query) {
 	if (!query.trim()) return [];
-	try{
-		const response = await fetch(`https://suggestqueries.google.com/complete/search?client=chrome&q=${encodeURIComponent(query)}`);
-		if (!response.ok) {
-			return fetchViaJsonp(query);
-		}
-		const data = await response.json();
-		return data[1] || [];
-	} catch (error) {
-		return fetchViaJsonp(query);
+	try {
+		return await fetchViaCors(query)
+	} catch {
+		return fetchViaJsonp(query).catch(() => [])
 	}
 }
 
