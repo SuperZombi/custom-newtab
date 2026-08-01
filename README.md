@@ -13,7 +13,7 @@
 
 ### Features
 - Customizable background
-- Search Bar with multiple search engines
+- Search Bar with multiple engines and suggestions
 - Organize your Shortcuts into customizable Categories
 - Clock widget
 - Weather widget
