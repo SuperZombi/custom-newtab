@@ -284,7 +284,7 @@ const useEscape = (callback, enabled = true) => {
 	}, [callback, enabled])
 }
 
-const TextInput = ({ value, onChange, label, onKeyDown, placeholder, colorPicker=false, iconPicker=false, children }) => {
+const TextInput = ({ value, onChange, label, onKeyDown, placeholder, colorPicker=false, iconPicker=false, children, list=null }) => {
 	return (
 		<div className="flex flex-col gap-2 text-sm min-w-0">
 			{label && (<span className="text-white/60 select-none">{label}</span>)}
@@ -307,6 +307,7 @@ const TextInput = ({ value, onChange, label, onKeyDown, placeholder, colorPicker
 					onKeyDown={onKeyDown}
 					className="flex-1 bg-white/5 min-w-0 ring ring-white/10 rounded-lg px-3 py-2 outline-none
 						focus:ring-white/30 transition-colors placeholder:text-white/30"
+					list={list}
 				/>
 				{children}
 			</div>

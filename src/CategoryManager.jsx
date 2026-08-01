@@ -24,7 +24,7 @@ const CategoryEditor = React.memo(({
 		setShowPopup(false)
 	}
 	const onDeleteCat = () => {
-		if (confirm(`Delete category?`)){
+		if (confirm(`Delete category${data.title ? ` "${data.title}"` : ""}?`)){
 			deleteCategory(categoryIndex)
 			setShowPopup(false)
 		}
@@ -72,27 +72,33 @@ const CategoryEditor = React.memo(({
 			afterClose={afterClose}
 		>
 			<TextInput
-				label={"Category name"}
-				placeholder={"Optional"}
+				label="Category name"
+				placeholder="Optional"
 				value={currentName}
 				onChange={setCurrentName}
 				onKeyDown={onKeyDownInputs}
 			/>
 			<TextInput
-				label={"Category icon"}
-				placeholder={"Optional"}
+				label="Category icon"
+				placeholder="fa-solid"
 				value={currentIcon}
 				onChange={updateIcon}
 				onKeyDown={onKeyDownInputs}
 				iconPicker={true}
+				list="fontawesome-suggestions"
 			>
 				<Button className="p-2.5 aspect-square" href="https://fontawesome.com/search">
 					<i className="fa-solid fa-arrow-up-right-from-square"></i>
 				</Button>
+				<datalist id="fontawesome-suggestions">
+					<option value="fa-solid"/>
+					<option value="fa-regular"/>
+					<option value="fa-brands"/>
+				</datalist>
 			</TextInput>
 			<TextInput
-				label={"Accent color"}
-				placeholder={"Optional"}
+				label="Accent color"
+				placeholder="#000000"
 				value={currentAccent}
 				onChange={setCurrentAccent}
 				onKeyDown={onKeyDownInputs}
@@ -112,7 +118,7 @@ const CategoryEditor = React.memo(({
 								onKeyDown: onKeyDownInputs,
 							})}
 						/>
-						<TextInput placeholder={"Link"} value={item.url}
+						<TextInput placeholder="https://" value={item.url}
 							{...(!isClone && {
 								onChange: v => updateLink(index, "url", v),
 								onKeyDown: onKeyDownInputs,
@@ -174,7 +180,7 @@ const CategoryManager = React.memo(({
 						<Button className="text-xs aspect-square" accent="red"
 							{...(!isClone && {
 								onClick: _=>{
-									if (confirm(`Delete category?`)){
+									if (confirm(`Delete category${item.title ? ` "${item.title}"` : ""}?`)){
 										deleteCategory(index)
 									}
 								},

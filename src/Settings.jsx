@@ -135,12 +135,19 @@ const GradientPicker = ({ background, updateNested }) => {
     }
 	return (
         <>
-            <TextInput value={background?.gradient || ""}
+            <TextInput
+                value={background?.gradient || ""}
                 onChange={updateGradient}
+                placeholder="linear-gradient(45deg, blue, green)"
+                list="gradient-suggestions"
             >
                 <Button className="p-2.5 aspect-square" href="https://cssgradient.io/">
 					<i className="fa-solid fa-arrow-up-right-from-square"></i>
 				</Button>
+                <datalist id="gradient-suggestions">
+                    <option value="linear-gradient(45deg, blue, green)"/>
+                    <option value="radial-gradient(circle, darkblue, black 50%)"/>
+                </datalist>
             </TextInput>
             <Container className="grid grid-cols-4 gap-3 p-4">
                 {gradientPresets.map((gradient, i) => (
@@ -158,8 +165,10 @@ const GradientPicker = ({ background, updateNested }) => {
 const ImagePicker = ({ background, updateNested }) => {
 	return (
         <>
-            <TextInput value={background?.image || ""}
+            <TextInput
+                value={background?.image || ""}
                 onChange={v => updateNested("background", "image", v)}
+                placeholder="https://"
             />
             <Container className="grid grid-cols-3 gap-3 p-4 select-none">
                 {imagePresets.map((image, i) => (
