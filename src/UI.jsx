@@ -14,8 +14,8 @@ const Button = ({className="", accent, children, forceActive, onClick, href, tar
 		<Container className={`
 			p-2 flex items-center justify-center gap-2 select-none whitespace-nowrap cursor-pointer transition-colors
 			${accent
-				? "hover:![background:var(--btn-accent-hover)] focus:![background:var(--btn-accent-hover)]"
-				: "hover:bg-white/15 focus:bg-white/15"}
+				? "hover:![background:var(--btn-accent-hover)] focus:![background:var(--btn-accent-hover)] active:![background:var(--btn-accent-hover)]"
+				: "hover:bg-white/15 focus:bg-white/15 active:bg-white/15"}
 			${forceActive ? "bg-white/15" : ""} ${className}
 		`}
 			href={href} target={target}
@@ -31,7 +31,7 @@ const Button = ({className="", accent, children, forceActive, onClick, href, tar
 	)
 }
 
-const Select = ({
+const Select = React.memo(({
 	options, selected, setSelected,
 	show, className=""
 }) => {
@@ -49,6 +49,7 @@ const Select = ({
 					items-center gap-3 select-none
 					${selected.name == e.name ? "bg-white/10" : ""}
 					hover:bg-white/20 transition-colors
+					active:bg-white/20
 				`} onClick={_=>setSelected(e)}>
 					<img className="w-6 h-6 select-none" src={e.icon} draggable={false}/>
 					<span>{e.label}</span>
@@ -56,7 +57,7 @@ const Select = ({
 			))}
 		</Container>
 	)
-}
+})
 
 const Tooltip = ({children, accent, anchorRef}) => {
 	const [coords, setCoords] = React.useState(null)
