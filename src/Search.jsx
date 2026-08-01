@@ -22,10 +22,13 @@ const searchEngines = [
 ]
 
 const SUGGEST_ENDPOINT = 'https://suggestqueries.google.com/complete/search';
-function buildSuggestUrl(query, params) {
+function buildSuggestUrl(query, callback=null) {
 	const url = new URL(SUGGEST_ENDPOINT)
 	url.searchParams.set('q', query)
-	Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value))
+	url.searchParams.set('client', 'firefox')
+	if (callback) {
+		url.searchParams.set('callback', callback)
+	}
 	return url.toString()
 }
 function fetchViaJsonp(query) {
@@ -36,7 +39,7 @@ function fetchViaJsonp(query) {
 			resolve(data[1] || []);
 			cleanup();
 		};
-		script.src = buildSuggestUrl(query, { client: 'firefox', callback: callbackName });
+		script.src = buildSuggestUrl(query, callbackName);
 		script.onerror = () => {
 			reject(new Error('JSONP failed'));
 			cleanup();
@@ -49,7 +52,7 @@ function fetchViaJsonp(query) {
 	})
 }
 async function fetchViaCors(query) {
-	const response = await fetch(buildSuggestUrl(query, { client: 'chrome' }))
+	const response = await fetch(buildSuggestUrl(query))
 	if (!response.ok) throw new Error('Bad response')
 	const data = await response.json()
 	return data[1] || [];
