@@ -4,6 +4,7 @@
 <h1 align="center">New Tab X</h1>
 
 <p align="center">
+  <img src="https://shields.io/github/v/release/SuperZombi/new-tab-x?logo=github">
   <img src="https://shields.io/chrome-web-store/v/flmndcndpcchdfnhdbghcjdohacafioc?logo=chromewebstore">
   <img src="https://shields.io/amo/v/new-tab-x?logo=firefoxbrowser">
 </p>
