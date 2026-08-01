@@ -104,7 +104,7 @@ const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 		}
 		const timer = setTimeout(_=>{
 			getSuggestions(query).then(setSuggestions).catch(console.error)
-		}, 500)
+		}, 250)
 		return () => clearTimeout(timer)
 	}, [query, showSuggestions])
 
