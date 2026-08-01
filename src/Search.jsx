@@ -124,7 +124,7 @@ const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 					<img src={selectedEngine.icon} className="h-7 w-7 shrink-0 select-none" draggable={false}/>
 				</div>
 
-				<input type="text" placeholder="Search..."
+				<input type="search" placeholder="Search..."
 					className="outline-none px-4 py-3 w-full text-base"
 					autoComplete="off"
 					onClick={_=>setShowSelect(false)}
