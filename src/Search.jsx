@@ -21,11 +21,34 @@ const searchEngines = [
 	}
 ]
 
-const SearchWidget = React.memo(({engine, updateSetting}) => {
+function getSuggestions(query) {
+  return new Promise((resolve, reject) => {
+  	if (!query.trim()) return resolve([]);
+    const callbackName = `__suggestCb_${Date.now()}`;
+    const script = document.createElement('script');
+
+    window[callbackName] = (data) => {
+      resolve(data[1] || []);
+      cleanup();
+    };
+
+    script.src = `https://suggestqueries.google.com/complete/search?client=firefox&callback=${callbackName}&q=${encodeURIComponent(query)}`;
+    script.onerror = () => { reject(new Error('JSONP failed')); cleanup(); };
+
+    function cleanup() {
+      delete window[callbackName];
+      script.remove();
+    }
+    document.head.appendChild(script);
+  });
+}
+
+const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 	const selectedEngine = searchEngines.find(e => e.name === engine) || searchEngines[0]
 	const [showSelect, setShowSelect] = React.useState(false)
 	const [focused, setFocused] = React.useState(false)
 	const [query, setQuery] = React.useState("")
+	const [suggestions, setSuggestions] = React.useState([])
 	const containerRef = React.useRef(null)
 	const onSearch = () => {
 		const q = query.trim()
@@ -43,6 +66,16 @@ const SearchWidget = React.memo(({engine, updateSetting}) => {
 		document.addEventListener("click", handleClickOutside)
 		return () => document.removeEventListener("click", handleClickOutside)
 	}, [showSelect])
+	React.useEffect(_=>{
+		if (!showSuggestions) {
+			setSuggestions([])
+			return
+		}
+		const timer = setTimeout(_=>{
+			getSuggestions(query).then(setSuggestions).catch(console.error)
+		}, 500)
+		return () => clearTimeout(timer)
+	}, [query, showSuggestions])
 	return (
 		<div ref={containerRef} className="w-full max-w-3xl mx-auto relative">
 			<Container className={`
@@ -56,11 +89,13 @@ const SearchWidget = React.memo(({engine, updateSetting}) => {
 					hover:bg-white/10 transition-colors
 					rounded-l-xl cursor-pointer
 				" onClick={_=>setShowSelect(prev=>!prev)}>
-					<img src={selectedEngine.icon} className="h-8 w-8 select-none" draggable={false}/>
+					<img src={selectedEngine.icon} className="h-7 w-7 shrink-0 select-none" draggable={false}/>
 				</div>
 
 				<input type="text" placeholder="Search..."
 					className="outline-none px-4 py-3 w-full text-base"
+					autoComplete="off"
+					list={showSuggestions ? "search-suggestions" : undefined}
 					onClick={_=>setShowSelect(false)}
 					value={query} onInput={e=>setQuery(e.target.value)}
 					onKeyDown={e=>{
@@ -81,6 +116,13 @@ const SearchWidget = React.memo(({engine, updateSetting}) => {
 					<i className="fa-solid fa-magnifying-glass"></i>
 				</div>
 			</Container>
+			{showSuggestions && (
+				<datalist id="search-suggestions">
+					{suggestions.map((s, i) => (
+						<option key={i} value={s} />
+					))}
+				</datalist>
+			)}
 			<Select
 				show={showSelect}
 				className="absolute bottom-0
@@ -90,7 +132,7 @@ const SearchWidget = React.memo(({engine, updateSetting}) => {
 				options={searchEngines}
 				selected={selectedEngine}
 				setSelected={e=>{
-					updateSetting("search", e.name)
+					updateNested("search", "engine", e.name)
 					setShowSelect(false)
 				}}
 			/>

@@ -1,5 +1,5 @@
 const Settings = React.memo(({
-    clocks, weather, background,
+    clocks, weather, background, search,
     updateNested
 }) => {
     const [showSettings, setShowSettings] = React.useState(false)
@@ -42,6 +42,20 @@ const Settings = React.memo(({
                     label="Show date"
                     checked={clocks?.showDate}
                     onChange={v => updateNested("clocks", "showDate", v)}
+                />
+            </Container>
+            <Container className="flex flex-col gap-4 p-4">
+                <Switch
+                    icon="fa-solid fa-magnifying-glass"
+                    label="Search"
+                    label_className="font-bold text-base"
+                    checked={search?.enabled}
+                    onChange={v => updateNested("search", "enabled", v)}
+                />
+                <Switch
+                    label="Show suggestions"
+                    checked={search?.suggestions}
+                    onChange={v => updateNested("search", "suggestions", v)}
                 />
             </Container>
             <Container className="flex flex-col gap-4 p-4">

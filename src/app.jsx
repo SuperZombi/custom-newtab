@@ -9,7 +9,11 @@ const defaults = {
 	weather: {
 		enabled: false,
 	},
-	search: "google",
+	search: {
+		enabled: true,
+		engine: "google",
+		suggestions: true,
+	},
 	background: {
 		type: "gradient",
 		gradient: gradientPresets[0],
@@ -127,10 +131,17 @@ const App = () => {
 				{settings?.weather?.enabled && (
 					<WeatherWidget/>
 				)}
-				<SearchWidget engine={settings?.search} updateSetting={updateSetting}/>
+				{settings?.search?.enabled && (
+					<SearchWidget
+						engine={settings?.search?.engine}
+						showSuggestions={settings?.search?.suggestions}
+						updateNested={updateNested}
+					/>
+				)}
 				<Settings
 					clocks={settings?.clocks}
 					weather={settings?.weather}
+					search={settings?.search}
 					background={settings?.background}
 					updateNested={updateNested}
 				/>
