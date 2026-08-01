@@ -69,7 +69,6 @@ async function getSuggestions(query) {
 const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 	const selectedEngine = searchEngines.find(e => e.name === engine) || searchEngines[0]
 	const [showSelect, setShowSelect] = React.useState(false)
-	const [focused, setFocused] = React.useState(false)
 	const [query, setQuery] = React.useState("")
 	const [suggestions, setSuggestions] = React.useState([])
 	const containerRef = React.useRef(null)
@@ -113,7 +112,7 @@ const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 			<Container className={`
 				flex transition-shadow duration-300
 				w-full backdrop-blur-sm
-				${focused ? "!shadow-[0_0_20px] shadow-blue-500/50" : ""}
+				focus-within:shadow-[0_0_20px] focus-within:shadow-blue-500/50
 			`}>
 				<div className="
 					flex items-center
@@ -134,8 +133,6 @@ const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 							onSearch()
 						}
 					}}
-					onFocus={() => setFocused(true)}
-					onBlur={() => setFocused(false)}
 				/>
 
 				<div className="
