@@ -118,9 +118,9 @@ const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 					flex items-center
 					px-3 py-2 border-r border-white/20
 					hover:bg-white/10 transition-colors
-					rounded-l-xl cursor-pointer
+					rounded-l-xl cursor-pointer shrink-0
 				" onClick={_=>setShowSelect(prev=>!prev)}>
-					<img src={selectedEngine.icon} className="h-7 w-7 shrink-0 select-none" draggable={false}/>
+					<img src={selectedEngine.icon} className="h-7 w-7 select-none" draggable={false}/>
 				</div>
 
 				<input type="search" placeholder="Search..."
