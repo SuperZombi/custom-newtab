@@ -3,7 +3,14 @@
 </p>
 <h1 align="center">New Tab X</h1>
 
-<img src="https://shields.io/chrome-web-store/v/flmndcndpcchdfnhdbghcjdohacafioc?logo=chromewebstore&logoColor=white">
+<p align="center">
+  <a href="https://chromewebstore.google.com/detail/flmndcndpcchdfnhdbghcjdohacafioc">
+    <img src="https://shields.io/chrome-web-store/v/flmndcndpcchdfnhdbghcjdohacafioc?logo=chromewebstore">
+  </a>
+  <a href="https://addons.mozilla.org/firefox/addon/new-tab-x/">
+    <img src="https://img.shields.io/amo/v/new-tab-x?logo=firefoxbrowser">
+  </a>
+</p>
 
 <p align="center">
   <img src="github/images/main.png"/>
