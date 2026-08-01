@@ -99,8 +99,8 @@ const WeatherWidget = React.memo(() => {
     return (
         <Container className={`fixed left-4 bottom-4 z-10 backdrop-blur-md
             bg-gradient-to-br from-sky-500/20 via-white/10 to-indigo-600/20
-            group !ring-sky-400/20 transition-opacity duration-500 select-none
-            ${visible ? "opacity-100" : "opacity-0"}
+            group !ring-sky-400/20 transition-all duration-400 select-none will-change-transform
+            ${visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"}
             ${error ? "animate-pulse cursor-pointer hover:!opacity-100" : ""}
         `} onClick={error ? handleRetry : undefined}>
             {error ? (
