@@ -126,7 +126,7 @@ const WeatherWidget = React.memo(() => {
                             {weatherData.temperature}
                         </div>
                         {weatherDescriptions[weatherData.weatherCode] && (
-                            <div className="text-white/90">
+                            <div className="text-white/90 whitespace-nowrap">
                                 {weatherDescriptions[weatherData.weatherCode]?.text}
                             </div>
                         )}
