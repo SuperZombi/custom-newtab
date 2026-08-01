@@ -3,6 +3,8 @@
 </p>
 <h1 align="center">New Tab X</h1>
 
+<img src="https://shields.io/chrome-web-store/v/flmndcndpcchdfnhdbghcjdohacafioc?logo=chromewebstore&logoColor=white">
+
 <p align="center">
   <img src="github/images/main.png"/>
 </p>
