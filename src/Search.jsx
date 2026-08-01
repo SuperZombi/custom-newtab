@@ -21,9 +21,8 @@ const searchEngines = [
 	}
 ]
 
-function getSuggestions(query) {
+function fetchViaJsonp(query) {
   return new Promise((resolve, reject) => {
-  	if (!query.trim()) return resolve([]);
     const callbackName = `__suggestCb_${Date.now()}`;
     const script = document.createElement('script');
 
@@ -41,6 +40,19 @@ function getSuggestions(query) {
     }
     document.head.appendChild(script);
   });
+}
+async function getSuggestions(query) {
+	if (!query.trim()) return [];
+	try{
+		const response = await fetch(`https://suggestqueries.google.com/complete/search?client=chrome&q=${encodeURIComponent(query)}`);
+		if (!response.ok) {
+			return fetchViaJsonp(query);
+		}
+		const data = await response.json();
+		return data[1] || [];
+	} catch (error) {
+		return fetchViaJsonp(query);
+	}
 }
 
 const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {

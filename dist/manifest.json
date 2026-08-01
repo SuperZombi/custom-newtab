@@ -9,6 +9,7 @@
 	"chrome_url_overrides": {
 		"newtab": "index.html"
 	},
+	"host_permissions": ["https://suggestqueries.google.com/*"],
 	"homepage_url": "https://github.com/SuperZombi/new-tab-x",
 	"permissions": ["storage", "geolocation"],
 	"browser_specific_settings": {
