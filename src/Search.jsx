@@ -81,15 +81,16 @@ const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 	}, [query, selectedEngine])
 
 	React.useEffect(() => {
-		if (!showSelect) return
+		if (!showSelect && suggestions.length === 0) return
 		const handleClickOutside = (e) => {
 			if (containerRef.current && !containerRef.current.contains(e.target)) {
 				setShowSelect(false)
+				setSuggestions([])
 			}
 		}
 		document.addEventListener("click", handleClickOutside)
 		return () => document.removeEventListener("click", handleClickOutside)
-	}, [showSelect])
+	}, [showSelect, suggestions.length])
 
 	const setSelectedEngine = React.useCallback((engine) => {
 		updateNested("search", "engine", engine.name)
@@ -141,7 +142,7 @@ const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 					bg-blue-500/50 hover:bg-blue-500 active:bg-blue-500
 					transition-colors duration-250
 					rounded-r-xl cursor-pointer
-				" onClick={onSearch}>
+				" onClick={_=>onSearch()}>
 					<i className="fa-solid fa-magnifying-glass"></i>
 				</div>
 			</Container>
