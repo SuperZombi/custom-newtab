@@ -98,8 +98,8 @@ const WeatherWidget = React.memo(() => {
 	if (!rendered) return null
     return (
         <Container className={`fixed left-4 bottom-4 z-10 backdrop-blur-md
-            bg-gradient-to-br from-sky-500/20 via-white/10 to-indigo-600/20
-            group !ring-sky-400/20 transition-all duration-400 select-none will-change-transform
+            bg-gradient-to-br from-gray-500/20 via-white/10 to-gray-600/20
+            group transition-all duration-400 select-none will-change-transform
             ${visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"}
             ${error ? "animate-pulse cursor-pointer hover:!opacity-100" : ""}
         `} onClick={error ? handleRetry : undefined}>
@@ -118,7 +118,7 @@ const WeatherWidget = React.memo(() => {
                         <i className={`
                             ${weatherDescriptions[weatherData.weatherCode]?.icon}
                             ${weatherDescriptions[weatherData.weatherCode]?.color}
-                            text-5xl
+                            text-5xl drop-shadow-[0_0_10px_color-mix(in_srgb,currentColor,transparent)]
                         `}></i>
                     )}
                     <div className="flex flex-col gap-1">
@@ -137,8 +137,9 @@ const WeatherWidget = React.memo(() => {
                     grid grid-cols-[0fr] group-hover:grid-cols-[1fr]
                     group-active:grid-cols-[1fr]
                 ">
-                    <div className="overflow-hidden">
-                        <div className="p-4 pl-0.5 grid grid-cols-3 gap-3 min-w-max h-full">
+                    <div className="overflow-hidden flex items-stretch">
+                        <div className="w-px rounded-full my-4 bg-white/15 shrink-0"></div>
+                        <div className="p-4 grid grid-cols-3 gap-3 min-w-max h-full">
                             <WeatherSubCard
                                 icon="fa-solid fa-umbrella"
                                 label="Rain"
@@ -165,12 +166,12 @@ const WeatherWidget = React.memo(() => {
 
 const WeatherSubCard = ({icon, label, value}) => {
     return (
-        <div className="rounded-2xl border border-white/10 bg-white/20 p-3 flex items-center justify-center gap-2">
-            <div className="">
+        <div className="rounded-2xl border border-white/10 bg-white/10 p-3 flex items-center justify-center gap-2">
+            <div>
                 <i className={icon}></i>
             </div>
             <div className="flex flex-col">
-                <div className="font-semibold text-white">
+                <div className="font-semibold text-white text-sm">
                     {value}
                 </div>
                 <div className="text-xs text-white/60">

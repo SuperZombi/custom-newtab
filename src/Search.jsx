@@ -125,7 +125,7 @@ const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 				</div>
 
 				<input type="text" placeholder="Search..."
-					className="outline-none px-4 py-3 w-full text-base"
+					className="outline-none px-3 py-3 w-full text-base"
 					autoComplete="off"
 					onClick={_=>setShowSelect(false)}
 					value={query} onInput={e=>setQuery(e.target.value)}
