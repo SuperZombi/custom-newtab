@@ -113,7 +113,7 @@ const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 			<Container className={`
 				flex transition-shadow duration-300
 				w-full backdrop-blur-sm
-				focus-within:shadow-[0_0_20px] focus-within:shadow-blue-500/50
+				focus-within:shadow-[0_0_80px] focus-within:shadow-blue-500/50
 			`}>
 				<div className="
 					flex items-center
@@ -124,7 +124,7 @@ const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 					<img src={selectedEngine.icon} className="h-7 w-7 select-none" draggable={false}/>
 				</div>
 
-				<input type="search" placeholder="Search..."
+				<input type="text" placeholder="Search..."
 					className="outline-none px-4 py-3 w-full text-base"
 					autoComplete="off"
 					onClick={_=>setShowSelect(false)}
@@ -135,7 +135,16 @@ const SearchWidget = React.memo(({engine, showSuggestions, updateNested}) => {
 						}
 					}}
 				/>
-
+				{query && (
+					<div className="flex items-center justify-center mr-2">
+						<div className="flex items-center justify-center w-7 h-7 rounded-full cursor-pointer
+							text-white/40 hover:text-white hover:bg-white/10 transition-colors
+							active:text-white active:bg-white/10 shrink-0
+						" onClick={_=>setQuery("")}>
+							<i className="fa-solid fa-xmark text-xs"></i>
+						</div>
+					</div>
+				)}
 				<div className="
 					flex items-center
 					px-3.5 py-3 border-l border-white/20
@@ -191,6 +200,9 @@ const Suggestions = React.memo(({suggestions, onSearch})=>{
 					}}
 					tabIndex={0}
 				>
+					<span className="text-xs text-white/50">
+						<i className="fa-solid fa-magnifying-glass"></i>
+					</span>
 					<span>{s}</span>
 				</div>
 			))}
