@@ -4,9 +4,9 @@
 <h1 align="center">New Tab X</h1>
 
 <p align="center">
-  <img src="https://shields.io/github/v/release/SuperZombi/new-tab-x?logo=github">
-  <img src="https://shields.io/chrome-web-store/v/flmndcndpcchdfnhdbghcjdohacafioc?logo=chromewebstore">
-  <img src="https://shields.io/amo/v/new-tab-x?logo=firefoxbrowser">
+  <a href="https://github.com/SuperZombi/MyTube-GUI/new-tab-x/latest"><img src="https://shields.io/github/v/release/SuperZombi/new-tab-x?logo=github"></a>
+  <a href="https://chromewebstore.google.com/detail/flmndcndpcchdfnhdbghcjdohacafioc"><img src="https://shields.io/chrome-web-store/v/flmndcndpcchdfnhdbghcjdohacafioc?logo=chromewebstore"></a>
+  <a href="https://addons.mozilla.org/firefox/addon/new-tab-x/"><img src="https://shields.io/amo/v/new-tab-x?logo=firefoxbrowser"></a>
 </p>
 
 <p align="center">
