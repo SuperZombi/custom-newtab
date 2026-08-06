@@ -154,7 +154,19 @@ const WeatherWidget = React.memo(() => {
                                 icon="fa-solid fa-droplet"
                                 label="Humidity"
                                 value={weatherData.humidity}
-                            />
+                            >
+                                <svg
+                                    className="absolute bottom-0 left-0 w-[200%] -z-10"
+                                    viewBox="0 0 1200 120"
+                                    preserveAspectRatio="none"
+                                    style={{
+                                        animation: "wave 6s linear infinite",
+                                        height: weatherData.humidity
+                                    }}
+                                >
+                                    <path fill="rgba(43, 127, 255, 0.5)" d="M0 15.19q150 32.16 300 0 150-30.37 300 0 150 32.16 300 0 150-30.37 300 0V120H0z"/>
+                                </svg>
+                            </WeatherSubCard>
                         </div>
                     </div>
                 </div>
@@ -164,9 +176,12 @@ const WeatherWidget = React.memo(() => {
     )
 })
 
-const WeatherSubCard = ({icon, label, value}) => {
+const WeatherSubCard = ({icon, label, value, className="", children}) => {
     return (
-        <div className="rounded-2xl border border-white/10 bg-white/10 p-3 flex items-center justify-center gap-2">
+        <div className={`rounded-2xl border border-white/10 bg-white/10 p-3
+            flex items-center justify-center gap-2 relative overflow-hidden
+            ${className}
+        `}>
             <div>
                 <i className={icon}></i>
             </div>
@@ -178,6 +193,7 @@ const WeatherSubCard = ({icon, label, value}) => {
                     {label}
                 </div>
             </div>
+            {children}
         </div>
     )
 }
