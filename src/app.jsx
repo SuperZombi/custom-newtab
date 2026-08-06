@@ -3,7 +3,7 @@ const defaults = {
 		enabled: true,
 		showSeconds: true,
 		showDate: true,
-		hour12: false,
+		timeFormat: "24",
 		showAmPm: true,
 	},
 	weather: {
@@ -124,7 +124,7 @@ const App = () => {
 					<ClockWidget
 						showSeconds={settings?.clocks?.showSeconds}
 						showDate={settings?.clocks?.showDate}
-						hour12={settings?.clocks?.hour12}
+						timeFormat={settings?.clocks?.timeFormat}
 						showAmPm={settings?.clocks?.showAmPm}
 					/>
 				)}

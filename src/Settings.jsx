@@ -29,19 +29,26 @@ const Settings = React.memo(({
                     onChange={v => updateNested("clocks", "showSeconds", v)}
                 />
                 <Switch
-                    label="12 Hour Format"
-                    checked={clocks?.hour12}
-                    onChange={v => updateNested("clocks", "hour12", v)}
+                    label="Show date"
+                    checked={clocks?.showDate}
+                    onChange={v => updateNested("clocks", "showDate", v)}
                 />
+                <div className="flex items-center justify-between gap-3 select-none text-sm">
+                    <span>Time Format</span>
+                    <Container className="py-1 px-1.5">
+                        <select className="outline-none"
+                            onChange={e => updateNested("clocks", "timeFormat", e.target.value)}
+                            value={clocks?.timeFormat || "24"}
+                        >
+                            <option className="bg-zinc-800 text-white" value="24">24 Hour</option>
+                            <option className="bg-zinc-800 text-white" value="12">12 Hour</option>
+                        </select>
+                    </Container>
+                </div>
                 <Switch
                     label="Show AM/PM"
                     checked={clocks?.showAmPm}
                     onChange={v => updateNested("clocks", "showAmPm", v)}
-                />
-                <Switch
-                    label="Show date"
-                    checked={clocks?.showDate}
-                    onChange={v => updateNested("clocks", "showDate", v)}
                 />
             </Container>
             <Container className="flex flex-col gap-4 p-4">

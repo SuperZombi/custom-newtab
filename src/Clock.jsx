@@ -1,7 +1,7 @@
 const ClockWidget = React.memo(({
 	showSeconds=true,
 	showDate = true,
-	hour12 = false,
+	timeFormat = "24",
 	showAmPm = true,
 }) => {
 	const [now, setNow] = React.useState(new Date())
@@ -40,7 +40,7 @@ const ClockWidget = React.memo(({
 		<div className="select-none flex flex-col gap-3 items-center">
 			<div className={`${showSeconds ? "text-6xl" : "text-7xl"} relative flex gap-1 items-center justify-center`}>
 				<span className="text-shadow-sm">{
-					hour12 ? (now.getHours() % 12 || 12) : pad(now.getHours())
+					timeFormat == "12" ? (now.getHours() % 12 || 12) : pad(now.getHours())
 				}</span>
 				<span className="text-white/70 text-5xl text-shadow-xs">:</span>
 				<span className="text-shadow-sm">{pad(now.getMinutes())}</span>
@@ -50,7 +50,7 @@ const ClockWidget = React.memo(({
 						<span className="text-shadow-sm">{pad(now.getSeconds())}</span>
 					</>
 				)}
-				{(hour12 && showAmPm) && (
+				{(timeFormat == "12" && showAmPm) && (
 					<span className="text-xl text-white/70 self-end text-shadow-xs absolute -right-1 translate-x-full">
 						{now.getHours() >= 12 ? "PM" : "AM"}
 					</span>
