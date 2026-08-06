@@ -144,29 +144,21 @@ const WeatherWidget = React.memo(() => {
                                 icon="fa-solid fa-umbrella"
                                 label="Rain"
                                 value={weatherData.rainChance}
-                            />
-                            <WeatherSubCard
-                                icon="fa-solid fa-wind"
-                                label="Wind"
-                                value={weatherData.wind}
-                            />
+                            >
+                                <RainDrops droplets={parseInt(weatherData.rainChance)}/>
+                            </WeatherSubCard>
                             <WeatherSubCard
                                 icon="fa-solid fa-droplet"
                                 label="Humidity"
                                 value={weatherData.humidity}
                             >
-                                <svg
-                                    className="absolute bottom-0 left-0 w-[200%] -z-10"
-                                    viewBox="0 0 1200 120"
-                                    preserveAspectRatio="none"
-                                    style={{
-                                        animation: "wave 6s linear infinite",
-                                        height: weatherData.humidity
-                                    }}
-                                >
-                                    <path fill="rgba(43, 127, 255, 0.5)" d="M0 15.19q150 32.16 300 0 150-30.37 300 0 150 32.16 300 0 150-30.37 300 0V120H0z"/>
-                                </svg>
+                                <Wave height={weatherData.humidity} />
                             </WeatherSubCard>
+                            <WeatherSubCard
+                                icon="fa-solid fa-wind"
+                                label="Wind"
+                                value={weatherData.wind}
+                            />
                         </div>
                     </div>
                 </div>
@@ -194,6 +186,49 @@ const WeatherSubCard = ({icon, label, value, className="", children}) => {
                 </div>
             </div>
             {children}
+        </div>
+    )
+}
+
+const Wave = ({height}) => {
+    return (
+        <svg
+            className="absolute bottom-0 left-0 w-[200%] -z-10"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+            style={{
+                animation: "wave 5s linear infinite",
+                height: height
+            }}
+        >
+            <path fill="rgba(43, 127, 255, 0.5)" d="M0 15.19q150 32.16 300 0 150-30.37 300 0 150 32.16 300 0 150-30.37 300 0V120H0z"/>
+        </svg>
+    )
+}
+
+const RainDrops = ({droplets = 50}) => {
+    return (
+        <div className="absolute inset-0 -z-10 opacity-50">
+            {Array.from({ length: droplets }).map((_, i) => {
+                const x = Math.floor(Math.random() * 100);
+                const y = Math.floor(Math.random() * 100);
+                const o = Math.random();
+                const a = Math.random() + 0.5;
+                const s = Math.random();
+                return (
+                    <svg key={i} className="rain__drop" preserveAspectRatio="xMinYMin" viewBox='0 0 5 50'
+                        style={{
+                            "--x": x,
+                            "--y": y,
+                            "--o": o,
+                            "--a": a,
+                            "--s": s,
+                        }}
+                    >
+                        <path d="M2.5 0c.2 3.54.84 20.52 1.95 30.96C5.75 42.66 4.59 50 2.5 50 .4 50-.76 42.67.55 30.96 1.65 20.52 2.31 3.54 2.5 0"/>
+                    </svg>
+                )
+            })}
         </div>
     )
 }
