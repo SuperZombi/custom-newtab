@@ -35,7 +35,7 @@ const Settings = React.memo(({
                 />
                 <div className="flex items-center justify-between gap-3 select-none text-sm">
                     <span>Time Format</span>
-                    <Container className="py-1 px-1.5">
+                    <Container className="py-1 px-1.5 !rounded-lg">
                         <select className="outline-none"
                             onChange={e => updateNested("clocks", "timeFormat", e.target.value)}
                             value={clocks?.timeFormat || "24"}
