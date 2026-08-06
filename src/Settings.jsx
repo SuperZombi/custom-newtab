@@ -73,6 +73,11 @@ const Settings = React.memo(({
                     checked={weather?.enabled}
                     onChange={v => updateNested("weather", "enabled", v)}
                 />
+                <Switch
+                    label="Animations"
+                    checked={weather?.animations}
+                    onChange={v => updateNested("weather", "animations", v)}
+                />
             </Container>
 
             <BackgroundSettings

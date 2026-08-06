@@ -8,6 +8,7 @@ const defaults = {
 	},
 	weather: {
 		enabled: false,
+		animations: true,
 	},
 	search: {
 		enabled: true,
@@ -129,7 +130,7 @@ const App = () => {
 					/>
 				)}
 				{settings?.weather?.enabled && (
-					<WeatherWidget/>
+					<WeatherWidget animations={settings?.weather?.animations}/>
 				)}
 				{settings?.search?.enabled && (
 					<SearchWidget

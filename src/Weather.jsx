@@ -35,7 +35,7 @@ const fetchWeather = (lat, lon) => {
     })
 }
 
-const WeatherWidget = React.memo(() => {
+const WeatherWidget = React.memo(({ animations=true }) => {
     const [coordinates, setCoordinates] = React.useState({})
     const [weatherData, setWeatherData] = React.useState({})
     const [error, setError] = React.useState(null)
@@ -145,14 +145,14 @@ const WeatherWidget = React.memo(() => {
                                 label="Rain"
                                 value={weatherData.rainChance}
                             >
-                                <RainDrops droplets={parseInt(weatherData.rainChance)}/>
+                                {animations && <RainDrops droplets={parseInt(weatherData.rainChance)} />}
                             </WeatherSubCard>
                             <WeatherSubCard
                                 icon="fa-solid fa-droplet"
                                 label="Humidity"
                                 value={weatherData.humidity}
                             >
-                                <Wave height={weatherData.humidity} />
+                                {animations && <Wave height={weatherData.humidity} />}
                             </WeatherSubCard>
                             <WeatherSubCard
                                 icon="fa-solid fa-wind"
@@ -193,7 +193,7 @@ const WeatherSubCard = ({icon, label, value, className="", children}) => {
 const Wave = ({height}) => {
     return (
         <svg
-            className="absolute bottom-0 left-0 w-[200%] -z-10"
+            className="absolute bottom-0 left-0 w-[200%] -z-10 will-change-transform"
             viewBox="0 0 1200 120"
             preserveAspectRatio="none"
             style={{
