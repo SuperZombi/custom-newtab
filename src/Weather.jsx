@@ -145,7 +145,10 @@ const WeatherWidget = React.memo(({ animations=true }) => {
                                 label="Rain"
                                 value={weatherData.rainChance}
                             >
-                                {animations && <RainDrops droplets={parseInt(weatherData.rainChance)} />}
+                                {animations && <img
+                                    className="absolute h-full w-full object-cover -z-10"
+                                    src="images/rain-drops.svg" draggable={false}
+                                />}
                             </WeatherSubCard>
                             <WeatherSubCard
                                 icon="fa-solid fa-droplet"
@@ -203,33 +206,6 @@ const Wave = ({height}) => {
         >
             <path fill="rgba(43, 127, 255, 0.5)" d="M0 15.19q150 32.16 300 0 150-30.37 300 0 150 32.16 300 0 150-30.37 300 0V120H0z"/>
         </svg>
-    )
-}
-
-const RainDrops = ({droplets = 50}) => {
-    return (
-        <div className="absolute inset-0 -z-10 opacity-50">
-            {Array.from({ length: droplets }).map((_, i) => {
-                const x = Math.floor(Math.random() * 100);
-                const y = Math.floor(Math.random() * 100);
-                const o = Math.random();
-                const a = Math.random() + 0.5;
-                const s = Math.random();
-                return (
-                    <svg key={i} className="rain__drop" preserveAspectRatio="xMinYMin" viewBox='0 0 5 50'
-                        style={{
-                            "--x": x,
-                            "--y": y,
-                            "--o": o,
-                            "--a": a,
-                            "--s": s,
-                        }}
-                    >
-                        <path d="M2.5 0c.2 3.54.84 20.52 1.95 30.96C5.75 42.66 4.59 50 2.5 50 .4 50-.76 42.67.55 30.96 1.65 20.52 2.31 3.54 2.5 0"/>
-                    </svg>
-                )
-            })}
-        </div>
     )
 }
 

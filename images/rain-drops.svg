@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1084" height="322" preserveAspectRatio="xMidYMid" viewBox="0 0 1084 322">
+  <defs data-idx="1">
+    <pattern id="a" width="164" height="164" x="0" y="0" data-idx="2" patternUnits="userSpaceOnUse">
+      <g stroke-linecap="round" stroke-width="3.203" data-idx="3">
+        <g stroke="#01cbe1" data-idx="4">
+          <path d="M52.622 24.467 40.238 36.85" data-idx="5"/>
+          <path d="M52.622 24.467 40.238 36.85" data-idx="12"/>
+          <path d="M216.622 24.467 204.238 36.85" data-idx="13"/>
+          <path d="M380.622 24.467 368.238 36.85" data-idx="14"/>
+          <path d="M66.402 63.996 47.235 83.163" data-idx="55"/>
+          <path d="M66.402 63.996 47.235 83.163" data-idx="62"/>
+        </g>
+        <g stroke="#38e0f5" data-idx="106">
+          <path d="M153.624 71.3 134.96 89.965" data-idx="196"/>
+          <path d="M317.624 71.3 298.96 89.965" data-idx="197"/>
+          <path d="M104.751 76.822 88.928 92.645" data-idx="198"/>
+          <path d="M104.751 76.822 88.928 92.645" data-idx="205"/>
+          <path d="M268.751 76.822 252.93 92.645" data-idx="206"/>
+          <path d="M432.751 76.822 416.93 92.645" data-idx="207"/>
+        </g>
+        <g stroke="#a9f0f9" data-idx="209">
+          <path d="M73.465 50.38 54.68 69.165" data-idx="230"/>
+          <path d="M73.465 50.38 54.68 69.165" data-idx="237"/>
+          <path d="M237.465 50.38 218.68 69.165" data-idx="238"/>
+          <path d="M401.465 50.38 382.68 69.165" data-idx="239"/>
+          <path d="M47.066 131.035 28.27 149.83" data-idx="240"/>
+          <path d="M47.066 131.035 28.27 149.83" data-idx="247"/>
+          <path d="M211.066 131.035 192.27 149.83" data-idx="248"/>
+          <path d="M375.066 131.035 356.27 149.83" data-idx="249"/>
+          <path d="M63.241 167.261 50.834 179.67" data-idx="250"/>
+          <path d="M63.241 3.261 50.834 15.669" data-idx="254"/>
+          <path d="M63.241 167.261 50.834 179.67" data-idx="257"/>
+          <path d="M52.403 76.297 38.836 89.863" data-idx="260"/>
+          <path d="M52.403 76.297 38.836 89.863" data-idx="267"/>
+          <path d="M15.025 41.247-1.952 58.223" data-idx="270"/>
+          <path d="M15.025 41.247-1.952 58.223" data-idx="277"/>
+          <path d="M163.81 8.027 149.637 22.2" data-idx="295"/>
+          <path d="M327.81 8.027 313.638 22.2" data-idx="296"/>
+          <path d="M163.81 172.027 149.637 186.2" data-idx="298"/>
+          <path d="M327.81 172.027 313.638 186.2" data-idx="299"/>
+          <path d="M25.757 96.501 10.66 111.6" data-idx="300"/>
+          <path d="M25.757 96.501 10.66 111.6" data-idx="307"/>
+          <path d="M189.757 96.501 174.66 111.6" data-idx="308"/>
+          <path d="M353.757 96.501 338.66 111.6" data-idx="309"/>
+        </g>
+      </g>
+      <animateTransform attributeName="patternTransform" dur="2s" from="0,0" repeatCount="indefinite" to="-164,164" type="translate"/>
+    </pattern>
+  </defs>
+  <path fill="url(#a)" d="M0 0h1084v322H0z" data-idx="311"/>
+</svg>
