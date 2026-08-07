@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 600 120">
+  <path fill="#2b7fff" d="M0 15.19q150 32.16 300 0 150-30.37 300 0 150 32.16 300 0 150-30.37 300 0V120H0z">
+    <animateTransform attributeName="transform" dur="5s" from="-600 0" repeatCount="indefinite" to="0 0" type="translate"/>
+  </path>
+</svg>

@@ -146,7 +146,7 @@ const WeatherWidget = React.memo(({ animations=true }) => {
                                 value={weatherData.rainChance}
                             >
                                 {animations && <img
-                                    className="absolute h-full w-full object-cover -z-10"
+                                    className="absolute h-full w-full object-cover opacity-75 -z-10"
                                     src="images/rain-drops.svg" draggable={false}
                                 />}
                             </WeatherSubCard>
@@ -155,7 +155,11 @@ const WeatherWidget = React.memo(({ animations=true }) => {
                                 label="Humidity"
                                 value={weatherData.humidity}
                             >
-                                {animations && <Wave height={weatherData.humidity} />}
+                                {animations && <img
+                                    className="absolute bottom-0 left-0 w-[200%] opacity-50 -z-10"
+                                    src="images/wave.svg" draggable={false}
+                                    style={{height: weatherData.humidity}}
+                                />}
                             </WeatherSubCard>
                             <WeatherSubCard
                                 icon="fa-solid fa-wind"
@@ -190,22 +194,6 @@ const WeatherSubCard = ({icon, label, value, className="", children}) => {
             </div>
             {children}
         </div>
-    )
-}
-
-const Wave = ({height}) => {
-    return (
-        <svg
-            className="absolute bottom-0 left-0 w-[200%] -z-10 will-change-transform"
-            viewBox="0 0 1200 120"
-            preserveAspectRatio="none"
-            style={{
-                animation: "wave 5s linear infinite",
-                height: height
-            }}
-        >
-            <path fill="rgba(43, 127, 255, 0.5)" d="M0 15.19q150 32.16 300 0 150-30.37 300 0 150 32.16 300 0 150-30.37 300 0V120H0z"/>
-        </svg>
     )
 }
 
