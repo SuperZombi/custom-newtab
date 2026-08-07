@@ -151,6 +151,11 @@ const WeatherWidget = React.memo(({ animations=true }) => {
                                 />}
                             </WeatherSubCard>
                             <WeatherSubCard
+                                icon="fa-solid fa-wind"
+                                label="Wind"
+                                value={weatherData.wind}
+                            />
+                            <WeatherSubCard
                                 icon="fa-solid fa-droplet"
                                 label="Humidity"
                                 value={weatherData.humidity}
@@ -161,11 +166,6 @@ const WeatherWidget = React.memo(({ animations=true }) => {
                                     style={{height: weatherData.humidity}}
                                 />}
                             </WeatherSubCard>
-                            <WeatherSubCard
-                                icon="fa-solid fa-wind"
-                                label="Wind"
-                                value={weatherData.wind}
-                            />
                         </div>
                     </div>
                 </div>
