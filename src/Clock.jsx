@@ -30,11 +30,14 @@ const ClockWidget = React.memo(({
 
 	const pad = (n) => String(n).padStart(2, "0")
 
-	const date = now.toLocaleDateString(undefined, {
-		weekday: "long",
-		day: "numeric",
-		month: "long",
-	})
+	const date = React.useMemo(() => {
+		if (!showDate) return ""
+		return now.toLocaleDateString(undefined, {
+			weekday: "long",
+			day: "numeric",
+			month: "long",
+		})
+	}, [now.toDateString(), showDate])
 
 	return (
 		<div className="select-none flex flex-col gap-3 items-center">
