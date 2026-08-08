@@ -6,8 +6,9 @@
 <p align="center">
   <a href="https://github.com/SuperZombi/new-tab-x/releases/latest"><img src="https://shields.io/github/v/release/SuperZombi/new-tab-x?logo=github"></a>
   <a href="https://chromewebstore.google.com/detail/flmndcndpcchdfnhdbghcjdohacafioc"><img src="https://shields.io/chrome-web-store/v/flmndcndpcchdfnhdbghcjdohacafioc?logo=chromewebstore"></a>
-  <a href="https://addons.mozilla.org/firefox/addon/new-tab-x/"><img src="https://shields.io/amo/v/new-tab-x?logo=firefoxbrowser"></a>
+  <br>
   <a href="#donate"><img src="https://shields.io/badge/💲-Support_the_Project-2ea043"></a>
+  <a href="https://addons.mozilla.org/firefox/addon/new-tab-x/"><img src="https://shields.io/amo/v/new-tab-x?logo=firefoxbrowser"></a>
 </p>
 
 <p align="center">
